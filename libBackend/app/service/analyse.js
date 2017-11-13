@@ -1,6 +1,6 @@
-const grxx = require('../../models/grxx.js')
-const rankTotalBooks = require('../../models/rankTotalBooks.js')
-const nowBorrow = require('../../models/nowBorrow.js');
+const grxx = require('../models/grxx.js')
+const rankTotalBooks = require('../models/rankTotalBooks.js')
+const nowBorrow = require('../models/nowBorrow.js');
 module.exports = app => {
     class analyseService extends app.Service {
 
@@ -56,7 +56,11 @@ module.exports = app => {
                             rankCount = i + 1;
                         }
                         rankPercent = rankCount / totalRes.length;
+                        //使小数精确到小数点后两位
+                        rankPercent = rankPercent.toFixed(4);
+                        //将数字转换为字符串
                         rankPercent = String(rankPercent);
+
                         rankPercent = rankPercent.slice(2, 7);
                         let rankPercent1 = rankPercent.slice(0, 2) + '.';
                         let rankPercent2 = rankPercent.slice(2, 5) + '%';
@@ -96,7 +100,7 @@ module.exports = app => {
             })
         }
 
-        
+
         async getNeedBackBooks() {
             /*
                 获取所有距离还书日期小于7天的书数据
@@ -150,7 +154,7 @@ module.exports = app => {
                 let leftDays = (subYear * 12 + subMonth) * 30 + subDay;
                 return leftDays;
             }
-            
+
             //提醒学生还书或续借
             return new Promise(async (resolve, reject) => {
                 let res;

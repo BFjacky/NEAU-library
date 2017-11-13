@@ -7,7 +7,7 @@ module.exports = appInfo => {
   config.keys = appInfo.name + '_1510039409271_4470';
 
   // add your config here
-  config.middleware = ['errorHandler'];
+  config.middleware = ['errorHandler','dnxnToken'];
 
   // ignore csrf
   config.security = {
@@ -16,6 +16,15 @@ module.exports = appInfo => {
     }
   }
 
+  // status code 
+  config.StatusCode = {
+    failed: 200,
+  }
 
+  // auto update Rank informations time
+  config.updateRankTime = 22;
+
+  // test token 
+  config.testToken = 'thisIsATestTokenblabla~~~'
   return config;
 };

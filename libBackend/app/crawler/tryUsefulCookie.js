@@ -12,17 +12,16 @@ module.exports = function tryUsefulCookie(stuId, pswd, name) {
         try {
             stu.cookie = await getLoginCookie();
             let newStu = await trylogin(stu);
-            console.log('该用户已经登陆过图书馆，直接登陆成功')
             resolve(newStu);
         } catch (err) {
             //如果是 用户名/密码错误 不需要进行下一步(验证姓名)
-            if (err.msg === '用户名/密码错误') {
+            //图书馆返回的信息 密码错误: '用户名/密码错误'  学号错误: '读者信息不存在'
+            if (err.msg === '用户名/密码错误' || err.msg === '读者信息不存在' || err.msg==='账号/密码为空') {
                 reject(err);
                 return;
             }
             try {
                 newStu = await checkName(stu);
-                console.log('该用户第一次登陆图书馆，验证姓名成功');
                 resolve(newStu);
             } catch (err) {
                 reject(err);

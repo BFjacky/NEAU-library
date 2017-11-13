@@ -5,9 +5,9 @@ const getHistoryBookHtml = require('../crawler/getHistoryBookHtml.js')
 const getHistoryBookFromHtml = require('../crawler/getHistoryBookFromHtml.js')
 const getNowBorrowFromHtml = require('../crawler/getNowBorrowFromHtml.js');
 const getNowBorrowHtml = require('../crawler/getNowBorrowHtml.js');
-const upsertGrxxInDB = require('../../mongo/upsertGrxxInDB.js');
-const upsertHistoryBook = require('../../mongo/upsertHistoryBook.js');
-const upsertNowBorrow = require('../../mongo/upsertNowBorrow.js');
+const upsertGrxxInDB = require('../mongo/upsertGrxxInDB.js');
+const upsertHistoryBook = require('../mongo/upsertHistoryBook.js');
+const upsertNowBorrow = require('../mongo/upsertNowBorrow.js');
 module.exports = app => {
     class updateService extends app.Service {
         async updateGrxx(stuId, pswd, name) {
@@ -29,23 +29,20 @@ module.exports = app => {
                 爬取图书馆借阅历史页面信息并装入数据库
                 需要传入一个用户名和密码
             */
-            try {
-                //尝试用该信息获取一个已经激活的cookie;
-                let stu = await tryUsefulCookie(stuId, pswd, name);
-                //通过已激活的cookie获取借阅历史的html页面
-                let htmlDatas = await getHistoryBookHtml(stu.cookie);
-                //将借阅历史的html页面爬取下来
-                let datas = [];
-                for (let i = 1; i < htmlDatas.length; i++) {
-                    datas = datas.concat(getHistoryBookFromHtml(htmlDatas[i]));
-                }
-                for (let i = 0; i < datas.length; i++) {
-                    //将得到的数据写入数据库
-                    await upsertHistoryBook(stu.stuId, datas[i]);
-                }
-            } catch (err) {
-                console.log(err);
+            //尝试用该信息获取一个已经激活的cookie;
+            let stu = await tryUsefulCookie(stuId, pswd, name);
+            //通过已激活的cookie获取借阅历史的html页面
+            let htmlDatas = await getHistoryBookHtml(stu.cookie);
+            //将借阅历史的html页面爬取下来
+            let datas = [];
+            for (let i = 1; i < htmlDatas.length; i++) {
+                datas = datas.concat(getHistoryBookFromHtml(htmlDatas[i]));
             }
+            for (let i = 0; i < datas.length; i++) {
+                //将得到的数据写入数据库
+                await upsertHistoryBook(stu.stuId, datas[i]);
+            }
+
         }
         async updateNowBorrow(stuId, pswd, name) {
             /*

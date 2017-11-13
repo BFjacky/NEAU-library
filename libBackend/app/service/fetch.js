@@ -1,6 +1,6 @@
-const grxx = require('../../models/grxx.js')
-const historyBook = require('../../models/historyBook')
-const nowBorrow = require('../../models/nowBorrow.js')
+const grxx = require('../models/grxx.js')
+const historyBook = require('../models/historyBook')
+const nowBorrow = require('../models/nowBorrow.js')
 module.exports = app => {
     class fetchService extends app.Service {
          //从数据库取出个人信息

@@ -53,14 +53,21 @@ module.exports = function checkName(stu) {
                 data = new Buffer(size);
                 data = Buffer.concat(chunks, size);
                 let res = data.toString('utf8', 0, size);
+
                 try {
-                    res = JSON.parse(res);
+                    //将res 从字符串转换为对象,json格式不正确;
+                    res = eval("(" + res + ")");
                 } catch (err) {
-                    err = new Error('JSON解析数据出错');
+                    /**
+                     * 在这里备注一下不清楚具体为了账号输入错误抛出这样的err
+                     */
+                    err.msg = "json解析错误";
                     reject(err);
+                    return;
                 }
                 if (res.success === false) {
-                    let err = new Error(res.msg)
+                    let err = new Error()
+                    err.msg = res.msg;
                     reject(err);
                 }
                 res = JSON.stringify(res);
@@ -71,10 +78,10 @@ module.exports = function checkName(stu) {
                 }
                 else {
                     //登陆失败，cookie无效
-                    let err = new Error('checkName 失败');
+                    let err = new Error();
+                    err.msg = "姓名错误"
                     reject(err);
                 }
-
             });
         });
 

@@ -32,11 +32,11 @@ module.exports = app => {
                 */
                 data = getSerchResFromHtml(htmlData);
             } catch (err) {
-                console.log(err);
+                reject(err);
             }
             return data;
         }
-        
+
         async getBookDetail(bookId) {
             /*
                 传入bookId来查询书籍的详细信息，此信息是getSerchRes.js中得到的结果的对象属性
