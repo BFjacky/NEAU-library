@@ -36,7 +36,7 @@ div {
   box-sizing: border-box;
 }
 .search_remind {
-  width: 325px;
+  width: 90%;
 }
 .search_remind_header {
   display: flex;
@@ -46,7 +46,7 @@ div {
 .search_remind_content {
   margin-top: 16px;
   margin-left: 29px;
-  width: 296px;
+  width: 91%;
 }
 .search_remind_icon {
   width: 18px;

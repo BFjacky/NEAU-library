@@ -1,7 +1,7 @@
 <template>
   <div class='search_box' v-on:click="toSearchInfoPage">
-    <input class='searchInput' type = 'text' placeholder="输入书名关键字" v-model="searchStr">
-    <img class="search_icon" src="../../assets/searchSympol.png" v-on:click="doSearch"></img>
+    <input class='searchInput' type = 'text' placeholder="输入书名关键字" v-model="searchStr" >
+      <img class="search_icon" src="../../assets/searchSympol.png" v-on:click="doSearch"></img>
   </div>
 </template>
 <script>
@@ -32,21 +32,22 @@ export default {
 <style scoped>
 .search_box {
   padding: 0;
-  height: 50px;
-  width: 325px;
+  height: 100%;
+  width: 90%;
 }
 .search_icon {
-  margin-left: 275px;
   height: 30px;
   width: 30px;
   transform: translateY(-40px);
+  margin-left: 88%;
 }
+
 .searchInput {
   margin: 0;
   padding-left: 20px;
   font-size: 15px;
-  height: 50px;
-  width: 325px;
+  height: 100%;
+  width: 100%;
   border: 0px solid black;
   box-sizing: border-box;
   border-radius: 10px;

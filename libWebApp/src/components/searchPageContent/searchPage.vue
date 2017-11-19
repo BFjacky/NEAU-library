@@ -39,7 +39,7 @@ div {
   z-index: 100;
   position: absolute;
   left: 50%;
-  width: 325px;
+  width: 90%;
   transform: translateX(-50%);
   top: 93px;
   font-size: 30px;
@@ -48,6 +48,8 @@ div {
   letter-spacing: 2px;
 }
 .books_img {
+  width: 160%;
+  height: 58%;
   z-index: 1;
   position: absolute;
   top: 60%;
@@ -66,7 +68,9 @@ div {
 .search_mask {
   height: 100%;
   width: 100%;
-  background-image: url(../../assets/searchPage_background.png);
+  background-size: 100%;
+  background-image: url(../../assets/searchPage_background2.png);
+  background-repeat: no-repeat;
   position: absolute;
   top: 0px;
   opacity: 1;
@@ -74,6 +78,8 @@ div {
 }
 .search_box {
   z-index: 100;
+  width:90%;
+  height: 7%;
   position: absolute;
   left: 50%;
   transform: translateX(-50%);

@@ -24,17 +24,21 @@ div {
 }
 .search_box {
   position: relative;
-  margin-top: 20px;
+  margin-top: 3%;
   left: 50%;
+  height: 7%;
   transform: translateX(-50%);
 }
 .search_remind {
   position: relative;
-  margin-top: 20px;
+  margin-top: 3%;
   left: 50%;
   transform: translateX(-50%);
 }
 .show_searchBooks {
+  height: 84%;
+  margin-top: 3%;
+  overflow: auto;
   position: relative;
   left: 50%;
   transform: translateX(-50%);

@@ -30,12 +30,12 @@ div {
   box-sizing: border-box;
 }
 .booksResult {
-  width: 325px;
+  width: 90%;
   height: 100%;
 }
 .book_number {
   text-align: right;
-  width: 325px;
+  width: 100%;
   height: 16px;
   font-size: 12px;
   color: #cbcbcb;
