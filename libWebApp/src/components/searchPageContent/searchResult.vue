@@ -20,13 +20,14 @@ div {
 }
 .search_result_header {
 }
+
 .search_result_main {
 }
+
 .search_box {
   position: relative;
   margin-top: 3%;
   left: 50%;
-  height: 7%;
   transform: translateX(-50%);
 }
 .search_remind {
@@ -221,7 +222,7 @@ export default {
       //   });
       //   this.books = this.books.concat(res.data[0]);
       // }
-    }
+    },
   },
   created: async function() {
     //页面加载时就要获取 热门分类

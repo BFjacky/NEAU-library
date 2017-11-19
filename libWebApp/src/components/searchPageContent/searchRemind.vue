@@ -63,7 +63,6 @@ div {
 }
 .class_title {
   font-size: 15px;
-  height: 22px;
   color: #555555;
   letter-spacing: 2px;
 }

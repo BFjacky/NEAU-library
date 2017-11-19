@@ -32,7 +32,7 @@ export default {
 <style scoped>
 .search_box {
   padding: 0;
-  height: 100%;
+  height: 50px;
   width: 90%;
 }
 .search_icon {
@@ -46,7 +46,7 @@ export default {
   margin: 0;
   padding-left: 20px;
   font-size: 15px;
-  height: 100%;
+  height: 50px;
   width: 100%;
   border: 0px solid black;
   box-sizing: border-box;
