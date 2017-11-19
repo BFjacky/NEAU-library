@@ -2,10 +2,45 @@
 <!--带有展现 搜索结果 热门分类 的搜索界面-->
   <div class="search_result">
       <search-box class="search_box" v-on:search="doSearch"></search-box>
-      <search-remind class="search_remind" v-bind:classes="classes" v-show="isEmpty"></search-remind>
+      <search-remind class="search_remind" v-bind:classes="classes" v-show="isEmpty" v-on:goinClass="goinClass"></search-remind>
       <books-result v-bind:books="books" v-bind:number="booksNumber" class="show_searchBooks"  v-show="!isEmpty"></books-result>
   </div>
 </template>
+<style scoped>
+div {
+  border: 0px solid black;
+  box-sizing: border-box;
+}
+.search_result {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.search_result_header {
+}
+.search_result_main {
+}
+.search_box {
+  position: relative;
+  margin-top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.search_remind {
+  position: relative;
+  margin-top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.show_searchBooks {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+</style>
+
 <script>
 import searchBox from "./searchBox";
 import searchRemind from "./searchRemind";
@@ -19,6 +54,9 @@ const classUrl = "/api/search/getTopLendClass";
 
 //搜索书籍的url
 const searchBookUrl = "/api/search/getSearchRes";
+
+//获得分类信息的url
+const classDetailUrl = "/api/search/getTopLendDetail";
 
 //搜索书籍时的页码
 let nowPage = 1;
@@ -46,7 +84,6 @@ export default {
   methods: {
     //接受了搜索事件
     doSearch: async function(searchStr) {
-      console.log(this.$vux);
       if (!this.loading) {
         this.loading = true;
         this.$vux.loading.show({
@@ -118,6 +155,68 @@ export default {
       //   });
       //   this.books = this.books.concat(res.data[0]);
       // }
+    },
+    goinClass: async function(item) {
+      this.isEmpty = false;
+      console.log("接受了进入class事件", item);
+      if (!this.loading) {
+        this.loading = true;
+        this.$vux.loading.show({
+          text: "搬运数据中...",
+          time: 10000000
+        });
+      }
+
+      //在classname中匹配出clsNo
+      let patt = /[A-Z]/g;
+      item.clsNo = patt.exec(item.className)[0];
+
+      let res = await axios({
+        method: "get",
+        url: host + classDetailUrl,
+        params: {
+          clsNo: item.clsNo,
+          page: nowPage
+        }
+      });
+
+      this.book = res.data[0];
+
+      //搜索结果总页数
+      let totalPages = res.data[1];
+
+      //爬取最后一页的书有多少本
+      let lastPage = await axios({
+        method: "get",
+        url: host + classDetailUrl,
+        params: {
+          clsNo: item.clsNo,
+          page: totalPages
+        }
+      });
+
+      let lastPageBooks = lastPage.data[0].length;
+      this.books = res.data[0];
+      this.booksNumber =
+        totalPages >= 1 ? (totalPages - 1) * 10 + lastPageBooks : lastPageBooks;
+
+      if (this.loading) {
+        this.loading = false;
+        this.$vux.loading.hide();
+      }
+      //爬取其他页码的搜索信息
+      // for (let i = 1; i <= totalPages; i++) {
+      //   let res = await axios({
+      //     method: "get",
+      //     url: host + searchBookUrl,
+      //     params: {
+      //       word: searchStr,
+      //       type: "02",
+      //       page: i
+      //     }
+      //   });
+      //   this.books = this.books.concat(res.data[0]);
+      // }
     }
   },
   created: async function() {
@@ -140,35 +239,3 @@ export default {
   }
 };
 </script>
-<style scoped>
-div {
-  border: 0px solid black;
-  box-sizing: border-box;
-}
-.search_result {
-  height: 100%;
-  width: 100%;
-  position: relative;
-}
-.search_result_header {
-}
-.search_result_main {
-}
-.search_box {
-  position: relative;
-  margin-top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-.search_remind {
-  position: relative;
-  margin-top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-.show_searchBooks {
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
-}
-</style>

@@ -31,6 +31,7 @@ div {
 }
 .booksResult {
   width: 325px;
+  height: 100%;
 }
 .book_number {
   text-align: right;

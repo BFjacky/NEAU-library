@@ -5,7 +5,7 @@
           <div class="search_remind_title">热门分类</div>
       </div>
       <div class="search_remind_content">
-          <div class="search_remind_class" v-for="item in classes" v-bind:key="item.key">
+          <div class="search_remind_class" v-for="item in classes" v-bind:key="item.key" v-on:click="gotoClass(item)">
             <div class="class_title">{{item.className}}</div>
             <div class="class_devideLine" v-show="!isLast(item.order)"></div>
           </div>
@@ -23,6 +23,9 @@ export default {
       if (order === this.classes.length - 1) {
         return true;
       }
+    },
+    gotoClass: function(item) {
+      this.$emit("goinClass", item);
     }
   }
 };
