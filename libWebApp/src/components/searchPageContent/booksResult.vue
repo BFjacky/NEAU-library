@@ -12,6 +12,10 @@
 <script>
 export default {
   props: ["books", "number"],
+  data: function() {
+    return {
+    };
+  },
   methods: {
     gotoBookDetail: function(book) {
       this.$router.push({
@@ -20,7 +24,7 @@ export default {
           book: book
         }
       });
-    }
+    },
   }
 };
 </script>

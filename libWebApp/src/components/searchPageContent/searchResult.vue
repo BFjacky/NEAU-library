@@ -3,7 +3,7 @@
   <div class="search_result">
       <search-box class="search_box" v-on:search="doSearch"></search-box>
       <search-remind class="search_remind" v-bind:classes="classes" v-show="isEmpty" v-on:goinClass="goinClass"></search-remind>
-      <books-result v-bind:books="books" v-bind:number="booksNumber" class="show_searchBooks"  v-show="!isEmpty"></books-result>
+      <books-result v-bind:books="books" v-bind:number="booksNumber" class="show_searchBooks"  v-show="!isEmpty" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="700"></books-result>
   </div>
 </template>
 <style scoped>
@@ -63,9 +63,6 @@ const searchBookUrl = "/api/search/getSearchRes";
 //获得分类信息的url
 const classDetailUrl = "/api/search/getTopLendDetail";
 
-//搜索书籍时的页码
-let nowPage = 1;
-
 //当前搜索的关键词
 let search_keyWord;
 
@@ -83,12 +80,29 @@ export default {
       //保存这是第几次改变输入的搜索字符串
       changeTimes: 0,
       //加载中
-      loading: false
+      loading: false,
+      //实时更新书籍数据是否busy
+      busy: false,
+      //保存当前的url，判断书籍信息是热门分类还是搜索信息
+      nowUrl: "",
+      //当前的页码
+      nowPage: 1,
+      //搜索框的字符串,
+      searchStr: "",
+      //总页码数
+      totalPages: 0,
+      //分类选择
+      claNo: ""
     };
   },
   methods: {
     //接受了搜索事件
     doSearch: async function(searchStr) {
+      //重置信息
+      this.nowUrl = searchBookUrl;
+      this.nowPage = 1;
+      this.searchStr = searchStr;
+
       if (!this.loading) {
         this.loading = true;
         this.$vux.loading.show({
@@ -112,7 +126,7 @@ export default {
         params: {
           word: searchStr,
           type: "02",
-          page: nowPage
+          page: this.nowPage
         }
       });
 
@@ -122,6 +136,8 @@ export default {
 
       //搜索结果总页数
       let totalPages = res.data[1];
+      //this.totalPages
+      this.totalPages = totalPages;
 
       //爬取最后一页的书有多少本
       let lastPage = await axios({
@@ -143,27 +159,21 @@ export default {
       this.booksNumber =
         totalPages >= 1 ? (totalPages - 1) * 10 + lastPageBooks : lastPageBooks;
 
+      this.nowPage++;
       if (this.loading) {
         this.loading = false;
         this.$vux.loading.hide();
       }
-      //爬取其他页码的搜索信息
-      // for (let i = 1; i <= totalPages; i++) {
-      //   let res = await axios({
-      //     method: "get",
-      //     url: host + searchBookUrl,
-      //     params: {
-      //       word: searchStr,
-      //       type: "02",
-      //       page: i
-      //     }
-      //   });
-      //   this.books = this.books.concat(res.data[0]);
-      // }
+
+      console.log("已获得第1页内容!");
     },
     goinClass: async function(item) {
+      //重置信息
+      this.nowUrl = classDetailUrl;
+      this.nowPage = 1;
+
       this.isEmpty = false;
-      console.log("接受了进入class事件", item);
+
       if (!this.loading) {
         this.loading = true;
         this.$vux.loading.show({
@@ -176,12 +186,15 @@ export default {
       let patt = /[A-Z]/g;
       item.clsNo = patt.exec(item.className)[0];
 
+      //重置信息
+      this.clsNo = item.clsNo;
+
       let res = await axios({
         method: "get",
         url: host + classDetailUrl,
         params: {
           clsNo: item.clsNo,
-          page: nowPage
+          page: this.nowPage
         }
       });
 
@@ -189,6 +202,9 @@ export default {
 
       //搜索结果总页数
       let totalPages = res.data[1];
+
+      //重置信息
+      this.totalPages = totalPages;
 
       //爬取最后一页的书有多少本
       let lastPage = await axios({
@@ -205,24 +221,59 @@ export default {
       this.booksNumber =
         totalPages >= 1 ? (totalPages - 1) * 10 + lastPageBooks : lastPageBooks;
 
+      this.nowPage++;
       if (this.loading) {
         this.loading = false;
         this.$vux.loading.hide();
       }
-      //爬取其他页码的搜索信息
-      // for (let i = 1; i <= totalPages; i++) {
-      //   let res = await axios({
-      //     method: "get",
-      //     url: host + searchBookUrl,
-      //     params: {
-      //       word: searchStr,
-      //       type: "02",
-      //       page: i
-      //     }
-      //   });
-      //   this.books = this.books.concat(res.data[0]);
-      // }
+
+      console.log("已获得第1页内容!");
     },
+    loadMore: async function() {
+      this.busy = true;
+
+      if (this.nowUrl === searchBookUrl) {
+        //爬取其他页码的搜索信息
+        for (let i = this.nowPage; i <= this.totalPages; i++) {
+          let res = await axios({
+            method: "get",
+            url: host + searchBookUrl,
+            params: {
+              word: this.searchStr,
+              type: "02",
+              page: i
+            }
+          });
+          this.books = this.books.concat(res.data[0]);
+          console.log("已获得第" + i + "页内容!");
+          //爬1页之后就不爬了
+          if ((i = this.nowPage)) {
+            this.nowPage = i + 1;
+            break;
+          }
+        }
+      } else {
+        //爬取其他页码的分类书籍信息
+        for (let i = this.nowPage; i <= this.totalPages; i++) {
+          let res = await axios({
+            method: "get",
+            url: host + classDetailUrl,
+            params: {
+              clsNo: this.clsNo,
+              page: i
+            }
+          });
+          this.books = this.books.concat(res.data[0]);
+          console.log("已获得第" + i + "页内容!");
+          //爬1页之后就不爬了
+          if ((i = this.nowPage)) {
+            this.nowPage = i + 1;
+            break;
+          }
+        }
+      }
+      this.busy = false;
+    }
   },
   created: async function() {
     //页面加载时就要获取 热门分类

@@ -8,10 +8,12 @@ import bookDetail from '@/components/bookDetail'
 import booksScroller from '@/components/personalPage/booksScroller'
 import personalPage from '@/components/personalPage/personalPage'
 import classBookDetail from '@/components/searchPageContent/classBookDetail'
+import infiniteScroll from 'vue-infinite-scroll'
 import { LoadingPlugin, ToastPlugin } from 'vux'
 Vue.use(LoadingPlugin)
 Vue.use(ToastPlugin)
 Vue.use(Router)
+Vue.use(infiniteScroll)
 
 export default new Router({
   routes: [
