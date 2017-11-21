@@ -8,10 +8,15 @@
 
 <script>
 export default {
-  name: "app"
+  name: "app",
+  watch: {
+    $route: function() {
+      //每当路由变化时都要隐藏掉loading 组件
+      this.$vux.loading.hide();
+    }
+  }
 };
 </script>
-
 <style>
 body,
 html {

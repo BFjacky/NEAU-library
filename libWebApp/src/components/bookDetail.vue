@@ -40,6 +40,12 @@ export default {
     };
   },
   created: async function() {
+    //显示加载中提示
+    this.$vux.loading.show({
+      text: "搬运数据中...",
+      time: 10000000
+    });
+
     let bookId = this.$route.params.book.bookId;
 
     //从字符串中提取出bookId
@@ -63,9 +69,14 @@ export default {
       book.guancang[i] = res.data[i + 1];
     }
     book.imgUrl = this.$route.params.book.imgUrl;
-
     console.log(res.data.length);
     this.book = book;
+
+    //停止加载中提示
+    this.$vux.loading.hide();
+
+    //检查一下图片url的结果
+    console.log(book.imgUrl)
   }
 };
 </script>
