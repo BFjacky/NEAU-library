@@ -6,6 +6,8 @@ const getTopLendHtml = require('../crawler/getTopLendHtml.js');
 const getTopLendFromHtml = require('../crawler/getTopLendFromHtml.js');
 const getTopLendDetailHtml = require('../crawler/getTopLendDetailHtml.js');
 const getTopLendDetailFromHtml = require('../crawler/getTopLendDetailFromHtml.js');
+const fs = require('fs');
+const path = require('path');
 module.exports = app => {
   class searchService extends app.Service {
     async getSearchRes(queryWord, queryType, page) {
@@ -42,7 +44,7 @@ module.exports = app => {
                 传入bookId来查询书籍的详细信息，此信息是getSerchRes.js中得到的结果的对象属性
             */
       const htmlData = await getBookDetailHtml(bookId);
-      console.log('seavice:', htmlData);
+      fs.writeFileSync(path.join(__dirname, './test.html'), htmlData);
       const res = getBookDetailFromHtml(htmlData);
       return res;
     }

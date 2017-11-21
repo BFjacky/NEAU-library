@@ -10,7 +10,13 @@
 </template>
 <script>
 export default {
-  props: ["books"]
+  props: ["books"],
+  created: function() {},
+  watch: {
+    books: function() {
+      console.log(this.books);
+    }
+  }
 };
 </script>
 <style scoped>

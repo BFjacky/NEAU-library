@@ -10,7 +10,7 @@ const HistoryBookSchema = new Schema(
     borrowDate: String, // 借阅日期
     returnDate: String, // 归还日期
     bookPlace: String, // 馆藏地点
-
+    bookId:String, //bookId
   },
   {
     timestamps: true,

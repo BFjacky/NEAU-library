@@ -11,6 +11,7 @@ const NowBorrowSchema = new Schema(
     lawBackDate: String, // 到期时间
     bookPlace: String, // 馆藏地点
     renewNum: String, // 可续借情况
+    bookId: String,//bookId
   },
   {
     timestamps: true,

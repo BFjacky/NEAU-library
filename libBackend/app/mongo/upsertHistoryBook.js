@@ -11,6 +11,7 @@ module.exports = function upsertHistoryBook(stuId, hisbook) {
       borrowDate: hisbook.borrowDate, // 借阅日期
       returnDate: hisbook.returnDate, // 归还日期
       bookPlace: hisbook.bookPlace, // 馆藏地点
+      bookId:hisbook.bookId,//书籍id
     };
     const cond = { upsert: true, multi: true };
     historyBook.update(whereStr, updateStr, cond, function(err, res) {

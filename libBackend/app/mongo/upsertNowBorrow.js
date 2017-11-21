@@ -12,9 +12,10 @@ module.exports = function upsertNowBorrow(stuId, NowBorrowBook) {
       lawBackDate: NowBorrowBook.lawBackDate, // 到期时间
       bookPlace: NowBorrowBook.bookPlace, // 馆藏地点
       renewNum: NowBorrowBook.renewNum, // 可续借情况
+      bookId: NowBorrowBook.bookId,//书籍id
     };
     const cond = { upsert: true, multi: true };
-    nowBorrow.update(whereStr, updateStr, cond, function(err, res) {
+    nowBorrow.update(whereStr, updateStr, cond, function (err, res) {
       if (err) {
         err = new Error('upsertNowBorrow时出错！');
         reject(err);

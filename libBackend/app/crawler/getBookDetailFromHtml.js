@@ -6,7 +6,7 @@ const cheerio = require('cheerio');
 module.exports = function getBookDetailFromHtml(htmlData) {
   const res = [];
   const $ = cheerio.load(htmlData);
-  $('.weui_media_bd').each(function(i, elem) {
+  $('.weui_media_bd').each(function (i, elem) {
     if (i === 0) {
       res[i] = {
         title: String,
@@ -15,9 +15,8 @@ module.exports = function getBookDetailFromHtml(htmlData) {
         ISBN: String,
       };
       res[i].title = $(this).find('.weui_media_title').text();
-      console.log(res[i].title);
       $(this).find('.weui_media_desc').find('a')
-        .each(function(j, elem) {
+        .each(function (j, elem) {
           res[i].author[j] = {
             authorName: String,
             authorLinkUrl: String,
@@ -26,7 +25,7 @@ module.exports = function getBookDetailFromHtml(htmlData) {
           res[i].author[j].authorLinkUrl = $(this).attr('href');
         });
       $(this).find('.weui_media_info');
-      $(this).find('.weui_media_info_meta').each(function(j, elem) {
+      $(this).find('.weui_media_info_meta').each(function (j, elem) {
         if (j === 0) {
           res[i].info = $(this).text();
         }
@@ -45,6 +44,13 @@ module.exports = function getBookDetailFromHtml(htmlData) {
       res[i].ableBorrow = $(this).find('.weui_media_info_meta').text();
     }
   });
+
+  //将imgUrl 加入到结果中
+
+  $('.weui_media_appmsg_thumb').each(function (j, elem) {
+    res[0].imgurl = $(this).attr('src');
+  })
+
   return res;
 };
 

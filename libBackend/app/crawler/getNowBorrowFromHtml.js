@@ -6,7 +6,7 @@ const cheerio = require('cheerio');
 module.exports = function getNowBorrowFromHtml(htmlData) {
   const res = [];
   const $ = cheerio.load(htmlData);
-  $('.weui_media_bd').each(function(i, elem) {
+  $('.weui_media_bd').each(function (i, elem) {
     res[i] = {
       bookName: String,
       borrowDate: String,
@@ -16,7 +16,7 @@ module.exports = function getNowBorrowFromHtml(htmlData) {
     };
     res[i].bookName = $(this).find('.weui_media_title').text();
     res[i].borrowDate = $(this).find('.weui_media_desc').text();
-    $(this).find('.weui_media_info_meta').each(function(j, elem) {
+    $(this).find('.weui_media_info_meta').each(function (j, elem) {
       switch (j) {
         case 0:
           res[i].lawBackDate = $(this).text();
@@ -27,5 +27,11 @@ module.exports = function getNowBorrowFromHtml(htmlData) {
       }
     });
   });
+  $('.weui_media_box').each(function (i, elem) {
+    res[i].bookId = $(this).attr('href');
+    patt = /id=\d\d\d\d\d\d\d\d\d\d/g;
+    res[i].bookId = res[i].bookId.match(patt);
+    res[i].bookId = res[i].bookId[0];
+  })
   return res;
 };

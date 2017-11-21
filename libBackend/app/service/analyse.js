@@ -65,8 +65,6 @@ module.exports = app => {
             const rankPercent2 = rankPercent.slice(2, 5) + '%';
             rankPercent = rankPercent1 + rankPercent2;
 
-            console.log(totalRes[i].stuId, rankCount, rankPercent, totalRes[i].totalBooks);
-
             // 将结果插入到数据库,我希望它是完全并发的，但又想获得一个大概的时间,
             // 所以在最后一条数据插入时用await阻塞了一下
             if (i === totalRes.length - 1) {

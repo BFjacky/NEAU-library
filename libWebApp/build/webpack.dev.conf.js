@@ -27,12 +27,22 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       errors: true,
     } : false,
     publicPath: config.dev.assetsPublicPath,
+
     //proxy: config.dev.proxyTable,
     // 其实很简单的，只要配置这个参数就可以了
+    // proxy: {
+    //   '@(/api/*|/email/*|/mobile/*|/user/*|/openapi/*)': {
+    //     target: 'http://localhost:7001/',
+    //     changeOrigin: true,
+    //     secure: false
+    //   }
+    // },
     proxy: {
-      '@(/api/*|/email/*|/mobile/*|/user/*|/openapi/*)': {
+      '/api': {
         target: 'http://localhost:7001',
-        secure: false
+        secure: false,
+        changeOrigin: true,
+        pathRewrite: { '^/api': '' }
       }
     },
     quiet: true, // necessary for FriendlyErrorsPlugin
