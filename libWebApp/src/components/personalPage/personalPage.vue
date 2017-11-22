@@ -17,18 +17,7 @@
 <script>
 import axios from "axios";
 import booksScroller from "./booksScroller";
-
-//主机地址
-const host = "http://127.0.0.1:7001";
-
-//获取当前借阅的url
-const nowBorrow = "/api/api/fetch/nowBorrow";
-//获取历史借阅的url
-const hisBorrow = "/api/api/fetch/hisBooks";
-//更新全部个人信息的url
-const updateAll = "/api/api/update/all";
-//获取书籍详细信息
-const bookDetail = "/api/api/search/getBookDetail";
+import myConfig from "../../myConfig.js";
 
 export default {
   components: {
@@ -45,7 +34,7 @@ export default {
     getImgUrl: async function(bookId) {
       let res = await axios({
         methods: "get",
-        url: bookDetail,
+        url: myConfig.bookDetailUrl,
         params: {
           bookId: bookId
         }
@@ -61,7 +50,7 @@ export default {
      */
     let update_res = await axios({
       method: "post",
-      url: updateAll,
+      url: myConfig.updateAll,
       data: {
         stuId: "A19150185",
         pswd: "203312"
@@ -81,14 +70,14 @@ export default {
      */
     let nowBorrow_res = await axios({
       method: "get",
-      url: nowBorrow,
+      url: myConfig.nowBorrow,
       params: {
         stuId: "A19150185"
       }
     });
     let hisBorrow_res = await axios({
       method: "get",
-      url: hisBorrow,
+      url: myConfig.hisBorrow,
       params: {
         stuId: "A19150185"
       }

@@ -27,11 +27,7 @@
 </template>
 <script>
 import axios from "axios";
-//主机地址
-const host = "http://127.0.0.1:7001";
-
-//搜索书籍相信信息的url
-const searchBookUrl = "/api/search/getBookDetail";
+import myConfig from "../myConfig.js";
 
 export default {
   data: function() {
@@ -54,7 +50,7 @@ export default {
 
     let res = await axios({
       method: "get",
-      url: host + searchBookUrl,
+      url: myConfig.bookDetailUrl,
       params: {
         bookId: bookId
       }
@@ -69,14 +65,15 @@ export default {
       book.guancang[i] = res.data[i + 1];
     }
     book.imgUrl = this.$route.params.book.imgUrl;
-    console.log(res.data.length);
     this.book = book;
 
     //停止加载中提示
     this.$vux.loading.hide();
 
     //检查一下图片url的结果
-    console.log(book.imgUrl)
+    console.log("bookDetail中检查imgurl资源:", book.imgUrl);
+    //config
+    console.log(this);
   }
 };
 </script>

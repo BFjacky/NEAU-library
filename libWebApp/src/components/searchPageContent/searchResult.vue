@@ -51,17 +51,7 @@ import searchBox from "./searchBox";
 import searchRemind from "./searchRemind";
 import booksResult from "./booksResult";
 import axios from "axios";
-//主机地址
-const host = "http://127.0.0.1:7001";
-
-//获得分类的url
-const classUrl = "/api/search/getTopLendClass";
-
-//搜索书籍的url
-const searchBookUrl = "/api/search/getSearchRes";
-
-//获得分类信息的url
-const classDetailUrl = "/api/search/getTopLendDetail";
+import myConfig from "../../myConfig.js";
 
 //当前搜索的关键词
 let search_keyWord;
@@ -99,7 +89,7 @@ export default {
     //接受了搜索事件
     doSearch: async function(searchStr) {
       //重置信息
-      this.nowUrl = searchBookUrl;
+      this.nowUrl = myConfig.searchBookUrl;
       this.nowPage = 1;
       this.searchStr = searchStr;
 
@@ -122,7 +112,7 @@ export default {
 
       let res = await axios({
         method: "get",
-        url: host + searchBookUrl,
+        url: myConfig.searchBookUrl,
         params: {
           word: searchStr,
           type: "02",
@@ -142,7 +132,7 @@ export default {
       //爬取最后一页的书有多少本
       let lastPage = await axios({
         method: "get",
-        url: host + searchBookUrl,
+        url: myConfig.searchBookUrl,
         params: {
           word: searchStr,
           type: "02",
@@ -169,7 +159,7 @@ export default {
     },
     goinClass: async function(item) {
       //重置信息
-      this.nowUrl = classDetailUrl;
+      this.nowUrl = myConfig.classDetailUrl;
       this.nowPage = 1;
 
       this.isEmpty = false;
@@ -191,7 +181,7 @@ export default {
 
       let res = await axios({
         method: "get",
-        url: host + classDetailUrl,
+        url: myConfig.classDetailUrl,
         params: {
           clsNo: item.clsNo,
           page: this.nowPage
@@ -209,7 +199,7 @@ export default {
       //爬取最后一页的书有多少本
       let lastPage = await axios({
         method: "get",
-        url: host + classDetailUrl,
+        url: myConfig.classDetailUrl,
         params: {
           clsNo: item.clsNo,
           page: totalPages
@@ -232,12 +222,12 @@ export default {
     loadMore: async function() {
       this.busy = true;
 
-      if (this.nowUrl === searchBookUrl) {
+      if (this.nowUrl === myConfig.searchBookUrl) {
         //爬取其他页码的搜索信息
         for (let i = this.nowPage; i <= this.totalPages; i++) {
           let res = await axios({
             method: "get",
-            url: host + searchBookUrl,
+            url: myConfig.searchBookUrl,
             params: {
               word: this.searchStr,
               type: "02",
@@ -257,7 +247,7 @@ export default {
         for (let i = this.nowPage; i <= this.totalPages; i++) {
           let res = await axios({
             method: "get",
-            url: host + classDetailUrl,
+            url: myConfig.classDetailUrl,
             params: {
               clsNo: this.clsNo,
               page: i
@@ -279,7 +269,7 @@ export default {
     //页面加载时就要获取 热门分类
     let result = await axios({
       nethods: "get",
-      url: host + classUrl
+      url: myConfig.classUrl
     });
     let classes = result.data;
     for (let i = 0; i < classes.length; i++) {

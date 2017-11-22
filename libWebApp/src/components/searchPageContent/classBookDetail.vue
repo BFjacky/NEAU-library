@@ -6,13 +6,6 @@
 <script>
 import booksResult from "./booksResult";
 import axios from "axios";
-
-//主机地址
-const host = "http://127.0.0.1:7001";
-
-//获得分类的url
-const classUrl = "/api/search/getTopLendDetail";
-
 export default {
   props: ["clsNo"],
   data: function() {
