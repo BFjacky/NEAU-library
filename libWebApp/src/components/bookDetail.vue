@@ -27,8 +27,6 @@
 </template>
 <script>
 import axios from "axios";
-import myConfig from "../myConfig.js";
-
 export default {
   data: function() {
     return {
@@ -50,7 +48,7 @@ export default {
 
     let res = await axios({
       method: "get",
-      url: myConfig.bookDetailUrl,
+      url: this.$common.bookDetailUrl,
       params: {
         bookId: bookId
       }
@@ -65,15 +63,12 @@ export default {
       book.guancang[i] = res.data[i + 1];
     }
     book.imgUrl = this.$route.params.book.imgUrl;
-    this.book = book;
+    //检查一下图片url的结果
+    book.imgUrl = await this.$common.checkCover(book.imgUrl);
 
+    this.book = book;
     //停止加载中提示
     this.$vux.loading.hide();
-
-    //检查一下图片url的结果
-    console.log("bookDetail中检查imgurl资源:", book.imgUrl);
-    //config
-    console.log(this);
   }
 };
 </script>

@@ -1,9 +1,9 @@
 <template>
     <div class="parent_container">
         <div class="book_scroller">
-            <div class="one_book" v-for="book in books" :key="book.key">
+            <div class="one_book" v-for="book in myBooks" :key="book.key">
                 <img class="book_img" v-bind:src="book.imgUrl">
-                <span class="book_name" >{{book.title}}</span>
+                <span class="book_name" >{{book.bookName}}</span>
             </div>
         </div>
     </div>
@@ -11,12 +11,23 @@
 <script>
 export default {
   props: ["books"],
-  created: function() {},
+  data: function() {
+    return {
+      myBooks: []
+    };
+  },
   watch: {
-    books: function() {
-      console.log(this.books);
+    books: async function() {
+      for (let i = 0; i < this.books.length; i++) {
+        this.books[i].imgUrl = await this.$common.getbookImgUrl(
+          this.books[i].bookId
+        );
+      }
+      this.myBooks = this.books;
+      console.log(this.myBooks);
     }
-  }
+  },
+  created: async function() {}
 };
 </script>
 <style scoped>
@@ -36,6 +47,7 @@ div {
   margin-left: 25px;
 }
 .book_img {
+  border: 1px solid black;
   width: 119px;
   height: 168px;
 }

@@ -3,8 +3,10 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import common from "./common"
 
 Vue.config.productionTip = false
+Vue.use(common)
 
 
 /* eslint-disable no-new */

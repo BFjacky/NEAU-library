@@ -17,8 +17,6 @@
 <script>
 import axios from "axios";
 import booksScroller from "./booksScroller";
-import myConfig from "../../myConfig.js";
-
 export default {
   components: {
     booksScroller
@@ -30,18 +28,6 @@ export default {
       collectBooks: []
     };
   },
-  methods: {
-    getImgUrl: async function(bookId) {
-      let res = await axios({
-        methods: "get",
-        url: myConfig.bookDetailUrl,
-        params: {
-          bookId: bookId
-        }
-      });
-      return res.data[0].imgurl;
-    }
-  },
   created: async function() {
     let self = this;
     /**@augments
@@ -50,10 +36,10 @@ export default {
      */
     let update_res = await axios({
       method: "post",
-      url: myConfig.updateAll,
+      url: this.$common.updateAll,
       data: {
-        stuId: "A19150185",
-        pswd: "203312"
+        stuId: this.$common.person.stuId,
+        pswd: this.$common.person.pswd
       }
     });
 
@@ -70,39 +56,21 @@ export default {
      */
     let nowBorrow_res = await axios({
       method: "get",
-      url: myConfig.nowBorrow,
+      url: this.$common.nowBorrow,
       params: {
-        stuId: "A19150185"
+        stuId: this.$common.person.stuId
       }
     });
     let hisBorrow_res = await axios({
       method: "get",
-      url: myConfig.hisBorrow,
+      url: this.$common.hisBorrow,
       params: {
-        stuId: "A19150185"
+        stuId: this.$common.person.stuId
       }
     });
+    
     this.nowBorrowBooks = nowBorrow_res.data;
     this.histroyBooks = hisBorrow_res.data;
-
-    /**@augments
-     * 将书籍的图像url分别获得出来
-     */
-    this.nowBorrowBooks.forEach(async function(e) {
-      console.log(e);
-    });
-
-    for (let i = 0; i < this.histroyBooks.length; i++) {
-      let patt = /\d+/g;
-      this.histroyBooks[i].bookId = this.histroyBooks[i].bookId.match(patt)[0];
-      this.histroyBooks[i].imgUrl = await self.getImgUrl(
-        this.histroyBooks[i].bookId
-      );
-    }
-
-    console.log("ok");
-
-    //http://img3.doubanio.com/spic/s28047189.jpg
   }
 };
 </script>
