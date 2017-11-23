@@ -33,5 +33,10 @@ module.exports = function getNowBorrowFromHtml(htmlData) {
     res[i].bookId = res[i].bookId.match(patt);
     res[i].bookId = res[i].bookId[0];
   })
+
+  //爬续借时的barcode
+  $('.weui_btn_primary').each(function (i, elem) {
+    res[i].barcode = $(this).attr('onclick');
+  })
   return res;
 };

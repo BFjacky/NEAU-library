@@ -13,6 +13,7 @@ module.exports = function upsertNowBorrow(stuId, NowBorrowBook) {
       bookPlace: NowBorrowBook.bookPlace, // 馆藏地点
       renewNum: NowBorrowBook.renewNum, // 可续借情况
       bookId: NowBorrowBook.bookId,//书籍id
+      barcode:NowBorrowBook.barcode,//书籍续借barcode
     };
     const cond = { upsert: true, multi: true };
     nowBorrow.update(whereStr, updateStr, cond, function (err, res) {

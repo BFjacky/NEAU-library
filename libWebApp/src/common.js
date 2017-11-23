@@ -41,8 +41,8 @@ export default {
 
             //测试用个人信息
             person: {
-                stuId: 'A19150185',
-                pswd: '203312',
+                stuId: 'A02150273',
+                pswd: '213363',
                 name: '陈云飞',
             },
 

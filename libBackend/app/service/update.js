@@ -8,6 +8,8 @@ const getNowBorrowHtml = require('../crawler/getNowBorrowHtml.js');
 const upsertGrxxInDB = require('../mongo/upsertGrxxInDB.js');
 const upsertHistoryBook = require('../mongo/upsertHistoryBook.js');
 const upsertNowBorrow = require('../mongo/upsertNowBorrow.js');
+const nowBorrow = require('../models/nowBorrow.js');
+const histroyBook = require('../models/historyBook.js');
 module.exports = app => {
   class updateService extends app.Service {
     async updateGrxx(stuId, pswd, name) {
@@ -38,6 +40,22 @@ module.exports = app => {
       for (let i = 1; i < htmlDatas.length; i++) {
         datas = datas.concat(getHistoryBookFromHtml(htmlDatas[i]));
       }
+
+      //先删除数据库中老的信息
+      let delete_histroyBook = function () {
+        return new Promise((resolve, reject) => {
+          const delete_cond = { stuId: stu.stuId };
+          histroyBook.remove(delete_cond, function (err) {
+            if (err) {
+              reject(err);
+            } else {
+              resolve('ok');
+            }
+          })
+        });
+      }
+      await delete_histroyBook();
+
       for (let i = 0; i < datas.length; i++) {
         // 将得到的数据写入数据库
         await upsertHistoryBook(stu.stuId, datas[i]);
@@ -59,10 +77,26 @@ module.exports = app => {
         for (let i = 1; i < htmlDatas.length; i++) {
           datas = datas.concat(getNowBorrowFromHtml(htmlDatas[i]));
         }
+        //先删除数据库中老的信息
+        let delete_nowBorrow = function () {
+          return new Promise((resolve, reject) => {
+            const delete_cond = { stuId: stu.stuId };
+            nowBorrow.remove(delete_cond, function (err) {
+              if (err) {
+                reject(err);
+              } else {
+                resolve('ok');
+              }
+            })
+          });
+        }
+        await delete_nowBorrow();
+
+        // 将得到的数据写入数据库
         for (let i = 0; i < datas.length; i++) {
-          // 将得到的数据写入数据库
           await upsertNowBorrow(stu.stuId, datas[i]);
         }
+
       } catch (err) {
         console.log(err);
       }

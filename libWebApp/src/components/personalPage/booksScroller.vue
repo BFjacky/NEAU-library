@@ -22,6 +22,9 @@ export default {
         this.books[i].imgUrl = await this.$common.getbookImgUrl(
           this.books[i].bookId
         );
+        //如果要监听myBooks的变化，则需要从引用上改变，而不是改变this.books
+        this.myBooks = [];
+        this.myBooks = this.books;
       }
       this.myBooks = this.books;
       console.log(this.myBooks);

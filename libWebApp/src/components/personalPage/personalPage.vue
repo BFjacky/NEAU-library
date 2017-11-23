@@ -1,11 +1,11 @@
 <template>
   <div class="personalPage">
      <div class="one_scroller">
-         <h1 class="scroller_h1">正在阅读5本书</h1>
+         <h1 class="scroller_h1">正在阅读的{{nowBorrowBooks.length}}本书</h1>
          <books-scroller class="books_scroller" v-bind:books="nowBorrowBooks"></books-scroller>
      </div>
      <div class="one_scroller">
-         <h1 class="scroller_h1">正在阅读5本书</h1>
+         <h1 class="scroller_h1">我已借阅的{{histroyBooks.length}}本书</h1>
          <books-scroller class="books_scroller" v-bind:books="histroyBooks"></books-scroller>
      </div>
      <div class="one_scroller">
@@ -68,15 +68,16 @@ export default {
         stuId: this.$common.person.stuId
       }
     });
-    
+
     this.nowBorrowBooks = nowBorrow_res.data;
     this.histroyBooks = hisBorrow_res.data;
+    console.log(this.nowBorrowBooks);
   }
 };
 </script>
 <style scoped>
 div {
-  border: 1px solid #000000;
+  border: 0px solid #000000;
   box-sizing: border-box;
 }
 .personalPage {
