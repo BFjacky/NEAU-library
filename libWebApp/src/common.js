@@ -30,6 +30,9 @@ export default {
             //更新全部个人信息的url
             updateAll: "/api/api/update/all",
 
+            //续借请求的url
+            renewUrl: "/api/api/update/tryRenew",
+
             //图书馆主机名称（imgurl前缀）
             libHost: "http://opac.lib.neau.edu.cn",
 
@@ -45,6 +48,9 @@ export default {
                 pswd: '213363',
                 name: '陈云飞',
             },
+
+            //书籍即将到期的期限 7天
+            warn_days: 7,
 
 
             //方法---------------------------------------------------------------------------------------------------

@@ -5,6 +5,7 @@
       <div class="search_page_main">
         <div class="search_title" >搜索图书馆馆藏</div>
         <search-box class="search_box"  v-on:gotoinfo="tosearchInfo" ></search-box>
+        <div class="btn_myLib" v-on:click="gotoPersonalPage">我的图书 >></div>
         <img class="books_img" src="../../assets/bookBackground.png">
         <img class="jser_logo" src="../../assets/JSER.png">
       </div>
@@ -23,6 +24,10 @@ export default {
       if (this.$router.history.current.name === "searchPage") {
         this.$router.push({ name: "searchResult" });
       }
+    },
+    gotoPersonalPage: function() {
+      //跳转到个人信息页面
+      this.$router.push({ name: "personalPage" });
     }
   },
   components: {
@@ -78,12 +83,23 @@ div {
 }
 .search_box {
   z-index: 100;
-  width:90%;
+  width: 90%;
   height: 7%;
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
   top: 148px;
+}
+.btn_myLib {
+  color: #ffffff;
+  z-index: 100;
+  font-weight: bold;
+  position: relative;
+  width: 90%;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: right;
+  top: 220px;
 }
 .search_page {
   height: 100%;

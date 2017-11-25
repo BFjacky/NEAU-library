@@ -3,6 +3,7 @@
         <div class="book_scroller">
             <div class="one_book" v-for="book in myBooks" :key="book.key">
                 <img class="book_img" v-bind:src="book.imgUrl">
+                <div class="book_bottom_mask" v-show="book.warn">即将到期</div>
                 <span class="book_name" >{{book.bookName}}</span>
             </div>
         </div>
@@ -27,7 +28,6 @@ export default {
         this.myBooks = this.books;
       }
       this.myBooks = this.books;
-      console.log(this.myBooks);
     }
   },
   created: async function() {}
@@ -50,9 +50,26 @@ div {
   margin-left: 25px;
 }
 .book_img {
+  box-sizing: border-box;
   border: 1px solid black;
+  border-radius: 20px;
   width: 119px;
   height: 168px;
+}
+.book_bottom_mask {
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  width: 119px;
+  height: 32px;
+  background-color: #e95628;
+  position: relative;
+  bottom: 36px;
+  opacity: 1;
+  color: white;
+  font-size: 12px;
+  text-align: center;
+  padding-top: 6px;
+  letter-spacing: 1px;
 }
 .book_name {
   margin-top: 10px;
