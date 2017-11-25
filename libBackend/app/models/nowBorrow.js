@@ -12,6 +12,8 @@ const NowBorrowSchema = new Schema(
     bookPlace: String, // 馆藏地点
     renewNum: String, // 可续借情况
     bookId: String,//bookId
+    barcode: String,//续借barcode
+    cookie: String,//图书馆验证过的cookie信息
   },
   {
     timestamps: true,

@@ -25,6 +25,9 @@ module.exports = app => {
   // 更新一个人的全部信息并存入数据库 需要在后面加参数   如?stuId=A19150346&pswd=260410&name=张笑晨
   app.post('/api/update/all', app.controller.update.updateAll);
 
+  // 根据学号一键续借
+  app.post('/api/update/tryRenew',app.controller.update.tryRenew);
+
   // 从数据库获得一个人的个人信息  需要在后面加参数   如?stuId=A19150346
   app.get('/api/fetch/grxx', app.controller.fetch.fetchGrxx);
 

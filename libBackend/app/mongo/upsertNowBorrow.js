@@ -14,6 +14,7 @@ module.exports = function upsertNowBorrow(stuId, NowBorrowBook) {
       renewNum: NowBorrowBook.renewNum, // 可续借情况
       bookId: NowBorrowBook.bookId,//书籍id
       barcode:NowBorrowBook.barcode,//书籍续借barcode
+      cookie:NowBorrowBook.cookie, //经图书馆验证过的cookie信息
     };
     const cond = { upsert: true, multi: true };
     nowBorrow.update(whereStr, updateStr, cond, function (err, res) {

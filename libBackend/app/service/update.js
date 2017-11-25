@@ -1,4 +1,5 @@
 const tryUsefulCookie = require('../crawler/tryUsefulCookie.js');
+const tryRenew = require('../crawler/tryRenew.js');
 const getgrxxHtml = require('../crawler/getgrxxHtml.js');
 const getgrxxFromHtml = require('../crawler/getgrxxFromHtml.js');
 const getHistoryBookHtml = require('../crawler/getHistoryBookHtml.js');
@@ -14,9 +15,9 @@ module.exports = app => {
   class updateService extends app.Service {
     async updateGrxx(stuId, pswd, name) {
       /*
-                爬取图书馆个人信息页面信息并装入数据库
-                需要传入一个用户名和密码
-            */
+        爬取图书馆个人信息页面信息并装入数据库
+        需要传入一个用户名和密码
+      */
       // 尝试用该信息获取一个已经激活的cookie;
       const stu = await tryUsefulCookie(stuId, pswd, name);
       // 通过已激活的cookie获取个人信息的html页面
@@ -66,7 +67,7 @@ module.exports = app => {
       /*
                 爬取图书馆当前借阅页面信息并装入数据库
                 需要传入一个用户名和密码
-            */
+      */
       try {
         // 尝试用该信息获取一个已经激活的cookie;
         const stu = await tryUsefulCookie(stuId, pswd, name);
@@ -92,14 +93,91 @@ module.exports = app => {
         }
         await delete_nowBorrow();
 
-        // 将得到的数据写入数据库
+        /**
+         * 将得到的数据写入数据库
+         * 将图书馆颁发的cookie也存入数据库中
+         */
         for (let i = 0; i < datas.length; i++) {
+          datas[i].cookie = stu.cookie;
           await upsertNowBorrow(stu.stuId, datas[i]);
         }
 
       } catch (err) {
         console.log(err);
       }
+    }
+    /**
+     * 一键续借
+     * @param {*} stuId 
+     */
+    async tryRenew(stuId) {
+      let getInfo = function (stuId) {
+        //在数据库中获得相应的书籍信息
+        return new Promise((resolve, reject) => {
+          let whereStr = { stuId: stuId };
+          nowBorrow.find(whereStr, (err, res) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(res);
+            }
+          })
+        })
+      }
+      let info = await getInfo(stuId);
+
+      //存放续借情况
+      let renewList = [];
+
+      for (let i = 0; i < info.length; i++) {
+        //如果barcode renewNum cookie为undefined，则提示用户重新刷新当前借阅
+        if (info[i].barcode == undefined || info[i].renewNum == undefined || info[i].cookie == undefined) {
+          //所借期刊有超期标志
+          if (info[i].barcode === null) {
+            let res = {
+              project: 'tryRenew',
+              success: false,
+              msg: '所借期刊有超期，不得续借'
+            }
+
+            return res;
+          }
+          let res = {
+            project: 'tryRenew',
+            success: false,
+            msg: '续借信息不全，请重新获取当前借阅'
+          }
+          return res;
+        }
+        let patt = /\d+/g;
+        info[i].barcode = info[i].barcode.match(patt)[0];
+        info[i].renewNum = info[i].renewNum.match(patt)[0];
+  
+        //信息模板
+        renewList[i] = {
+          project: 'tryRenew',
+          bookName: info[i].bookName,
+          renewNum: info[i].renewNum,
+          stuId: info[i].stuId,
+          bookId: info[i].bookId,
+          bookPlace: info[i].bookPlace,
+          lawBackDate: info[i].lawBackDate,
+          borrowDate: info[i].borrowDate,
+        };
+        
+        //此书还没被续借过
+        if (info[i].renewNum == 0) {
+          let res = await tryRenew(info[i].cookie, info[i].barcode);
+          renewList[i].success = res;
+        }
+        //此书已被续借过
+        else {
+          renewList[i].success = false;
+        }
+      }
+
+      return renewList;
+
     }
   }
   return updateService;

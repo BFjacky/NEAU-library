@@ -84,6 +84,22 @@ module.exports = app => {
         success: true,
       };
     }
+    //续借
+    async tryRenew(ctx) {
+      const stuId = ctx.request.body.stuId;
+      let res;
+      try {
+        res = await ctx.service.update.tryRenew(stuId);
+      } catch (err) {
+        ctx.body = {
+          project: 'tryRenew',
+          success: false,
+          message: err.msg,
+        };
+        return;
+      }
+      ctx.body = res;
+    }
   }
   return UpdateController;
 };
