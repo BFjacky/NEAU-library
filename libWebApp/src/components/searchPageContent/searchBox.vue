@@ -6,6 +6,7 @@
 </template>
 <script>
 export default {
+  props: ["searchStrFromFather"],
   data: function() {
     return {
       searchStr: ""
@@ -26,6 +27,9 @@ export default {
     searchStr: function() {
       this.doSearch();
     }
+  },
+  created: function() {
+    this.searchStr = this.searchStrFromFather;
   }
 };
 </script>

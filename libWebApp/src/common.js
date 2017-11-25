@@ -112,6 +112,39 @@ export default {
                 imgUrl = await this.checkCover(imgUrl);
 
                 return imgUrl
+            },
+
+
+            //变量---------------------------------------------------------------------------------------------------
+
+            //保存searchResult中的变量
+            searchResult: {
+                //保存分类信息
+                classes: [],
+                //保存搜索结果的书籍信息
+                books: [],
+                //保存书籍总数
+                booksNumber: 0,
+                //搜索框是否有内容
+                isEmpty: true,
+                //保存这是第几次改变输入的搜索字符串
+                changeTimes: 0,
+                //加载中
+                loading: false,
+                //实时更新书籍数据是否busy
+                busy: false,
+                //保存当前的url，判断书籍信息是热门分类还是搜索信息
+                nowUrl: "",
+                //当前的页码
+                nowPage: 1,
+                //搜索框的字符串,
+                searchStr: "",
+                //总页码数
+                totalPages: 0,
+                //分类选择
+                claNo: "",
+                //是否被销毁过
+                beDestroyed: false,
             }
 
         };

@@ -1,7 +1,7 @@
 <template>
 <!--带有展现 搜索结果 热门分类 的搜索界面-->
   <div class="search_result">
-      <search-box class="search_box" v-on:search="doSearch"></search-box>
+      <search-box class="search_box" v-on:search="doSearch" v-bind:searchStrFromFather = "searchStr"></search-box>
       <search-remind class="search_remind" v-bind:classes="classes" v-show="isEmpty" v-on:goinClass="goinClass"></search-remind>
       <books-result v-bind:books="books" v-bind:number="booksNumber" class="show_searchBooks"  v-show="!isEmpty" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="700"></books-result>
   </div>
@@ -51,7 +51,6 @@ import searchBox from "./searchBox";
 import searchRemind from "./searchRemind";
 import booksResult from "./booksResult";
 import axios from "axios";
-
 
 //当前搜索的关键词
 let search_keyWord;
@@ -266,6 +265,36 @@ export default {
     }
   },
   created: async function() {
+    //如果为回退路由，则从保存的数据中读取出来
+    if (this.$common.searchResult.beDestroyed) {
+      //保存分类信息
+      this.classes = this.$common.searchResult.classes;
+      //保存搜索结果的书籍信息
+      this.books = this.$common.searchResult.books;
+      //保存书籍总数
+      this.booksNumber = this.$common.searchResult.booksNumber;
+      //搜索框是否有内容
+      this.isEmpty = this.$common.searchResult.isEmpty;
+      //保存这是第几次改变输入的搜索字符串
+      this.changeTimes = this.$common.searchResult.changeTimes;
+      //加载中
+      this.loading = this.$common.searchResult.loading;
+      //实时更新书籍数据是否busy
+      this.busy = this.$common.searchResult.busy;
+      //保存当前的url，判断书籍信息是热门分类还是搜索信息
+      this.nowUrl = this.$common.searchResult.nowUrl;
+      //当前的页码
+      this.nowPage = this.$common.searchResult.nowPage;
+      //搜索框的字符串,
+      this.searchStr = this.$common.searchResult.searchStr;
+      //总页码数
+      this.totalPages = this.$common.searchResult.totalPages;
+      //分类选择
+      this.claNo = this.$common.searchResult.claNo;
+
+      return;
+    }
+
     //页面加载时就要获取 热门分类
     let result = await axios({
       nethods: "get",
@@ -276,6 +305,34 @@ export default {
       classes[i].order = i;
     }
     this.classes = classes;
+  },
+  beforeDestroy: function() {
+    //保存分类信息
+    this.$common.searchResult.classes = this.classes;
+    //保存搜索结果的书籍信息
+    this.$common.searchResult.books = this.books;
+    //保存书籍总数
+    this.$common.searchResult.booksNumber = this.booksNumber;
+    //搜索框是否有内容
+    this.$common.searchResult.isEmpty = this.isEmpty;
+    //保存这是第几次改变输入的搜索字符串
+    this.$common.searchResult.changeTimes = this.changeTimes;
+    //加载中
+    this.$common.searchResult.loading = this.loading;
+    //实时更新书籍数据是否busy
+    this.$common.searchResult.busy = this.busy;
+    //保存当前的url，判断书籍信息是热门分类还是搜索信息
+    this.$common.searchResult.nowUrl = this.nowUrl;
+    //当前的页码
+    this.$common.searchResult.nowPage = this.nowPage;
+    //搜索框的字符串,
+    this.$common.searchResult.searchStr = this.searchStr;
+    //总页码数
+    this.$common.searchResult.totalPages = this.totalPages;
+    //分类选择
+    this.$common.searchResult.claNo = this.claNo;
+    //是否被销毁过
+    this.$common.searchResult.beDestroyed = true;
   },
   components: {
     searchBox,

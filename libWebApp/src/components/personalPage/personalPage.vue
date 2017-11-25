@@ -6,7 +6,7 @@
          <books-scroller class="books_scroller" v-bind:books="nowBorrowBooks"></books-scroller>
      </div>
      <div class="one_scroller">
-         <h1 class="scroller_h1">我已借阅的{{histroyBooks.length}}本书</h1>
+         <h1 class="scroller_h1">曾经借阅的{{histroyBooks.length}}本书</h1>
          <books-scroller class="books_scroller" v-bind:books="histroyBooks"></books-scroller>
      </div>
      <div class="one_scroller" v-show="false">
