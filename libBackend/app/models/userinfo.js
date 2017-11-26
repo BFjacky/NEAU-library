@@ -24,6 +24,7 @@ const userinfoSchema = new Schema(
     pswd: String, // 图书馆密码
     IDCardNo: String, // 身份证号码
     loginBefore: Boolean, // 之前是否登陆成功过
+    libSessionId:String, //library cookie
   }, {
     timestamps: true,
     toJSON: { virtuals: true },

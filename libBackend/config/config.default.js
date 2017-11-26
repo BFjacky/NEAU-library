@@ -7,7 +7,7 @@ module.exports = appInfo => {
   config.keys = appInfo.name + '_1510039409271_4470';
 
   // add your middleware here
-  config.middleware = ['errorHandler', 'crossyv','dnxnToken'];
+  config.middleware = ['errorHandler', 'crossyv', 'dnxnToken', 'libCookie'];
 
   // ignore csrf
   config.security = {

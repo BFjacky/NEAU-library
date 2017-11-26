@@ -1,5 +1,5 @@
 module.exports = app => {
-  app.get('/api/', app.controller.home.index);
+  app.get('/api', app.controller.home.index);
 
   // 获得书籍关键词搜索结果   需要在后面加参数   如:?word=java&type=02&page=10
   app.get('/api/search/getSearchRes', app.controller.search.getSearchRes);
