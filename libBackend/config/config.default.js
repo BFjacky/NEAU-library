@@ -6,8 +6,8 @@ module.exports = appInfo => {
   // use for cookie sign key, should change to your own and keep security
   config.keys = appInfo.name + '_1510039409271_4470';
 
-  // add your config here
-  config.middleware = ['errorHandler', 'crossyv',];
+  // add your middleware here
+  config.middleware = ['errorHandler', 'crossyv','dnxnToken'];
 
   // ignore csrf
   config.security = {
@@ -27,4 +27,8 @@ module.exports = appInfo => {
   // test token
   config.testToken = 'thisIsATestTokenblabla~~~';
   return config;
+
+  //get token source url
+  config.token_account = 'https://account.xiaonei.io/user/get?aid=';
+  config.token_jwcxn = 'https://jwc.xiaonei.io/student/get?aid=';
 };

@@ -12,6 +12,7 @@ module.exports = function tryUsefulCookie(stuId, pswd, name) {
     try {
       stu.cookie = await getLoginCookie();
       const newStu = await trylogin(stu);
+      newStu.success = true;
       resolve(newStu);
     } catch (err) {
       // 如果是 用户名/密码错误 不需要进行下一步(验证姓名)
@@ -22,6 +23,7 @@ module.exports = function tryUsefulCookie(stuId, pswd, name) {
       }
       try {
         newStu = await checkName(stu);
+        newStu.success = true;
         resolve(newStu);
       } catch (err) {
         reject(err);
