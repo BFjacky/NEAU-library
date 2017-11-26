@@ -146,7 +146,6 @@ export default {
                 //是否被销毁过
                 beDestroyed: false,
             }
-
         };
     }
 }
