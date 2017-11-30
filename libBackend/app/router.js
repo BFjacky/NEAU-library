@@ -26,7 +26,7 @@ module.exports = app => {
   app.post('/api/update/all', app.controller.update.updateAll);
 
   // 根据学号一键续借 stuId=A01010101
-  app.post('/api/update/tryRenew',app.controller.update.tryRenew);
+  app.post('/api/update/tryRenew', app.controller.update.tryRenew);
 
   // 从数据库获得一个人的个人信息  需要在后面加参数   如?stuId=A19150346
   app.get('/api/fetch/grxx', app.controller.fetch.fetchGrxx);
@@ -45,4 +45,10 @@ module.exports = app => {
 
   // 从数据库中获得所有距离还书日期小于7天的书籍数据
   app.get('/api/analyse/getNeedBackBooks', app.controller.analyse.getNeedBackBooks);
+
+  // 重新绑定 学号，密码
+  app.post('/api/rebind', app.controller.user.rebind);
+
+  // 检查当前用户是否拥有一个合法的信息
+  app.get('/api/checkUser',app.controller.user.checkUser);
 };

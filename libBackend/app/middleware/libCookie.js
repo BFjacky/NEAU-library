@@ -1,3 +1,7 @@
+const axios = require('axios');
+const userinfo = require('../models/userinfo.js');
+const tryUsefulCookie = require('../crawler/tryUsefulCookie.js');
+
 //根据cookie获得用户信息
 const findUserByCookie = function (cookie) {
     return new Promise((resolve, reject) => {
@@ -19,6 +23,7 @@ const findUserByCookie = function (cookie) {
 
 module.exports = () => {
     return async function (ctx, next) {
+        console.log('进入了libCookie中间件')
         const cookie = ctx.cookies.get('libSessionId');
         let res = await findUserByCookie(ctx.cookies.get('libSessionId'));
         //如果res[0].pswd 为空,则使用身份证后六位为密码

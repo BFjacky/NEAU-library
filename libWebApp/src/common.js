@@ -42,6 +42,12 @@ export default {
             //图书馆书籍暂无封面path
             bookNoCoverPath: "/m/mopac/inner/images/no-book.jpg",
 
+            //重新绑定账号的url
+            rebindUrl: "/api/api/rebind",
+
+            //重新绑定账号的url
+            checkUserUrl: "/api/api/checkUser",
+
             //测试用个人信息
             person: {
                 stuId: 'A02150273',

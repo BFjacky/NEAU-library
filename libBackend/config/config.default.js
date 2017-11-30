@@ -9,6 +9,26 @@ module.exports = appInfo => {
   // add your middleware here
   config.middleware = ['errorHandler', 'crossyv', 'dnxnToken', 'libCookie'];
 
+  // control the middleware switch
+  config.dnxnToken = {
+    match: '/api/checkUser/',
+  }
+  config.libCookie = {
+    ignore: function (ctx) {
+      /**
+       * 忽略两个路由，
+       * /api/rebind
+       * /api/checkUser
+       */
+      if (ctx.url === '/api/rebind' || ctx.url === '/api/checkUser') {
+        return true;
+      } else {
+        return false;
+      }
+    }
+    //'/api/checkUser/',
+  }
+
   // ignore csrf
   config.security = {
     csrf: {

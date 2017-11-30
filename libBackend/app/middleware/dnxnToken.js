@@ -115,6 +115,7 @@ const randomString = function () {
 module.exports = () => {
     const self = this;
     return async function (ctx, next) {
+        console.log('进入了dnxnToken');
         //--------------------------------以下仅在用户从小程序跳转到 图书馆时进行，图书馆内部跳转请求，不经过这个地方------------------
         /**
          * 获得请求中的cookie
@@ -260,7 +261,7 @@ module.exports = () => {
                 return;
             }
         }
-        console.log('fail')
+        console.log('自助登陆失败')
         //无法获得用户信息，跳转到登录界面，从新绑定
         ctx.body = { userLogin: false };
         return;

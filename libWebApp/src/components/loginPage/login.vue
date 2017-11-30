@@ -3,10 +3,10 @@
   <div class="search_page">
       <div class="search_page_header"></div>
       <div class="search_page_main">
-        <div class="search_title" >登陆图书馆</div>
-        <input type='text' class="login_input" placeholder=" 学号">
-        <input type='password' class="login_input" placeholder="密码(默认为身份证后6位)">
-        <input type='text' class="login_input" placeholder="姓名">
+        <input type='text' class="login_input" placeholder="学号" v-model="account">
+        <input type='password' class="login_input" placeholder="密码(默认为身份证后6位)" v-model="password">
+        <input type='text' class="login_input" placeholder="姓名" v-model="name">
+          <div class="search_title" v-on:click="confirm">确认绑定</div>
         <img class="books_img" src="../../assets/bookBackground.png">
         <img class="jser_logo" src="../../assets/JSER.png">
       </div>
@@ -14,11 +14,73 @@
   </div>
 </template>
 <script>
+const axios = require("axios");
+
 export default {
   data: function() {
-    return {};
+    return {
+      account: "A19150185",
+      password: "203312",
+      name: ""
+    };
   },
-  methods: {},
+  created: async function() {
+    //页面初建时帮助用户自助登陆
+    /**@augments
+     * ?????如何在前端页面接受 dnxn的token，然后由前端转发给后端
+     */
+    let login_res = await axios({
+      url: this.$common.checkUserUrl,
+      method: "get"
+    });
+    console.log(login_res);
+  },
+  methods: {
+    confirm: async function() {
+      //toast_time 显示时间
+      const toast_time = 1000;
+
+      console.log(this.account, this.password, this.name);
+      //loading 框显示出来
+      this.$vux.loading.show({
+        text: "正在绑定",
+        isShowMask: true
+      });
+      let result = await axios({
+        method: "post",
+        data: {
+          stuId: this.account,
+          pswd: this.password,
+          name: this.name
+        },
+        url: this.$common.rebindUrl
+      });
+      if (result.data.success) {
+        //绑定成功
+        this.$vux.loading.hide();
+        this.$vux.toast.show({
+          text: "绑定成功",
+          type: "success",
+          isShowMask: true,
+          time: toast_time
+        });
+        //绑定成功，主动跳转至searchPage主页面
+        setTimeout(() => {
+          this.$router.push({ name: "searchPage" });
+        }, toast_time);
+      } else {
+        //绑定失败
+        this.$vux.loading.hide();
+        this.$vux.toast.show({
+          text: result.data.err.msg,
+          type: "cancel",
+          isShowMask: true,
+          time: toast_time
+        });
+      }
+      console.log(result.data);
+    }
+  },
   components: {}
 };
 </script>
@@ -30,32 +92,39 @@ div {
 .search_title {
   z-index: 100;
   position: relative;
-  text-align: center;
+  text-align: right;
   left: 50%;
-  width: 90%;
+  width: 60%;
   transform: translateX(-50%);
-  top: 93px;
-  font-size: 30px;
+  top: 23%;
+  font-size: 120%;
   font-weight: bold;
   color: white;
   letter-spacing: 2px;
 }
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder {
+  /* WebKit*/
+  color: #efefef;
+  font-size: 90%;
+}
 .login_input {
   position: relative;
-  border: 1px solid greenyellow;
-  background-color: rgba(f, f, f, 0.5);
-  border-radius: 10px;
+  border-width: 0px;
+  border-bottom: 1px solid white;
+  background-color: transparent;
   left: 50%;
   transform: translateX(-50%);
-  width: 70%;
+  width: 60%;
   height: 6%;
   z-index: 100;
   top: 100px;
-  margin-top:10%;
+  margin-top: 7%;
   outline: none;
-  font-size:130%;
-  padding-left:10px;
-  padding-right:10px;
+  font-size: 120%;
+  padding-left: 0px;
+  padding-right: 0px;
+  color: #ffffff;
 }
 .books_img {
   width: 160%;
