@@ -15,6 +15,8 @@
 </template>
 <script>
 const axios = require("axios");
+//toast_time 显示时间
+const toast_time = 1000;
 
 export default {
   data: function() {
@@ -29,17 +31,32 @@ export default {
     /**@augments
      * ?????如何在前端页面接受 dnxn的token，然后由前端转发给后端
      */
+    this.$vux.loading.show({
+      text: "自助登陆中..."
+    });
     let login_res = await axios({
       url: this.$common.checkUserUrl,
       method: "get"
     });
-    console.log(login_res);
+    this.$vux.loading.hide();
+    if (login_res.data.userLogin) {
+      this.$vux.toast.show({
+        text: "登陆成功",
+        time: toast_time
+      });
+      setTimeout(() => {
+        this.$router.push({ name: "searchPage" });
+      }, toast_time);
+    } else {
+      this.$vux.toast.show({
+        text: "登陆失败,请重新绑定信息",
+        time: 2000,
+        type: warn
+      });
+    }
   },
   methods: {
     confirm: async function() {
-      //toast_time 显示时间
-      const toast_time = 1000;
-
       console.log(this.account, this.password, this.name);
       //loading 框显示出来
       this.$vux.loading.show({

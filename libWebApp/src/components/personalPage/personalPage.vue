@@ -1,9 +1,10 @@
 <template>
   <div class="personalPage">
      <div class="one_scroller">
-         <h1 class="scroller_h1">正在阅读的{{nowBorrowBooks.length}}本书</h1>
+         <h1 class="scroller_h1" v-show="nowBorrowBooks.length>0">正在阅读的{{nowBorrowBooks.length}}本书</h1>
+         <h1 class="scroller_h2" v-show="nowBorrowBooks.length===0">没有正在阅读的书籍哦，赶快去找几本书看看吧~</h1>
          <div class="btn_text" v-on:click="tryRenew" v-show="warn_numbers>0">你有{{warn_numbers}}本书即将到期,点我一键续借 > > ></div> 
-         <books-scroller class="books_scroller" v-bind:books="nowBorrowBooks"></books-scroller>
+         <books-scroller class="books_scroller" v-bind:books="nowBorrowBooks" v-show="nowBorrowBooks.length>0"></books-scroller>
      </div>
      <div class="one_scroller">
          <h1 class="scroller_h1">曾经借阅的{{histroyBooks.length}}本书</h1>
@@ -69,53 +70,66 @@ export default {
     }
   },
   created: async function() {
-    //弹出加载框
-    this.$vux.loading.show({
-      text: "搬运数据中...",
-      time: 10000000
-    });
+    let nowBorrow_res;
+    let hisBorrow_res;
 
-    let self = this;
-    /**@augments
+    //快速恢复到原来的页面
+    if (this.$common.personalPage.beDestroyed) {
+      this.warn_numbers = this.$common.personalPage.warn_numbers;
+      this.nowBorrowBooks = this.$common.personalPage.nowBorrowBooks;
+      this.histroyBooks = this.$common.personalPage.histroyBooks;
+      this.collectBooks = this.$common.personalPage.collectBooks;
+      nowBorrow_res = this.nowBorrowBooks;
+      hisBorrow_res = this.hisBorrow_res;
+    } else {
+      //弹出加载框
+      this.$vux.loading.show({
+        text: "搬运数据中...",
+        time: 10000000
+      });
+
+      let self = this;
+      /**@augments
      * 发出更新指令
      * 获取最新信息
      */
-    let update_res = await axios({
-      method: "post",
-      url: this.$common.updateAll,
-      data: {
-        stuId: this.$common.person.stuId,
-        pswd: this.$common.person.pswd
+      let update_res = await axios({
+        method: "post",
+        url: this.$common.updateAll,
+        data: {
+          stuId: this.$common.person.stuId,
+          pswd: this.$common.person.pswd
+        }
+      });
+
+      //更新失败
+      if (!update_res.data.success) {
+        console.log("更新失败:", update_res.data.message);
+        this.$vux.loading.hide();
+        return;
       }
-    });
 
-    //更新失败
-    if (!update_res.data.success) {
-      console.log("更新失败:", update_res.data.message);
-      this.$vux.loading.hide();
-      return;
-    }
-
-    /**@augments
+      /**@augments
      * 更新成功：
      * 获取当前节约
      * 获取历史借阅
      */
-    let nowBorrow_res = await axios({
-      method: "get",
-      url: this.$common.nowBorrow,
-      params: {
-        stuId: this.$common.person.stuId
-      }
-    });
-    let hisBorrow_res = await axios({
-      method: "get",
-      url: this.$common.hisBorrow,
-      params: {
-        stuId: this.$common.person.stuId
-      }
-    });
-    this.$vux.loading.hide();
+      nowBorrow_res = await axios({
+        method: "get",
+        url: this.$common.nowBorrow,
+        params: {
+          stuId: this.$common.person.stuId
+        }
+      });
+      hisBorrow_res = await axios({
+        method: "get",
+        url: this.$common.hisBorrow,
+        params: {
+          stuId: this.$common.person.stuId
+        }
+      });
+      this.$vux.loading.hide();
+    }
 
     //获得即将到期的图书数量
     for (let i = 0; i < nowBorrow_res.data.length; i++) {
@@ -142,6 +156,15 @@ export default {
 
     this.nowBorrowBooks = nowBorrow_res.data;
     this.histroyBooks = hisBorrow_res.data;
+  },
+
+  beforeDestroy: function() {
+    //保存personalPage信息
+    this.$common.personalPage.warn_numbers = this.warn_numbers;
+    this.$common.personalPage.nowBorrowBooks = this.nowBorrowBooks;
+    this.$common.personalPage.histroyBooks = this.histroyBooks;
+    this.$common.personalPage.collectBooks = this.collectBooks;
+    this.$common.personalPage.beDestroyed = true;
   }
 };
 </script>
@@ -159,6 +182,12 @@ div {
 }
 .scroller_h1 {
   font-size: 30px;
+  padding-left: 25px;
+  margin: 0;
+  letter-spacing: 3px;
+}
+.scroller_h2 {
+  font-size: 20px;
   padding-left: 25px;
   margin: 0;
   letter-spacing: 3px;

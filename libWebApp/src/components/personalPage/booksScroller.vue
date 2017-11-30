@@ -1,7 +1,7 @@
 <template>
     <div class="parent_container">
         <div class="book_scroller">
-            <div class="one_book" v-for="book in myBooks" :key="book.key">
+            <div class="one_book" v-for="book in myBooks" @click="gotoBookDetail(book)" :key="book.key">
                 <img class="book_img" v-bind:src="book.imgUrl">
                 <div class="book_bottom_mask" v-show="book.warn">即将到期</div>
                 <span class="book_name" >{{book.bookName}}</span>
@@ -16,6 +16,16 @@ export default {
     return {
       myBooks: []
     };
+  },
+  methods: {
+    gotoBookDetail: function(book) {
+      this.$router.push({
+        name: "bookDetail",
+        params: {
+          book: book
+        }
+      });
+    }
   },
   watch: {
     books: async function() {

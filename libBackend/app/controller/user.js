@@ -9,7 +9,6 @@ module.exports = app => {
             this.ctx.body = res;
         }
         async checkUser(ctx) {
-            console.log('/api/checkuser');
             //如果通过了dnxnToken中间件到达了controller，则说明该用户信息正确
             this.ctx.body = { userLogin: true };
         }

@@ -50,9 +50,9 @@ export default {
 
             //测试用个人信息
             person: {
-                stuId: 'A02150273',
-                pswd: '213363',
-                name: '陈云飞',
+                stuId: '',
+                pswd: '',
+                name: '',
             },
 
             //书籍即将到期的期限 7天
@@ -151,6 +151,9 @@ export default {
                 claNo: "",
                 //是否被销毁过
                 beDestroyed: false,
+            },
+            //保存personalPage中的变量
+            personalPage: {
             }
         };
     }

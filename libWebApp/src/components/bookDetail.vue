@@ -99,7 +99,7 @@ div {
   margin-right: 16px;
 }
 .book_icon {
-  border: 1px solid black;
+  border: 0px solid black;
   width: 70px;
   height: 98px;
 }
