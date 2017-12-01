@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-  <transition name="bounce">
+  <transition v-bind:name="transitionName">
     <router-view/>
   </transition>
   </div>
@@ -9,8 +9,21 @@
 <script>
 export default {
   name: "app",
+  data: function() {
+    return {
+      isback: false,
+      transitionName: "forwardMov"
+    };
+  },
   watch: {
     $route: function() {
+      //监听每次路由的变换是是否为后退
+      this.isback = this.$common.isBackUrl(this.$route.name);
+      if (this.isback) {
+        this.transitionName = "backMov";
+      } else {
+        this.transitionName = "forwardMov";
+      }
       //每当路由变化时都要隐藏掉loading 组件
       this.$vux.loading.hide();
     }
@@ -34,13 +47,15 @@ html {
   padding: 0;
   overflow-x: hidden;
 }
-.bounce-enter-active {
-  animation: bounce-in 0.2s;
+.forwardMov-enter-active {
+  animation: forwardMov-in 0.2s;
+  position: absolute;
 }
-.bounce-leave-active {
-  animation: bounce-out 0.2s;
+.forwardMov-leave-active {
+  animation: forwardMov-out 0.2s;
+  position: absolute;
 }
-@keyframes bounce-in {
+@keyframes forwardMov-in {
   0% {
     transform: translateX(100%);
     opacity: 0;
@@ -54,7 +69,7 @@ html {
     opacity: 1;
   }
 }
-@keyframes bounce-out {
+@keyframes forwardMov-out {
   0% {
     transform: translateX(0%);
     opacity: 1;
@@ -65,6 +80,43 @@ html {
   }
   100% {
     transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+
+.backMov-enter-active {
+  animation: backMov-in 0.2s;
+  position: absolute;
+}
+.backMov-leave-active {
+  animation: backMov-out 0.2s;
+  position: absolute;
+}
+@keyframes backMov-in {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  50% {
+    transform: translateX(-50%);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateX(0%);
+    opacity: 1;
+  }
+}
+@keyframes backMov-out {
+  0% {
+    transform: translateX(0%);
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(50%);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateX(100%);
     opacity: 0;
   }
 }

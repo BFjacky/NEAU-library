@@ -3,8 +3,8 @@
         <div class="book_scroller">
             <div class="one_book" v-for="book in myBooks" @click="gotoBookDetail(book)" :key="book.key">
                 <img class="book_img" v-bind:src="book.imgUrl">
+                <div class="book_name" >{{book.bookName}}</div>
                 <div class="book_bottom_mask" v-show="book.warn">即将到期</div>
-                <span class="book_name" >{{book.bookName}}</span>
             </div>
         </div>
     </div>
@@ -19,6 +19,17 @@ export default {
   },
   methods: {
     gotoBookDetail: function(book) {
+      const _this = this;
+      if (book.name === "查看更多") {
+        console.log("跳转至查看更多界面吧!");
+        this.$router.push({
+          name: "bookMorePage",
+          params: {
+            books: _this.books
+          }
+        });
+        return;
+      }
       this.$router.push({
         name: "bookDetail",
         params: {
@@ -29,15 +40,31 @@ export default {
   },
   watch: {
     books: async function() {
-      for (let i = 0; i < this.books.length; i++) {
-        this.books[i].imgUrl = await this.$common.getbookImgUrl(
-          this.books[i].bookId
+      //只取前五本书
+      let cover_books = [];
+      if (this.books.length >= 5) {
+        cover_books = this.books.slice(0, 5);
+      } else {
+        cover_books = this.books.slice(0, this.books.length);
+      }
+      console.log(cover_books.length);
+      for (let i = 0; i < cover_books.length; i++) {
+        cover_books[i].imgUrl = await this.$common.getbookImgUrl(
+          cover_books[i].bookId
         );
         //如果要监听myBooks的变化，则需要从引用上改变，而不是改变this.books
         this.myBooks = [];
-        this.myBooks = this.books;
+        this.myBooks = cover_books;
       }
-      this.myBooks = this.books;
+
+      //如果书籍总数大于五本，为cover_books数组添加上查看更多的按键
+      if (this.books.length > 5) {
+        cover_books[cover_books.length] = {
+          name: "查看更多"
+        };
+      }
+
+      this.myBooks = cover_books;
     }
   },
   created: async function() {}
@@ -73,7 +100,7 @@ div {
   height: 32px;
   background-color: #e95628;
   position: relative;
-  bottom: 36px;
+  bottom: 86px;
   opacity: 1;
   color: white;
   font-size: 12px;
@@ -82,10 +109,10 @@ div {
   letter-spacing: 1px;
 }
 .book_name {
-  margin-top: 10px;
   color: #555555;
   font-size: 12px;
   overflow: hidden;
+  height: 50px;
   text-overflow: ellipsis;
 }
 .parent_container {

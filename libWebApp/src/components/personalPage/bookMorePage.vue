@@ -1,19 +1,22 @@
 <template>
   <div class="booksResult">
-    <div class="book_number" >共搜索到{{number}}本馆藏</div>
+    <div class="book_number" >{{title}}</div>
       <div class="books_item" v-for="book in books" v-bind:key="book.number" v-on:click="gotoBookDetail(book)">
           <div class="book_title">{{book.bookName}}</div>
-          <div class="book_detail">{{book.author}}{{book.holding}}</div>
-          <img class="moreInfo_icon" src="../../assets/asset1.png">
+          <div class="book_detail">{{book.borrowDate}}&nbsp&nbsp&nbsp&nbsp{{book.returnDate}}</div>
+          <div class="book_detail">{{book.bookPlace}}</div>
           <div class="book_devide_line"></div>
       </div>
   </div>
 </template>
 <script>
 export default {
-  props: ["books", "number"],
   data: function() {
-    return {};
+    return {
+      books: [],
+      number: 0,
+      title: ""
+    };
   },
   methods: {
     gotoBookDetail: function(book) {
@@ -26,7 +29,13 @@ export default {
     }
   },
   created: function() {
-    console.log(this.books);
+    this.books = this.$route.params.books;
+    this.number = this.books.length;
+    if (this.books[0].returnDate != "") {
+      this.title = "历史借阅信息";
+    } else {
+      this.title = "当前借阅信息";
+    }
   }
 };
 </script>
@@ -38,12 +47,15 @@ div {
 .booksResult {
   width: 90%;
   height: 100%;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
 }
 .book_number {
-  text-align: right;
+  text-align: left;
   width: 100%;
   height: 16px;
-  font-size: 12px;
+  font-size: 16px;
   color: #cbcbcb;
   margin-top: 12px;
 }
@@ -52,7 +64,7 @@ div {
   width: 100%;
 }
 .book_title {
-  width: 283px;
+  width: 100%;
   height: 28.5px;
   font-size: 20px;
   line-height: 28.5px;
@@ -64,8 +76,7 @@ div {
 }
 .book_detail {
   margin-top: 2px;
-  width: 283px;
-  height: 34px;
+  width: 100%;
   font-size: 12px;
   padding: 0;
   color: #aaaaaa;

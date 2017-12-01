@@ -39,7 +39,7 @@ export default {
       text: "搬运数据中...",
       time: 10000000
     });
-
+    console.log(this.$route.params);
     let bookId = this.$route.params.book.bookId;
 
     //从字符串中提取出bookId

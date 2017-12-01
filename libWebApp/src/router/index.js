@@ -10,6 +10,7 @@ import personalPage from '@/components/personalPage/personalPage'
 import classBookDetail from '@/components/searchPageContent/classBookDetail'
 import infiniteScroll from 'vue-infinite-scroll'
 import loginPage from '@/components/loginPage/login'
+import bookMorePage from '@/components/personalPage/bookMorePage'
 import { LoadingPlugin, ToastPlugin } from 'vux'
 Vue.use(LoadingPlugin)
 Vue.use(ToastPlugin)
@@ -20,38 +21,39 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name:'loginPage',
-      component:loginPage,
+      name: 'loginPage',
+      component: loginPage,
+      index: 0,
     },
     {
       path: '/searchPage',
       name: 'searchPage',
-      component: searchPage
+      component: searchPage,
+      index: 1,
     },
     {
       path: '/searchResult',
       name: 'searchResult',
-      component: searchResult
+      component: searchResult,
+      index: 2,
     },
     {
       path: '/bookDetail',
       name: 'bookDetail',
-      component: bookDetail
-    },
-    {
-      path: '/booksScroller',
-      name: 'booksScroller',
-      component: booksScroller
-    },
-    {
-      path: '/classBookDetail',
-      name: 'classBookDetail',
-      component: classBookDetail
+      component: bookDetail,
+      index: 3,
     },
     {
       path: '/personalPage',
       name: 'personalPage',
-      component: personalPage
+      component: personalPage,
+      index: 1,
     },
+    {
+      path: '/bookMorePage',
+      name: 'bookMorePage',
+      component: bookMorePage,
+      index: 2,
+    }
   ]
 })

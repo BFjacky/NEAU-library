@@ -184,7 +184,7 @@ div {
   color: #e95628;
   font-size: 12px;
   padding-left: 25px;
-  margin-top: 5px;
+  margin-top: 15px;
 }
 .books_scroller {
   margin-top: 28px;

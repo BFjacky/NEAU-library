@@ -37,7 +37,7 @@ module.exports = app => {
   // 从数据库获得一个人的当前借阅  需要在后面加参数   如?stuId=A19150346
   app.get('/api/fetch/nowBorrow', app.controller.fetch.fetchNowBorrow);
 
-  // 将数据库中所有同学的总借阅数量排名，并将排名结果保存到一个新table中（此操作耗时！）
+  // 将数据库中所有同学的总借阅数量排名，并将排名结Place果保存到一个新table中（此操作耗时！）
   app.get('/api/analyse/rankTotalBooks', app.controller.analyse.rankTotalBooks);
 
   // 从数据库中获得一个人的总借书量排名 需要在后面加参数 如?stuId=A19150185

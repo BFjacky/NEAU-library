@@ -121,6 +121,37 @@ export default {
             },
 
 
+
+            //跟据当前路由检查该页面是回退的还是前进
+            urlName: {
+                loginPage: 0,
+                searchPage: 1,
+                searchResult: 2,
+                bookDetail: 3,
+                personalPage: 1,
+                bookMorePage: 2,
+                beforeUrl: '',
+            },
+            /**
+             * 回退路由返回true，
+             * 前进路由返回false，
+             */
+            isBackUrl: function (myUrlName) {
+                if (this.urlName.beforeUrl === '') {
+                    this.urlName.beforeUrl = myUrlName;
+                    return false;
+                }
+                let beforeUrlName = this.urlName.beforeUrl;
+                if (this.urlName[myUrlName] <= this.urlName[beforeUrlName]) {
+                    this.urlName.beforeUrl = myUrlName;
+                    return true;
+                }
+
+                this.urlName.beforeUrl = myUrlName;
+                return false;
+            },
+
+
             //变量---------------------------------------------------------------------------------------------------
 
             //保存searchResult中的变量
@@ -152,6 +183,7 @@ export default {
                 //是否被销毁过
                 beDestroyed: false,
             },
+            
             //保存personalPage中的变量
             personalPage: {
             }
