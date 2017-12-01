@@ -49,7 +49,7 @@ div {
   width: 91%;
 }
 .search_remind_icon {
-  width: 18px;
+  width: 15px;
   height: 18px;
 }
 .search_remind_title {

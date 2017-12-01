@@ -45,7 +45,7 @@ export default {
         time: toast_time
       });
       setTimeout(() => {
-        this.$router.push({ name: "searchPage" });
+       // this.$router.push({ name: "searchPage" });
       }, toast_time);
     } else {
       this.$vux.toast.show({

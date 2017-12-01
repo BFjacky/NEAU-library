@@ -62,13 +62,13 @@ div {
 .book_img {
   box-sizing: border-box;
   border: 1px solid black;
-  border-radius: 20px;
+  border-radius: 16px;
   width: 119px;
   height: 168px;
 }
 .book_bottom_mask {
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
   width: 119px;
   height: 32px;
   background-color: #e95628;

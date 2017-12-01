@@ -100,6 +100,11 @@ module.exports = app => {
       }
       ctx.body = res;
     }
+    //获取图书封面
+    async getBookImgs(ctx) {
+      //books 为['bookid_1','bookid_2']
+      const books = ctx.query.books;
+    }
   }
   return UpdateController;
 };

@@ -50,5 +50,12 @@ module.exports = app => {
   app.post('/api/rebind', app.controller.user.rebind);
 
   // 检查当前用户是否拥有一个合法的信息
-  app.get('/api/checkUser',app.controller.user.checkUser);
+  app.get('/api/checkUser', app.controller.user.checkUser);
+
+  /**
+   * 获取一些书的封面地址
+   * 参数：1.包含很多bookid的数组
+   * 响应：1.包含很多{bookid:'',imgUrl:''}的一个数组
+   */
+  app.get('/api/getBookImgs', app.controller.update.getBookImgs);
 };

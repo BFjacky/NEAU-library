@@ -32,7 +32,7 @@ div {
 }
 .search_remind {
   position: relative;
-  margin-top: 3%;
+  margin-top: 20px;
   left: 50%;
   transform: translateX(-50%);
 }

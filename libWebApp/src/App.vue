@@ -35,20 +35,37 @@ html {
   overflow-x: hidden;
 }
 .bounce-enter-active {
-  animation: bounce-in 0.5s;
+  animation: bounce-in 0.2s;
 }
 .bounce-leave-active {
-  animation: bounce-in 0.2s reverse;
+  animation: bounce-out 0.2s;
 }
 @keyframes bounce-in {
   0% {
-    transform: scale(0);
+    transform: translateX(100%);
+    opacity: 0;
   }
   50% {
-    transform: scale(0.5);
+    transform: translateX(50%);
+    opacity: 0.5;
   }
   100% {
-    transform: scale(1);
+    transform: translateX(0%);
+    opacity: 1;
+  }
+}
+@keyframes bounce-out {
+  0% {
+    transform: translateX(0%);
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(-50%);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateX(-100%);
+    opacity: 0;
   }
 }
 </style>
