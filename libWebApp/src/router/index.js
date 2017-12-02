@@ -16,8 +16,17 @@ Vue.use(LoadingPlugin)
 Vue.use(ToastPlugin)
 Vue.use(Router)
 Vue.use(infiniteScroll)
-
+const scrollBehavior = (to, from, savedPosition) => {
+  if (savedPosition) {
+    return savedPosition
+  } else {
+    return { x: 0, y: 0 }
+  }
+}
 export default new Router({
+  mode: 'history',
+  scrollBehavior,
+  savescrollPosition: true,
   routes: [
     {
       path: '/',

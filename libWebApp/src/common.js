@@ -58,6 +58,14 @@ export default {
             //书籍即将到期的期限 7天
             warn_days: 7,
 
+            //bookMorePageInfo
+            bookMorePageInfo: {
+                books: [],
+                number: 0,
+                title: '',
+            },
+
+
 
             //方法---------------------------------------------------------------------------------------------------
 
@@ -127,9 +135,9 @@ export default {
                 loginPage: 0,
                 searchPage: 1,
                 searchResult: 2,
-                bookDetail: 3,
-                personalPage: 1,
-                bookMorePage: 2,
+                bookDetail: 4,
+                personalPage: 2,
+                bookMorePage: 3,
                 beforeUrl: '',
             },
             /**
@@ -183,7 +191,7 @@ export default {
                 //是否被销毁过
                 beDestroyed: false,
             },
-            
+
             //保存personalPage中的变量
             personalPage: {
             }

@@ -29,6 +29,14 @@ export default {
     }
   },
   created: function() {
+    //回退路由this.$route.params 为 {};使用以前保存的数据
+    if (this.$route.params.books == undefined) {
+      this.books = this.$common.bookMorePageInfo.books;
+      this.title = this.$common.bookMorePageInfo.title;
+      this.number = this.$common.bookMorePageInfo.number;
+      return;
+    }
+
     this.books = this.$route.params.books;
     this.number = this.books.length;
     if (this.books[0].returnDate != "") {
@@ -36,6 +44,11 @@ export default {
     } else {
       this.title = "当前借阅信息";
     }
+  },
+  beforeDestroy: function() {
+    this.$common.bookMorePageInfo.books = this.books;
+    this.$common.bookMorePageInfo.title = this.title;
+    this.$common.bookMorePageInfo.number = this.number;
   }
 };
 </script>

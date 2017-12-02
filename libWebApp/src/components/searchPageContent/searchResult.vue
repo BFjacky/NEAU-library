@@ -3,7 +3,7 @@
   <div class="search_result">
       <search-box class="search_box" v-on:search="doSearch" v-bind:searchStrFromFather = "searchStr"></search-box>
       <search-remind class="search_remind" v-bind:classes="classes" v-show="isEmpty" v-on:goinClass="goinClass"></search-remind>
-      <books-result v-bind:books="books" v-bind:number="booksNumber" class="show_searchBooks"  v-show="!isEmpty" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="700"></books-result>
+      <books-result v-bind:books="books" v-bind:number="booksNumber" class="show_searchBooks"  v-show="!isEmpty" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="1400"></books-result>
   </div>
 </template>
 <style scoped>
@@ -81,12 +81,18 @@ export default {
       //总页码数
       totalPages: 0,
       //分类选择
-      claNo: ""
+      claNo: "",
+      //路由回退，搜索框重新赋值为原先的搜索内容，不进行搜索标志
+      shouldSearch: true
     };
   },
   methods: {
     //接受了搜索事件
     doSearch: async function(searchStr) {
+      if (!this.shouldSearch) {
+        this.shouldSearch = true;
+        return;
+      }
       //重置信息
       this.nowUrl = this.$common.searchBookUrl;
       this.nowPage = 1;
@@ -267,6 +273,8 @@ export default {
   created: async function() {
     //如果为回退路由，则从保存的数据中读取出来
     if (this.$common.searchResult.beDestroyed) {
+      //不应该搜索
+      this.shouldSearch = false;
       //保存分类信息
       this.classes = this.$common.searchResult.classes;
       //保存搜索结果的书籍信息
@@ -291,7 +299,6 @@ export default {
       this.totalPages = this.$common.searchResult.totalPages;
       //分类选择
       this.claNo = this.$common.searchResult.claNo;
-
       return;
     }
 
