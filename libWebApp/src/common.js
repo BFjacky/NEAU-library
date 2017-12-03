@@ -4,34 +4,33 @@ export default {
     install(Vue, options) {
         Vue.prototype.$common = {
             //常量---------------------------------------------------------------------------------------------------
-
-
+            
             //主机地址
             host: "http://127.0.0.1:7001",
 
             //搜索书籍详细信息的url
-            bookDetailUrl: "/api/api/search/getBookDetail",
+            bookDetailUrl: "/api/search/getBookDetail",
 
             //书籍分类信息的url
-            classUrl: "/api/api/search/getTopLendClass",
+            classUrl: "/api/search/getTopLendClass",
 
             //搜索书籍的url
-            searchBookUrl: "/api/api/search/getSearchRes",
+            searchBookUrl: "/api/search/getSearchRes",
 
             //获得分类详细信息的url
-            classDetailUrl: "/api/api/search/getTopLendDetail",
+            classDetailUrl: "/api/search/getTopLendDetail",
 
             //获取当前借阅的url
-            nowBorrow: "/api/api/fetch/nowBorrow",
+            nowBorrow: "/api/fetch/nowBorrow",
 
             //获取历史借阅的url
-            hisBorrow: "/api/api/fetch/hisBooks",
+            hisBorrow: "/api/fetch/hisBooks",
 
             //更新全部个人信息的url
-            updateAll: "/api/api/update/all",
+            updateAll: "/api/update/all",
 
             //续借请求的url
-            renewUrl: "/api/api/update/tryRenew",
+            renewUrl: "/api/update/tryRenew",
 
             //图书馆主机名称（imgurl前缀）
             libHost: "http://opac.lib.neau.edu.cn",
@@ -43,10 +42,10 @@ export default {
             bookNoCoverPath: "/m/mopac/inner/images/no-book.jpg",
 
             //重新绑定账号的url
-            rebindUrl: "/api/api/rebind",
+            rebindUrl: "/api/rebind",
 
             //重新绑定账号的url
-            checkUserUrl: "/api/api/checkUser",
+            checkUserUrl: "/api/checkUser",
 
             //测试用个人信息
             person: {
@@ -164,6 +163,8 @@ export default {
 
             //保存searchResult中的变量
             searchResult: {
+                //滚动条位置
+                myScrollTop: 0,
                 //保存分类信息
                 classes: [],
                 //保存搜索结果的书籍信息

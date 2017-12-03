@@ -175,7 +175,7 @@ div {
   letter-spacing: 3px;
 }
 .scroller_h2 {
-  font-size: 20px;
+  font-size: 30px;
   padding-left: 25px;
   margin: 0;
   letter-spacing: 3px;

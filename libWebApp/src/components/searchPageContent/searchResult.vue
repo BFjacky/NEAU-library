@@ -51,7 +51,7 @@ import searchBox from "./searchBox";
 import searchRemind from "./searchRemind";
 import booksResult from "./booksResult";
 import axios from "axios";
-
+import $ from "jquery";
 //当前搜索的关键词
 let search_keyWord;
 
@@ -299,6 +299,7 @@ export default {
       this.totalPages = this.$common.searchResult.totalPages;
       //分类选择
       this.claNo = this.$common.searchResult.claNo;
+
       return;
     }
 
@@ -313,7 +314,15 @@ export default {
     }
     this.classes = classes;
   },
+  mounted:function(){
+    //恢复滚动条位置
+      console.log("before:" + this.$common.searchResult.myScrollTop);
+      console.log($(".show_searchBooks"));
+      $(".show_searchBooks").scrollTop(this.$common.searchResult.myScrollTop);
+  },
   beforeDestroy: function() {
+    //保存滚动条位置
+    this.$common.searchResult.myScrollTop = $(".show_searchBooks").scrollTop();
     //保存分类信息
     this.$common.searchResult.classes = this.classes;
     //保存搜索结果的书籍信息
@@ -340,6 +349,9 @@ export default {
     this.$common.searchResult.claNo = this.claNo;
     //是否被销毁过
     this.$common.searchResult.beDestroyed = true;
+  },
+  watch:{
+ 
   },
   components: {
     searchBox,

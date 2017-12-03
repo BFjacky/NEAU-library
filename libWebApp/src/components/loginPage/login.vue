@@ -21,8 +21,8 @@ const toast_time = 1000;
 export default {
   data: function() {
     return {
-      account: "A19150185",
-      password: "203312",
+      account: "",
+      password: "",
       name: ""
     };
   },
@@ -45,7 +45,7 @@ export default {
         time: toast_time
       });
       setTimeout(() => {
-       // this.$router.push({ name: "searchPage" });
+        this.$router.push({ name: "searchPage" });
       }, toast_time);
     } else {
       this.$vux.toast.show({

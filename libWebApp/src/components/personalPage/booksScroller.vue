@@ -5,23 +5,39 @@
                 <img class="book_img" v-bind:src="book.imgUrl">
                 <div class="book_name" >{{book.bookName}}</div>
                 <div class="book_bottom_mask" v-show="book.warn">即将到期</div>
+                <div class="book_info" v-show="isNowBorrow">{{book.borrowDate}}</div>
+                <div class="book_info" v-show="isNowBorrow">{{book.lawBackDate}}</div>
             </div>
         </div>
     </div>
 </template>
 <script>
+//格式化：借书日字符串
+const parseStr = function(str) {
+  let patt1 = /借书日/g;
+  let patt2 = /应还日/g;
+  let patt3 = /\d\d\d\d-\d\d-\d\d/g;
+  let strPrefix = str.match(patt1);
+  if (strPrefix == null) {
+    //如果为 应还日
+    strPrefix = str.match(patt2);
+  }
+  strPrefix = strPrefix[0];
+  let strSuffix = str.match(patt3)[0];
+  return strPrefix + ": " + strSuffix;
+};
 export default {
   props: ["books"],
   data: function() {
     return {
-      myBooks: []
+      myBooks: [],
+      isNowBorrow: false
     };
   },
   methods: {
     gotoBookDetail: function(book) {
       const _this = this;
       if (book.name === "查看更多") {
-        console.log("跳转至查看更多界面吧!");
         this.$router.push({
           name: "bookMorePage",
           params: {
@@ -40,6 +56,14 @@ export default {
   },
   watch: {
     books: async function() {
+      //判断是不是nowborrow栏目
+      if (this.books[0].lawBackDate != undefined) {
+        this.isNowBorrow = true;
+        for (let i = 0; i < this.books.length; i++) {
+          this.books[i].lawBackDate = parseStr(this.books[i].lawBackDate);
+          this.books[i].borrowDate = parseStr(this.books[i].borrowDate);
+        }
+      }
       //只取前五本书
       let cover_books = [];
       if (this.books.length >= 5) {
@@ -47,7 +71,13 @@ export default {
       } else {
         cover_books = this.books.slice(0, this.books.length);
       }
-      console.log(cover_books.length);
+      //如果书籍总数大于五本，为cover_books数组添加上查看更多的按键
+      if (this.books.length > 5) {
+        cover_books[cover_books.length] = {
+          name: "查看更多",
+          bookId: ""
+        };
+      }
       for (let i = 0; i < cover_books.length; i++) {
         cover_books[i].imgUrl = await this.$common.getbookImgUrl(
           cover_books[i].bookId
@@ -56,14 +86,6 @@ export default {
         this.myBooks = [];
         this.myBooks = cover_books;
       }
-
-      //如果书籍总数大于五本，为cover_books数组添加上查看更多的按键
-      if (this.books.length > 5) {
-        cover_books[cover_books.length] = {
-          name: "查看更多"
-        };
-      }
-
       this.myBooks = cover_books;
     }
   },
@@ -79,10 +101,10 @@ div {
   display: flex;
   overflow-x: scroll;
   overflow-y: hidden;
-  height: 240px;
+  height: 100%;
 }
 .one_book {
-  height: 225px;
+  height: 100%;
   width: 119px;
   margin-left: 25px;
 }
@@ -112,11 +134,16 @@ div {
   color: #555555;
   font-size: 12px;
   overflow: hidden;
-  height: 50px;
-  text-overflow: ellipsis;
+  height:33px;
+  text-overflow:ellipsis;
+}
+.book_info {
+  color: #555555;
+  font-size: 8px;
+  overflow: hidden;
 }
 .parent_container {
-  height: 225px;
+  height: 240px;
   overflow: hidden;
 }
 </style>

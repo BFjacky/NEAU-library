@@ -1,5 +1,5 @@
 'use strict';
-
+const path = require('path');
 module.exports = appInfo => {
   const config = exports = {};
 
@@ -46,9 +46,21 @@ module.exports = appInfo => {
 
   // test token
   config.testToken = 'thisIsATestTokenblabla~~~';
-  return config;
+
+
 
   //get token source url
   config.token_account = 'https://account.xiaonei.io/user/get?aid=';
   config.token_jwcxn = 'https://jwc.xiaonei.io/student/get?aid=';
+
+  //add static file server
+  config.static = {
+    prefix: "/static/",
+    dir: path.join(appInfo.baseDir, 'app/public/static'),
+    dynamic: true
+  }
+
+  return config;
+
+
 };

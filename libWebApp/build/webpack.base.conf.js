@@ -4,6 +4,8 @@ const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
 const vuxLoader = require('vux-loader')
+//引入jquey 1.引入webpack
+var webpack = require('webpack')
 
 function resolve(dir) {
   return path.join(__dirname, '..', dir)
@@ -26,6 +28,8 @@ const webpackConfig = {
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
+      //如果使用npm安装的jquery
+      'jquery':'jquery'
     }
   },
   module: {
@@ -68,5 +72,9 @@ const webpackConfig = {
   }
 }
 module.exports = vuxLoader.merge(webpackConfig, {
-  plugins: ['vux-ui']
+  plugins: ['vux-ui',
+    new webpack.ProvidePlugin({
+      $: "jquery",
+      jQuery: "jquery"
+    })]
 })
