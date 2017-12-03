@@ -55,7 +55,7 @@ export default {
   beforeDestroy: function() {
     this.$common.bookMorePageInfo.books = this.books;
     this.$common.bookMorePageInfo.title = this.title;
-    this.$common.bookMorePageInfo.number = this.number;F
+    this.$common.bookMorePageInfo.number = this.number;
     this.$common.bookMorePageInfo.myScrollTop = $(".booksResult").scrollTop();
   }
 };

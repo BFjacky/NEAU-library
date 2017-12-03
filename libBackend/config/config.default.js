@@ -7,7 +7,7 @@ module.exports = appInfo => {
   config.keys = appInfo.name + '_1510039409271_4470';
 
   // add your middleware here
-  config.middleware = ['errorHandler', 'libCookie'];
+  config.middleware = ['errorHandler', 'crossyv', 'libCookie'];
 
   // control the middleware switch
   // config.dnxnToken = {
@@ -21,7 +21,7 @@ module.exports = appInfo => {
        * /api/rebind
        * /api/checkUser
        */
-      if (ctx.url === '/api/rebind' || ctx.url === '/api/checkUser' || ctx.url === '/?aid=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6Im1vYmlsZSIsIl9pZCI6IjVhMDU2OWJlNzFkYTA5MDAyOTJmNTljZiIsImV4cCI6MTUxMzQxMDMwMn0.RZVLMvsYK77nHCJkjLx_ZdGYu9R689QlEQwZGnG0siY') {
+      if (ctx.url === '/api/rebind' || ctx.url === '/api/checkUser' || ctx.url === '/') {
         return true;
       } else {
         return false;
