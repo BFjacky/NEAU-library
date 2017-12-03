@@ -263,7 +263,7 @@ module.exports = () => {
         }
         console.log('自助登陆失败')
         //无法获得用户信息，跳转到登录界面，从新绑定
-        ctx.body = { userLogin: false };
+        await next();
         return;
     }
 }

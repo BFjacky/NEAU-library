@@ -2,11 +2,15 @@
     <div class="parent_container">
         <div class="book_scroller">
             <div class="one_book" v-for="book in myBooks" @click="gotoBookDetail(book)" :key="book.key">
-                <img class="book_img" v-bind:src="book.imgUrl">
-                <div class="book_name" >{{book.bookName}}</div>
-                <div class="book_bottom_mask" v-show="book.warn">即将到期</div>
-                <div class="book_info" v-show="isNowBorrow">{{book.borrowDate}}</div>
-                <div class="book_info" v-show="isNowBorrow">{{book.lawBackDate}}</div>
+                <div class="book_cover" v-show="book.isMoreCover">
+                  <div class="cover_title">更多</div>
+                  <div class="cover_icon">+</div>
+                </div>
+                <img class="book_img" v-bind:src="book.imgUrl" v-show="!book.isMoreCover">
+                <div class="book_name"  v-show="!book.isMoreCover">{{book.bookName}}</div>
+                 <div class="book_info" v-show="isNowBorrow" >{{book.borrowDate}}</div>
+                <div class="book_info" v-show="isNowBorrow" >{{book.lawBackDate}}</div>
+                <div class="book_bottom_mask" v-show="book.warn" >即将到期</div>
             </div>
         </div>
     </div>
@@ -75,7 +79,8 @@ export default {
       if (this.books.length > 5) {
         cover_books[cover_books.length] = {
           name: "查看更多",
-          bookId: ""
+          bookId: "",
+          isMoreCover: true
         };
       }
       for (let i = 0; i < cover_books.length; i++) {
@@ -102,6 +107,7 @@ div {
   overflow-x: scroll;
   overflow-y: hidden;
   height: 100%;
+  padding-top: 8px;
 }
 .one_book {
   height: 100%;
@@ -110,10 +116,40 @@ div {
 }
 .book_img {
   box-sizing: border-box;
-  border: 1px solid black;
   border-radius: 16px;
   width: 119px;
   height: 168px;
+  box-shadow: 0px 7.5px 15px rgba(219, 219, 219, 0.5);
+}
+.book_cover {
+  box-sizing: border-box;
+  border-radius: 16px;
+  width: 119px;
+  height: 168px;
+  box-shadow: 0px 7.5px 15px rgba(219, 219, 219, 0.5);
+  background-color: #e8e8e8;
+}
+.cover_title {
+  color: #aaaaaa;
+  font-size: 20px;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  width: 40px;
+  height: 26px;
+  padding-top: 55px;
+}
+.cover_icon {
+  color: #aaaaaa;
+  font-size: 24px;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 26px;
+  padding-top: 36px;
+  text-align: center;
 }
 .book_bottom_mask {
   border-bottom-left-radius: 16px;
@@ -122,7 +158,7 @@ div {
   height: 32px;
   background-color: #e95628;
   position: relative;
-  bottom: 86px;
+  bottom: 101px;
   opacity: 1;
   color: white;
   font-size: 12px;
@@ -134,8 +170,8 @@ div {
   color: #555555;
   font-size: 12px;
   overflow: hidden;
-  height:33px;
-  text-overflow:ellipsis;
+  height: 33px;
+  text-overflow: ellipsis;
 }
 .book_info {
   color: #555555;
@@ -143,7 +179,8 @@ div {
   overflow: hidden;
 }
 .parent_container {
-  height: 240px;
+  height: 248px;
   overflow: hidden;
 }
 </style>
+

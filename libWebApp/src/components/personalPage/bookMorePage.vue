@@ -1,15 +1,18 @@
 <template>
   <div class="booksResult">
-    <div class="book_number" >{{title}}</div>
-      <div class="books_item" v-for="book in books" v-bind:key="book.number" v-on:click="gotoBookDetail(book)">
-          <div class="book_title">{{book.bookName}}</div>
-          <div class="book_detail">{{book.borrowDate}}&nbsp&nbsp&nbsp&nbsp{{book.returnDate}}</div>
-          <div class="book_detail">{{book.bookPlace}}</div>
-          <div class="book_devide_line"></div>
-      </div>
+    <div class="book_number">
+      {{title}}
+    </div>
+    <div class="books_item" v-for="book in books" v-bind:key="book.number" v-on:click="gotoBookDetail(book)">
+        <div class="book_title">{{book.bookName}}</div>
+        <div class="book_detail">{{book.borrowDate}}&nbsp&nbsp&nbsp&nbsp{{book.returnDate}}</div>
+        <div class="book_detail">{{book.bookPlace}}</div>
+        <div class="book_devide_line"></div>
+    </div>
   </div>
 </template>
 <script>
+import $ from "jquery";
 export default {
   data: function() {
     return {
@@ -45,10 +48,15 @@ export default {
       this.title = "当前借阅信息";
     }
   },
+  mounted: function() {
+    //恢复滚动条位置
+    $(".booksResult").scrollTop(this.$common.bookMorePageInfo.myScrollTop);
+  },
   beforeDestroy: function() {
     this.$common.bookMorePageInfo.books = this.books;
     this.$common.bookMorePageInfo.title = this.title;
-    this.$common.bookMorePageInfo.number = this.number;
+    this.$common.bookMorePageInfo.number = this.number;F
+    this.$common.bookMorePageInfo.myScrollTop = $(".booksResult").scrollTop();
   }
 };
 </script>
@@ -59,10 +67,11 @@ div {
 }
 .booksResult {
   width: 90%;
-  height: 100%;
+  height: 100vh;
   position: relative;
   left: 50%;
   transform: translateX(-50%);
+  overflow: auto;
 }
 .book_number {
   text-align: left;

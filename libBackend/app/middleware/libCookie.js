@@ -23,13 +23,13 @@ const findUserByCookie = function (cookie) {
 
 module.exports = () => {
     return async function (ctx, next) {
-        console.log('进入了libCookie中间件')
         const cookie = ctx.cookies.get('libSessionId');
         let res = await findUserByCookie(ctx.cookies.get('libSessionId'));
         //如果res[0].pswd 为空,则使用身份证后六位为密码
         if (res[0].pswd == '' || res[0].pswd == null || res[0].pswd == undefined) {
             res[0].pswd = getPswdFromIdcardNo(res[0].IDCardNo);
         }
+        console.log('进入了libCookie中间件:' + cookie, 'res:' + res[0]);
         ctx.request.body.stuId = res[0].stuId;
         ctx.request.body.pswd = res[0].pswd;
         ctx.request.body.name = res[0].name;

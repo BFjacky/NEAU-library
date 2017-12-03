@@ -1,8 +1,8 @@
 <template>
   <div class="personalPage">
      <div class="one_scroller">
-         <h1 class="scroller_h1" v-show="nowBorrowBooks.length>0">正在阅读的{{nowBorrowBooks.length}}本书</h1>
-         <h1 class="scroller_h2" v-show="nowBorrowBooks.length===0">没有正在阅读的书籍哦，赶快去找几本书看看吧~</h1>
+         <h1 class="scroller_h1" v-show="nowBorrowBooks.length>=0">正在阅读的{{nowBorrowBooks.length}}本书</h1>
+         <!--h1 class="scroller_h2" v-show="nowBorrowBooks.length===0">没有正在阅读的书籍哦</h1-->
          <div class="btn_text" v-on:click="tryRenew" v-show="warn_numbers>0">你有{{warn_numbers}}本书即将到期,点我一键续借 > > ></div> 
          <books-scroller class="books_scroller" v-bind:books="nowBorrowBooks" ></books-scroller>
      </div>
@@ -81,6 +81,7 @@ export default {
      * 发出更新指令
      * 获取最新信息
      */
+
     let update_res = await axios({
       method: "post",
       url: this.$common.updateAll,
@@ -187,6 +188,6 @@ div {
   margin-top: 15px;
 }
 .books_scroller {
-  margin-top: 28px;
+  margin-top: 20px;
 }
 </style>

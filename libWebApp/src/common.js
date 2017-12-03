@@ -4,7 +4,7 @@ export default {
     install(Vue, options) {
         Vue.prototype.$common = {
             //常量---------------------------------------------------------------------------------------------------
-            
+
             //主机地址
             host: "http://127.0.0.1:7001",
 
@@ -54,14 +54,15 @@ export default {
                 name: '',
             },
 
-            //书籍即将到期的期限 7天
-            warn_days: 7,
+            //书籍即将到期的期限 10天
+            warn_days: 10,
 
             //bookMorePageInfo
             bookMorePageInfo: {
                 books: [],
                 number: 0,
                 title: '',
+                myScrollTop: 0,
             },
 
 

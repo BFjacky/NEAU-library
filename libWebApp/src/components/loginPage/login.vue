@@ -51,7 +51,7 @@ export default {
       this.$vux.toast.show({
         text: "登陆失败,请重新绑定信息",
         time: 2000,
-        type: warn
+        type: "warn"
       });
     }
   },
