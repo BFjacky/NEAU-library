@@ -57,6 +57,6 @@ module.exports = app => {
    */
   app.get('/api/getBookImgs', app.controller.update.getBookImgs);
 
-  //程序入口
+  //程序入口 携带参数aid
   app.get('/', app.controller.application.index)
 };

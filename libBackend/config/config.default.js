@@ -7,12 +7,13 @@ module.exports = appInfo => {
   config.keys = appInfo.name + '_1510039409271_4470';
 
   // add your middleware here
-  config.middleware = ['errorHandler', 'crossyv', 'dnxnToken', 'libCookie'];
+  config.middleware = ['errorHandler', 'libCookie'];
 
   // control the middleware switch
-  config.dnxnToken = {
-    match: '/api/checkUser',
-  }
+  // config.dnxnToken = {
+  //   match: '/api/checkUser',
+  // }
+
   config.libCookie = {
     ignore: function (ctx) {
       /**
@@ -20,7 +21,7 @@ module.exports = appInfo => {
        * /api/rebind
        * /api/checkUser
        */
-      if (ctx.url === '/api/rebind' || ctx.url === '/api/checkUser' || ctx.url === '/') {
+      if (ctx.url === '/api/rebind' || ctx.url === '/api/checkUser' || ctx.url === '/?aid=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6Im1vYmlsZSIsIl9pZCI6IjVhMDU2OWJlNzFkYTA5MDAyOTJmNTljZiIsImV4cCI6MTUxMzQxMDMwMn0.RZVLMvsYK77nHCJkjLx_ZdGYu9R689QlEQwZGnG0siY') {
         return true;
       } else {
         return false;
