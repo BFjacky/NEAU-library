@@ -21,7 +21,7 @@ module.exports = appInfo => {
        * /api/rebind
        * /api/checkUser
        */
-      if (ctx.url === '/api/rebind' || ctx.url === '/api/checkUser' || ctx.url === '/') {
+      if (ctx.url === '/api/rebind' || ctx.url === '/api/checkUser') {
         return true;
       } else {
         return false;

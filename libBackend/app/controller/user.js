@@ -74,6 +74,7 @@ module.exports = app => {
                     this.ctx.body = { userLogin: false };
                 }
             }
+            this.ctx.body = { userLogin: false };
 
         }
     }

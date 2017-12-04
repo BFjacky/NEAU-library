@@ -67,7 +67,7 @@ div {
 }
 .booksResult {
   width: 90%;
-  height: 100vh;
+  height: 100%;
   position: relative;
   left: 50%;
   transform: translateX(-50%);

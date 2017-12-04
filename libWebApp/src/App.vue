@@ -7,6 +7,7 @@
 </template>
 
 <script>
+import $ from "jquery";
 export default {
   name: "app",
   data: function() {
@@ -14,6 +15,9 @@ export default {
       isback: false,
       transitionName: "forwardMov"
     };
+  },
+  created: function() {
+    console.log("app is created");
   },
   watch: {
     $route: function() {
@@ -27,7 +31,7 @@ export default {
       //每当路由变化时都要隐藏掉loading 组件
       this.$vux.loading.hide();
     }
-  },
+  }
 };
 </script>
 <style>

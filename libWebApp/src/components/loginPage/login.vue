@@ -113,7 +113,7 @@ div {
   left: 50%;
   width: 60%;
   transform: translateX(-50%);
-  top: 23%;
+  top: 7%;
   font-size: 120%;
   font-weight: bold;
   color: white;
@@ -135,7 +135,6 @@ textarea::-webkit-input-placeholder {
   width: 60%;
   height: 6%;
   z-index: 100;
-  top: 100px;
   margin-top: 7%;
   outline: none;
   font-size: 120%;
