@@ -11,6 +11,8 @@ const upsertHistoryBook = require('../mongo/upsertHistoryBook.js');
 const upsertNowBorrow = require('../mongo/upsertNowBorrow.js');
 const nowBorrow = require('../models/nowBorrow.js');
 const histroyBook = require('../models/historyBook.js');
+const book = require('../models/book.js');
+const axios = require('axios')
 module.exports = app => {
   class updateService extends app.Service {
     async updateGrxx(stuId, pswd, name) {
@@ -152,7 +154,7 @@ module.exports = app => {
         let patt = /\d+/g;
         info[i].barcode = info[i].barcode.match(patt)[0];
         info[i].renewNum = info[i].renewNum.match(patt)[0];
-  
+
         //信息模板
         renewList[i] = {
           project: 'tryRenew',
@@ -164,7 +166,7 @@ module.exports = app => {
           lawBackDate: info[i].lawBackDate,
           borrowDate: info[i].borrowDate,
         };
-        
+
         //此书还没被续借过
         if (info[i].renewNum == 0) {
           let res = await tryRenew(info[i].cookie, info[i].barcode);
@@ -178,6 +180,62 @@ module.exports = app => {
 
       return renewList;
 
+    }
+
+    /**
+     * 根据图书id，来获得对应风书籍封面
+     * 1.本地数据库查找
+     * 2.图书馆数据库查找
+     */
+    async getBookDetail(books) {
+      const _this = this;
+      const findBookByBookId = function (bookId) {
+        return new Promise((resolve, reject) => {
+          book.find({ bookId: bookId }, (err, res) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(res);
+            }
+          })
+        })
+      }
+      const axios_new = async function (bookId) {
+        let res = await axios({
+          url: ' /api/search/getBookDetail',
+          params: {
+            bookId: bookId,
+          },
+          proxy: {
+            host: '127.0.0.1',
+            port: _this.ctx.app.config.port,
+          },
+          method: 'get',
+        })
+        return res;
+      }
+      let res = [];
+      for (let i = 0; i < books.length; i++) {
+        res[i] = await findBookByBookId(books[i]);
+        if (res[i].length === 0) {
+          /**
+           * 如果本地数据库中没有此书信息
+           * 1.发出本地更新请求
+           * 2.从新从数据库中取数据
+           */
+          let axios_res = await axios_new(books[i]);
+          if (axios_res.status === 200) {
+            //更新成功从数据库中拿数据
+            res[i] = await findBookByBookId(books[i]);
+          } else {
+            console.log('无法获得' + books[i] + '的书籍数据')
+          }
+        }
+        if (res[i].length !== 0) {
+          res[i] = res[i][0];
+        }
+      }
+      return res;
     }
   }
   return updateService;

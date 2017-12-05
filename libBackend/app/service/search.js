@@ -6,6 +6,7 @@ const getTopLendHtml = require('../crawler/getTopLendHtml.js');
 const getTopLendFromHtml = require('../crawler/getTopLendFromHtml.js');
 const getTopLendDetailHtml = require('../crawler/getTopLendDetailHtml.js');
 const getTopLendDetailFromHtml = require('../crawler/getTopLendDetailFromHtml.js');
+const book = require('../models/book.js')
 const fs = require('fs');
 const path = require('path');
 module.exports = app => {
@@ -40,12 +41,41 @@ module.exports = app => {
     }
 
     async getBookDetail(bookId) {
-      /*
-                传入bookId来查询书籍的详细信息，此信息是getSerchRes.js中得到的结果的对象属性
-            */
+      /**
+       * 传入bookId来查询书籍的详细信息，此信息是getSerchRes.js中得到的结果的对象属性，
+       * 将此书籍信息更新至数据库中,
+       */
+      const updateBook = function (bookId, res) {
+        return new Promise((resolve, reject) => {
+          let bookPlace = [];
+          for (let i = 1; i < res.length; i++) {
+            bookPlace[i - 1] = res[i];
+          }
+          book.update(
+            { bookId: bookId },
+            {
+              title: res[0].title,
+              author: res[0].author,
+              info: res[0].info,
+              ISBN: res[0].ISBN,
+              imgurl: res[0].imgurl,
+              bookPlace: bookPlace,
+            },
+            {
+              mutil: true,
+              upsert: true,
+            }, (err, res) => {
+              if (err) {
+                reject(err);
+              } else {
+                resolve(res);
+              }
+            })
+        })
+      }
       const htmlData = await getBookDetailHtml(bookId);
-      fs.writeFileSync(path.join(__dirname, './test.html'), htmlData);
       const res = getBookDetailFromHtml(htmlData);
+      let update_result = await updateBook(bookId, res);
       return res;
     }
 

@@ -101,9 +101,15 @@ module.exports = app => {
       ctx.body = res;
     }
     //获取图书封面
-    async getBookImgs(ctx) {
-      //books 为['bookid_1','bookid_2']
-      const books = ctx.query.books;
+    async getBookDetail(ctx) {
+      /**
+       * books 为['bookid_1','bookid_2'],前端传递时首先将数组字符串化
+       * 后端接收时将字符串数组话，元素分割标记为';'
+       */
+      let books = ctx.request.query.books;
+      books = books.split(';');
+      let res = await ctx.service.update.getBookDetail(books);
+      ctx.body = res;
     }
   }
   return UpdateController;

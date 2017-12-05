@@ -61,6 +61,9 @@ module.exports = appInfo => {
     dynamic: true
   }
 
+  //config.port 
+  config.port = 7001;
+
   return config;
 
 

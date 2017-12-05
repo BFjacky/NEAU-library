@@ -55,7 +55,7 @@ module.exports = app => {
    * 参数：1.包含很多bookid的数组
    * 响应：1.包含很多{bookid:'',imgUrl:''}的一个数组
    */
-  app.get('/api/getBookImgs', app.controller.update.getBookImgs);
+  app.get('/api/getBookDetail', app.controller.update.getBookDetail);
 
   //程序入口 携带参数aid
   app.get('/', app.controller.application.index)
