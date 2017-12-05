@@ -2,7 +2,7 @@ module.exports = app => {
   class UpdateController extends app.Controller {
     // 更新个人信息 并入库
     async updateGrxx(ctx) {
-      console.log('updateGrxx');
+      //console.log('updateGrxx');
       const stuId = ctx.request.body.stuId;
       const pswd = ctx.request.body.pswd;
       const name = ctx.request.body.name;

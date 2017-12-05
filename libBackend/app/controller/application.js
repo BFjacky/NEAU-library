@@ -72,7 +72,7 @@ const fs = require('fs');
 module.exports = app => {
     class ApplicationController extends app.Controller {
         async index(ctx) {
-            console.log('进入到了程序入口')
+            //console.log('进入到了程序入口')
             /**
              * 程序入口:
              * 获取dnxnToken
@@ -85,7 +85,7 @@ module.exports = app => {
             const token_jwcxn = 'https://jwc.xiaonei.io/student/get';
             const dnxnToken = ctx.query.aid;
             if (dnxnToken !== undefined && dnxnToken !== null && dnxnToken !== '') {
-                console.log('获得了该同学的dnxnToken')
+                //console.log('获得了该同学的dnxnToken')
                 //---!!!!!!!!!!!!!!!这里可能会因为token无效报错403!!!!!!!!!!!!!!!
                 let res1, res2;
                 try {
@@ -105,8 +105,8 @@ module.exports = app => {
                         }
                     })
                 } catch (err) {
-                    console.log('根据token向远端服务器拿取信息的时候出错了:' + err);
-                    console.log('返回前端页面')
+                    //console.log('根据token向远端服务器拿取信息的时候出错了:' + err);
+                    //console.log('返回前端页面')
                     let res = fs.readFileSync(path.join(__dirname, '../public', '/index.html'));
                     this.ctx.response.append("content-type", "text/html");
                     this.ctx.response.body = res;
@@ -115,11 +115,11 @@ module.exports = app => {
                 let userFromMongo = await findUser(res1, res2);
                 if (userFromMongo[0] !== undefined && userFromMongo[0] !== null && userFromMongo[0] !== '') {
                     //在本地数据库中有此人的信息
-                    console.log('该同学曾经登陆过，数据库中有该同学的信息')
+                    //console.log('该同学曾经登陆过，数据库中有该同学的信息')
                 }
                 else {
                     //本地无此用户信息
-                    console.log('该同学没有登陆过，数据库中无该同学的信息')
+                    //console.log('该同学没有登陆过，数据库中无该同学的信息')
                     let userInsertNew = await insertUser(res1, res2);
 
                     let cookieStr = randomString();
@@ -129,10 +129,10 @@ module.exports = app => {
                     await updateCookieById(res1.data._id, cookieStr);
                 }
             } else {
-                console.log('没有获得dnxnToken，不知道该用户是谁')
+                //console.log('没有获得dnxnToken，不知道该用户是谁')
             }
 
-            console.log('返回前端页面')
+            //console.log('返回前端页面')
             let res = fs.readFileSync(path.join(__dirname, '../public', '/index.html'));
             this.ctx.response.append("content-type", "text/html");
             this.ctx.response.body = res;

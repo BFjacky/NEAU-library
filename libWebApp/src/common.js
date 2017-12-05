@@ -1,5 +1,5 @@
 const axios = require('axios')
-
+const urlPrefix = "/api"
 export default {
     install(Vue, options) {
         Vue.prototype.$common = {
@@ -9,28 +9,28 @@ export default {
             host: "http://127.0.0.1:7001",
 
             //搜索书籍详细信息的url
-            bookDetailUrl: "/api/search/getBookDetail",
+            bookDetailUrl: urlPrefix + "/api/search/getBookDetail",
 
             //书籍分类信息的url
-            classUrl: "/api/search/getTopLendClass",
+            classUrl: urlPrefix + "/api/search/getTopLendClass",
 
             //搜索书籍的url
-            searchBookUrl: "/api/search/getSearchRes",
+            searchBookUrl: urlPrefix + "/api/search/getSearchRes",
 
             //获得分类详细信息的url
-            classDetailUrl: "/api/search/getTopLendDetail",
+            classDetailUrl: urlPrefix + "/api/search/getTopLendDetail",
 
             //获取当前借阅的url
-            nowBorrow: "/api/fetch/nowBorrow",
+            nowBorrow: urlPrefix + "/api/fetch/nowBorrow",
 
             //获取历史借阅的url
-            hisBorrow: "/api/fetch/hisBooks",
+            hisBorrow: urlPrefix + "/api/fetch/hisBooks",
 
             //更新全部个人信息的url
-            updateAll: "/api/update/all",
+            updateAll: urlPrefix + "/api/update/all",
 
             //续借请求的url
-            renewUrl: "/api/update/tryRenew",
+            renewUrl: urlPrefix + "/api/update/tryRenew",
 
             //图书馆主机名称（imgurl前缀）
             libHost: "http://opac.lib.neau.edu.cn",
@@ -42,10 +42,10 @@ export default {
             bookNoCoverPath: "/m/mopac/inner/images/no-book.jpg",
 
             //重新绑定账号的url
-            rebindUrl: "/api/rebind",
+            rebindUrl: urlPrefix + "/api/rebind",
 
             //重新绑定账号的url
-            checkUserUrl: "/api/checkUser",
+            checkUserUrl: urlPrefix + "/api/checkUser",
 
             //测试用个人信息
             person: {

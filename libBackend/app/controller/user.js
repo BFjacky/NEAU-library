@@ -38,7 +38,7 @@ const tryUsefulCookie = require('../crawler/tryUsefulCookie.js');
 module.exports = app => {
     class UserController extends app.Controller {
         async rebind(ctx) {
-            console.log('重新绑定用户信息')
+            //console.log('重新绑定用户信息')
             let stuId = ctx.request.body.stuId;
             let pswd = ctx.request.body.pswd;
             let name = ctx.request.body.name;
@@ -51,9 +51,9 @@ module.exports = app => {
              * 成功返回:this.ctx.body = { userLogin: true };
              * 失败返回:this.ctx.body = { userLogin:false };
              */
-            console.log('checkuser : 验证用户信息')
+            //console.log('checkuser : 验证用户信息')
             if (ctx.cookies.get('libSessionId') !== undefined) {
-                console.log('获得了浏览器的cookie验证:' + ctx.cookies.get('libSessionId'))
+                //console.log('获得了浏览器的cookie验证:' + ctx.cookies.get('libSessionId'))
                 let res = await findUserByCookie(ctx.cookies.get('libSessionId'));
                 if (res[0] !== undefined && res[0] !== null) {
                     //如果res[0].pswd 为空,则使用身份证后六位为密码
@@ -62,17 +62,17 @@ module.exports = app => {
                     }
                     let login_res = await tryUsefulCookie(res[0].stuId, res[0].pswd, res[0].name);
                     if (login_res.success) {
-                        console.log('登陆成功')
+                        //console.log('登陆成功')
                         this.ctx.body = { userLogin: true };
                         return;
                     }
                     else {
-                        console.log('登陆失败')
+                        //console.log('登陆失败')
                         this.ctx.body = { userLogin: false };
                         return;
                     }
                 } else {
-                    console.log('根据cookie没有获得用户信息' + '登陆失败');
+                    //console.log('根据cookie没有获得用户信息' + '登陆失败');
                     this.ctx.body = { userLogin: false };
                     return;
                 }
