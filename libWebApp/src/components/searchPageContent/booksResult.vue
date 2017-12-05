@@ -66,6 +66,7 @@ div {
   margin-top: 2px;
   width: 283px;
   height: 34px;
+  line-height: 17px;
   font-size: 12px;
   padding: 0;
   color: #aaaaaa;

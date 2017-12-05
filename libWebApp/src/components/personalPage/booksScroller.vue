@@ -170,12 +170,13 @@ div {
   color: #555555;
   font-size: 12px;
   overflow: hidden;
+  line-height: 16px;
   height: 33px;
   text-overflow: ellipsis;
 }
 .book_info {
   color: #555555;
-  font-size: 8px;
+  font-size: 11px;
   overflow: hidden;
 }
 .parent_container {

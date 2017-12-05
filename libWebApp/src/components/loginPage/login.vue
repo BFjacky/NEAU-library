@@ -39,6 +39,7 @@ export default {
       method: "get"
     });
     this.$vux.loading.hide();
+    console.log("checkUser_result:" + login_res.data.userLogin);
     if (login_res.data.userLogin) {
       this.$vux.toast.show({
         text: "登陆成功",

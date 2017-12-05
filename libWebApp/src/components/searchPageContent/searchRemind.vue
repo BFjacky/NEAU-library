@@ -8,6 +8,7 @@
           <div class="search_remind_class" v-for="item in classes" v-bind:key="item.key" v-on:click="gotoClass(item)">
             <div class="class_title">{{item.className}}</div>
             <div class="class_devideLine" v-show="!isLast(item.order)"></div>
+            <div class="class_devideLine2" v-show="isLast(item.order)"></div>
           </div>
       </div>
   </div>
@@ -70,5 +71,10 @@ div {
   margin-top: 12px;
   margin-bottom: 12px;
   border-top: 1px solid #dcdcdc;
+}
+.class_devideLine2 {
+  margin-top: 12px;
+  margin-bottom: 12px;
+  border-top: 0px solid #dcdcdc;
 }
 </style>

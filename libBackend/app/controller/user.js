@@ -51,7 +51,7 @@ module.exports = app => {
              * 成功返回:this.ctx.body = { userLogin: true };
              * 失败返回:this.ctx.body = { userLogin:false };
              */
-            console.log('验证用户信息')
+            console.log('checkuser : 验证用户信息')
             if (ctx.cookies.get('libSessionId') !== undefined) {
                 console.log('获得了浏览器的cookie验证:' + ctx.cookies.get('libSessionId'))
                 let res = await findUserByCookie(ctx.cookies.get('libSessionId'));
@@ -64,17 +64,21 @@ module.exports = app => {
                     if (login_res.success) {
                         console.log('登陆成功')
                         this.ctx.body = { userLogin: true };
+                        return;
                     }
                     else {
                         console.log('登陆失败')
                         this.ctx.body = { userLogin: false };
+                        return;
                     }
                 } else {
                     console.log('根据cookie没有获得用户信息' + '登陆失败');
                     this.ctx.body = { userLogin: false };
+                    return;
                 }
             }
             this.ctx.body = { userLogin: false };
+            return;
 
         }
     }

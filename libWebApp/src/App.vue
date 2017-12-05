@@ -52,21 +52,17 @@ html {
   overflow-x: hidden;
 }
 .forwardMov-enter-active {
-  animation: forwardMov-in 0.2s;
+  animation: forwardMov-in 0.4s;
   position: absolute;
 }
 .forwardMov-leave-active {
-  animation: forwardMov-out 0.2s;
+  animation: forwardMov-out 0.4s;
   position: absolute;
 }
 @keyframes forwardMov-in {
   0% {
     transform: translateX(100%);
     opacity: 0;
-  }
-  50% {
-    transform: translateX(50%);
-    opacity: 0.5;
   }
   100% {
     transform: translateX(0%);
@@ -78,10 +74,6 @@ html {
     transform: translateX(0%);
     opacity: 1;
   }
-  50% {
-    transform: translateX(-50%);
-    opacity: 0.5;
-  }
   100% {
     transform: translateX(-100%);
     opacity: 0;
@@ -89,21 +81,17 @@ html {
 }
 
 .backMov-enter-active {
-  animation: backMov-in 0.2s;
+  animation: backMov-in 0.4s;
   position: absolute;
 }
 .backMov-leave-active {
-  animation: backMov-out 0.2s;
+  animation: backMov-out 0.4s;
   position: absolute;
 }
 @keyframes backMov-in {
   0% {
     transform: translateX(-100%);
     opacity: 0;
-  }
-  50% {
-    transform: translateX(-50%);
-    opacity: 0.5;
   }
   100% {
     transform: translateX(0%);
@@ -114,10 +102,6 @@ html {
   0% {
     transform: translateX(0%);
     opacity: 1;
-  }
-  50% {
-    transform: translateX(50%);
-    opacity: 0.5;
   }
   100% {
     transform: translateX(100%);
