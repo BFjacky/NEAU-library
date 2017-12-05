@@ -7,7 +7,7 @@ module.exports = appInfo => {
   config.keys = appInfo.name + '_1510039409271_4470';
 
   // add your middleware here
-  config.middleware = ['errorHandler', 'crossyv', 'libCookie'];
+  config.middleware = ['errorHandler', 'libCookie'];
 
   // control the middleware switch
   // config.dnxnToken = {

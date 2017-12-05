@@ -1,5 +1,5 @@
 const axios = require('axios')
-const urlPrefix = ""
+const urlPrefix = "/api"
 export default {
     install(Vue, options) {
         Vue.prototype.$common = {
@@ -112,7 +112,6 @@ export default {
                     }
                 });
                 coverBooksDetail = coverBooksDetail.data;
-                console.log(coverBooksDetail);
 
                 for (let i = 0; i < coverBooksDetail.length; i++) {
                     if (coverBooksDetail[i].imgurl === this.bookNoCoverPath) {

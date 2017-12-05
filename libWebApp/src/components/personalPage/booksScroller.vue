@@ -9,8 +9,10 @@
                 </div>
                 <img class="book_img" v-bind:src="book.imgUrl" v-show="!book.isMoreCover">
                 <div class="book_name"  v-show="!book.isMoreCover">{{book.bookName}}</div>
-                 <div class="book_info" v-show="isNowBorrow" >{{book.borrowDate}}</div>
+                <div class="book_info" v-show="isNowBorrow" >{{book.borrowDate}}</div>
                 <div class="book_info" v-show="isNowBorrow" >{{book.lawBackDate}}</div>
+                <div class="book_info" v-show="isHisBorrow" >{{book.borrowDate}}</div>
+                <div class="book_info" v-show="isHisBorrow" >{{book.returnDate}}</div>
                 <div class="book_bottom_mask" v-show="book.warn" >即将到期</div>
             </div>
         </div>
@@ -21,14 +23,19 @@
 const parseStr = function(str) {
   let patt1 = /借书日/g;
   let patt2 = /应还日/g;
-  let patt3 = /\d\d\d\d-\d\d-\d\d/g;
+  let patt3 = /还书日/g;
+  let patt4 = /\d\d\d\d-\d\d-\d\d/g;
   let strPrefix = str.match(patt1);
   if (strPrefix == null) {
-    //如果为 应还日
+    //如果不为 借书日
     strPrefix = str.match(patt2);
   }
+  if (strPrefix == null) {
+    //如果不为 应还日
+    strPrefix = str.match(patt3);
+  }
   strPrefix = strPrefix[0];
-  let strSuffix = str.match(patt3)[0];
+  let strSuffix = str.match(patt4)[0];
   return strPrefix + ": " + strSuffix;
 };
 export default {
@@ -36,7 +43,8 @@ export default {
   data: function() {
     return {
       myBooks: [],
-      isNowBorrow: false
+      isNowBorrow: false,
+      isHisBorrow: false
     };
   },
   methods: {
@@ -69,6 +77,14 @@ export default {
           this.books[i].borrowDate = parseStr(this.books[i].borrowDate);
         }
       }
+      //判断是不是hisBorrow栏目
+      if (this.books[0].returnDate != undefined) {
+        this.isHisBorrow = true;
+        for (let i = 0; i < this.books.length; i++) {
+          this.books[i].returnDate = parseStr(this.books[i].returnDate);
+          this.books[i].borrowDate = parseStr(this.books[i].borrowDate);
+        }
+      }
       //只取前五本书
       let cover_books = [];
       if (this.books.length >= 5) {
@@ -90,7 +106,6 @@ export default {
        * 2.调用common中的方法getManyImgUrl，获得包含着imgurl的数组
        * 3.顺序对应，将cover_books和imgs数组对应赋值
        */
-      console.log("开始取出封面操作");
       let bookIds = [];
       for (let i = 0; i < cover_books.length; i++) {
         let patt = /\d+/g;
@@ -99,11 +114,9 @@ export default {
           bookIds[i] = cover_books[i].bookId.match(patt)[0];
         }
       }
-      console.log("获得了封面书籍Id：", bookIds);
 
       let manyBooks = [];
       manyBooks = await this.$common.getmanyImgUrl(bookIds);
-      console.log("获得了封面书籍详细信息", manyBooks);
 
       for (let i = 0; i < cover_books.length; i++) {
         //刨除更多页面
@@ -193,7 +206,7 @@ div {
   font-size: 12px;
   overflow: hidden;
   line-height: 16px;
-  height: 33px;
+  height: 32px;
   text-overflow: ellipsis;
 }
 .book_info {

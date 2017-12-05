@@ -51,7 +51,7 @@ module.exports = () => {
             if (res[0].pswd == '' || res[0].pswd == null || res[0].pswd == undefined) {
                 res[0].pswd = getPswdFromIdcardNo(res[0].IDCardNo);
             }
-            console.log('进入了libCookie中间件:' + cookie, 'res:' + res[0]);
+            //console.log('进入了libCookie中间件:' + cookie, 'res:' + res[0]);
             ctx.request.body.stuId = res[0].stuId;
             ctx.request.body.pswd = res[0].pswd;
             ctx.request.body.name = res[0].name;

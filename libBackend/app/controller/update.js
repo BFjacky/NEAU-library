@@ -62,13 +62,34 @@ module.exports = app => {
         success: true,
       };
     }
-    // 更新 个人信息 历史借阅 当前借阅 并入库
+    // // 更新 个人信息 历史借阅 当前借阅 并入库
+    // async updateAll(ctx) {
+    //   const stuId = ctx.request.body.stuId;
+    //   const pswd = ctx.request.body.pswd;
+    //   const name = ctx.request.body.name;
+    //   try {
+    //     await ctx.service.update.updateGrxx(stuId, pswd, name);
+    //     await ctx.service.update.updateHisBooks(stuId, pswd, name);
+    //     await ctx.service.update.updateNowBorrow(stuId, pswd, name);
+    //   } catch (err) {
+    //     ctx.body = {
+    //       project: 'updateAll',
+    //       success: false,
+    //       message: err.msg,
+    //     };
+    //     return;
+    //   }
+    //   ctx.body = {
+    //     project: 'updateAll',
+    //     success: true,
+    //   };
+    // }
+    // 更新 历史借阅 当前借阅 并入库
     async updateAll(ctx) {
       const stuId = ctx.request.body.stuId;
       const pswd = ctx.request.body.pswd;
       const name = ctx.request.body.name;
       try {
-        await ctx.service.update.updateGrxx(stuId, pswd, name);
         await ctx.service.update.updateHisBooks(stuId, pswd, name);
         await ctx.service.update.updateNowBorrow(stuId, pswd, name);
       } catch (err) {
