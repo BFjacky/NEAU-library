@@ -4,7 +4,8 @@
       <div class="search_page_header"></div>
       <div class="search_page_main">
         <div class="search_title" >搜索图书馆馆藏</div>
-        <search-box class="search_box"  v-on:gotoinfo="tosearchInfo" ></search-box>
+        <search-box-only-show  class="search_box"  v-on:gotoinfo="tosearchInfo" ></search-box-only-show>
+        <!--search-box class="search_box"  v-on:gotoinfo="tosearchInfo" ></search-box-->
         <div class="btn_myLib" v-on:click="gotoPersonalPage">我的图书 >></div>
         <img class="books_img" src="../../assets/bookBackground.png">
         <img class="jser_logo" src="../../assets/JSER.png">
@@ -14,6 +15,7 @@
 </template>
 <script>
 import searchBox from "./searchBox";
+import searchBoxOnlyShow from "./searchBoxOnlyShow";
 export default {
   data: function() {
     return {};
@@ -31,7 +33,8 @@ export default {
     }
   },
   components: {
-    searchBox
+    searchBox,
+    searchBoxOnlyShow
   }
 };
 </script>
