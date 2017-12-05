@@ -1,5 +1,5 @@
 const axios = require('axios')
-const urlPrefix = "/api"
+const urlPrefix = ""
 export default {
     install(Vue, options) {
         Vue.prototype.$common = {
@@ -46,6 +46,9 @@ export default {
 
             //重新绑定账号的url
             checkUserUrl: urlPrefix + "/api/checkUser",
+
+            //获得bookDetail的Url
+            getBookDetailUrl: urlPrefix + "/api/getBookDetail",
 
             //测试用个人信息
             person: {
@@ -98,37 +101,27 @@ export default {
 
             },
 
-            //根据bookId获得 bookImgUrl   参数:'id=xxxxxxxxxx'
-            getbookImgUrl: async function (bookId) {
-                let self = this;
+            //根据bookId数组获得 bookimgurl
+            getmanyImgUrl: async function (bookIds) {
+                const _this = this;
+                let coverBooksDetail = await axios({
+                    method: "get",
+                    url: _this.getBookDetailUrl,
+                    params: {
+                        books: bookIds.join(";"),
+                    }
+                });
+                coverBooksDetail = coverBooksDetail.data;
+                console.log(coverBooksDetail);
 
-                //根据bookid获得初步的url
-                let getImgUrl = async function (bookId) {
-                    let res = await axios({
-                        methods: "get",
-                        url: self.bookDetailUrl,
-                        params: {
-                            bookId: bookId
-                        }
-                    });
-                    return res.data[0].imgurl;
+                for (let i = 0; i < coverBooksDetail.length; i++) {
+                    if (coverBooksDetail[i].imgurl === this.bookNoCoverPath) {
+                        coverBooksDetail[i].imgurl = this.libHost + coverBooksDetail[i].imgurl;
+                    }
+                    coverBooksDetail[i].imgurl = await this.checkCover(coverBooksDetail[i].imgurl);
                 }
-
-                //解析bookid 并获得url
-                let patt = /\d+/g;
-                bookId = bookId.match(patt)[0];
-                let imgUrl = await getImgUrl(bookId);
-                if (this.bookNoCoverPath === imgUrl) {
-                    imgUrl = self.libHost + imgUrl
-                }
-
-                //获得合理的url
-                imgUrl = await this.checkCover(imgUrl);
-
-                return imgUrl
+                return coverBooksDetail
             },
-
-
 
             //跟据当前路由检查该页面是回退的还是前进
             urlName: {

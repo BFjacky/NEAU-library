@@ -1,3 +1,4 @@
+
 <template>
     <div class="parent_container">
         <div class="book_scroller">
@@ -83,11 +84,32 @@ export default {
           isMoreCover: true
         };
       }
+      /**@augments
+       * 获得cover_books对应的书籍detail
+       * 1.将booksId 打包成数组
+       * 2.调用common中的方法getManyImgUrl，获得包含着imgurl的数组
+       * 3.顺序对应，将cover_books和imgs数组对应赋值
+       */
+      console.log("开始取出封面操作");
+      let bookIds = [];
       for (let i = 0; i < cover_books.length; i++) {
-        cover_books[i].imgUrl = await this.$common.getbookImgUrl(
-          cover_books[i].bookId
-        );
-        //如果要监听myBooks的变化，则需要从引用上改变，而不是改变this.books
+        let patt = /\d+/g;
+        //刨除更多页面
+        if (cover_books[i].name !== "查看更多") {
+          bookIds[i] = cover_books[i].bookId.match(patt)[0];
+        }
+      }
+      console.log("获得了封面书籍Id：", bookIds);
+
+      let manyBooks = [];
+      manyBooks = await this.$common.getmanyImgUrl(bookIds);
+      console.log("获得了封面书籍详细信息", manyBooks);
+
+      for (let i = 0; i < cover_books.length; i++) {
+        //刨除更多页面
+        if (cover_books[i].name !== "查看更多") {
+          cover_books[i].imgUrl = manyBooks[i].imgurl;
+        }
         this.myBooks = [];
         this.myBooks = cover_books;
       }
