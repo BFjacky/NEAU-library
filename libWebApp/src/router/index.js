@@ -29,37 +29,37 @@ export default new Router({
       path: '/',
       name: 'loginPage',
       component: loginPage,
-      index: 0,
+     
     },
     {
       path: '/searchPage',
       name: 'searchPage',
       component: searchPage,
-      index: 1,
+     
     },
     {
       path: '/searchResult',
       name: 'searchResult',
       component: searchResult,
-      index: 2,
+     
     },
     {
       path: '/bookDetail',
       name: 'bookDetail',
       component: bookDetail,
-      index: 3,
+     
     },
     {
       path: '/personalPage',
       name: 'personalPage',
       component: personalPage,
-      index: 1,
+     
     },
     {
       path: '/bookMorePage',
       name: 'bookMorePage',
       component: bookMorePage,
-      index: 2,
+     
     }
   ]
 })

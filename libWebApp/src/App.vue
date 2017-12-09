@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-  <transition v-bind:name="transitionName">
-    <router-view/>
+  <transition v-bind:name="transitionName" mode="">
+    <router-view class="router_view"></router-view>
   </transition>
   </div>
 </template>
@@ -50,14 +50,13 @@ html {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
+  position: absolute;
 }
 .forwardMov-enter-active {
   animation: forwardMov-in 0.4s;
-  position: absolute;
 }
 .forwardMov-leave-active {
   animation: forwardMov-out 0.4s;
-  position: absolute;
 }
 @keyframes forwardMov-in {
   0% {
@@ -82,11 +81,9 @@ html {
 
 .backMov-enter-active {
   animation: backMov-in 0.4s;
-  position: absolute;
 }
 .backMov-leave-active {
   animation: backMov-out 0.4s;
-  position: absolute;
 }
 @keyframes backMov-in {
   0% {
@@ -107,5 +104,8 @@ html {
     transform: translateX(100%);
     opacity: 0;
   }
+}
+.router_view {
+  position: absolute;
 }
 </style>

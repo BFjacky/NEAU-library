@@ -82,6 +82,8 @@ div {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  position: fixed;
+  top: 0px;
 }
 .book_title {
   flex-grow: 1;

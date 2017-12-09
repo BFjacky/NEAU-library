@@ -5,7 +5,7 @@
     </div>
     <div class="books_item" v-for="book in books" v-bind:key="book.number" v-on:click="gotoBookDetail(book)">
         <div class="book_title">{{book.bookName}}</div>
-        <div class="book_detail">{{book.borrowDate}}&nbsp&nbsp&nbsp&nbsp{{book.returnDate}}</div>
+        <div class="book_detail">{{book.borrowDate}}&nbsp&nbsp&nbsp&nbsp{{book.returnDate}}{{book.lawBackDate}}</div>
         <div class="book_detail">{{book.bookPlace}}</div>
         <div class="book_devide_line"></div>
     </div>
@@ -66,12 +66,11 @@ div {
   box-sizing: border-box;
 }
 .booksResult {
+  margin-left: 5%;
   width: 90%;
   height: 100%;
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
   overflow: auto;
+  position: relative;
 }
 .book_number {
   text-align: left;

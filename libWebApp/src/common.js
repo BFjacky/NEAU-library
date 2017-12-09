@@ -1,5 +1,5 @@
 const axios = require('axios')
-const urlPrefix = "/api"
+const urlPrefix = ""
 export default {
     install(Vue, options) {
         Vue.prototype.$common = {
@@ -137,6 +137,7 @@ export default {
              * 前进路由返回false，
              */
             isBackUrl: function (myUrlName) {
+
                 if (this.urlName.beforeUrl === '') {
                     this.urlName.beforeUrl = myUrlName;
                     return false;

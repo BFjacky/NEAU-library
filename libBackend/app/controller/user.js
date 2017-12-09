@@ -34,6 +34,7 @@ const getPswdFromIdcardNo = function (IDCardNo) {
 }
 const axios = require('axios');
 const userinfo = require('../models/userinfo.js');
+const log = require('../models/log.js');
 const tryUsefulCookie = require('../crawler/tryUsefulCookie.js');
 module.exports = app => {
     class UserController extends app.Controller {
@@ -64,6 +65,9 @@ module.exports = app => {
                     if (login_res.success) {
                         //console.log('登陆成功')
                         this.ctx.body = { userLogin: true };
+
+                        //保存到log数据库中
+                        
                         return;
                     }
                     else {

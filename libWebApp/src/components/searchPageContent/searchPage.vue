@@ -18,7 +18,9 @@ import searchBox from "./searchBox";
 import searchBoxOnlyShow from "./searchBoxOnlyShow";
 export default {
   data: function() {
-    return {};
+    return {
+      flag: "123123123"
+    };
   },
   methods: {
     tosearchInfo: function() {
@@ -109,14 +111,16 @@ div {
   width: 100%;
   overflow: hidden;
   background-color: #00c8ad;
+  position: fixed;
+  top: 0;
 }
 .search_page_header {
-  height: 6.8%;
+  height: 0%;
   width: 100%;
 }
 .search_page_main {
   position: relative;
-  height: 93.2%;
+  height: 100%;
   width: 100%;
 }
 </style>
