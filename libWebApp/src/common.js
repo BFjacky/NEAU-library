@@ -1,5 +1,6 @@
 const axios = require('axios')
-const urlPrefix = "http://127.0.0.1:7001"
+const urlPrefix = "";
+
 export default {
     install(Vue, options) {
         Vue.prototype.$common = {
