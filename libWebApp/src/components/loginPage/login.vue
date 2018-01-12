@@ -71,6 +71,7 @@ export default {
           pswd: this.password,
           name: this.name
         },
+        withcredentials: true,
         url: this.$common.rebindUrl
       });
       if (result.data.success) {

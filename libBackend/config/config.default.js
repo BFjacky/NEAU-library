@@ -9,11 +9,6 @@ module.exports = appInfo => {
   // add your middleware here
   config.middleware = ['errorHandler', 'libCookie'];
 
-  // control the middleware switch
-  // config.dnxnToken = {
-  //   match: '/api/checkUser',
-  // }
-
   config.libCookie = {
     ignore: function (ctx) {
       /**
@@ -35,20 +30,14 @@ module.exports = appInfo => {
     csrf: {
       ignoreJSON: true, // 默认为 false，当设置为 true 时，将会放过所有 content-type 为 `application/json` 的请求
     },
-  };
-
-  // status code
-  config.StatusCode = {
-    failed: 200,
+    xframe: {
+      enable: false,
+    },
+    domainWhiteList: ['localhost:8080']
   };
 
   // auto update Rank informations time
   config.updateRankTime = 22;
-
-  // test token
-  config.testToken = 'thisIsATestTokenblabla~~~';
-
-
 
   //get token source url
   config.token_account = 'https://account.xiaonei.io/user/get?aid=';
@@ -63,6 +52,12 @@ module.exports = appInfo => {
 
   //config.port 
   config.port = 7001;
+
+  //跨域
+  config.cors = {
+    allowMethods: 'POST,GET',
+    credentials: true,
+  }
 
   return config;
 
