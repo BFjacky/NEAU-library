@@ -190,6 +190,12 @@ export default {
 
             //保存personalPage中的变量
             personalPage: {
+                historyBooks: [],
+                nowBorrowBooks: [],
+                //是否过期
+                isPast: true,
+                //过期时间初定10秒
+                pastTime: 10 * 1000,
             }
         };
     }

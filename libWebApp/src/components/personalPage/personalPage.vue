@@ -11,7 +11,7 @@
          <books-scroller class="books_scroller" v-bind:books="histroyBooks"></books-scroller>
      </div>
      <div class="one_scroller" v-show="false">
-         <h1 class="scroller_h1">正在阅读5本书</h1>
+         <h1 class="scroller_h1">已经收藏的5本书</h1>
          <books-scroller class="books_scroller" v-bind:books="collectBooks"></books-scroller>
      </div>
   </div>
@@ -70,7 +70,12 @@ export default {
       console.log(res);
     }
   },
-  created: async function() {
+  mounted: async function() {
+    if (!this.$common.personalPage.isPast) {
+      this.histroyBooks = this.$common.personalPage.histroyBooks;
+      this.nowBorrowBooks = this.$common.personalPage.nowBorrowBooks;
+      return;
+    }
     //弹出加载框
     this.$vux.loading.show({
       text: "搬运数据中...",
@@ -151,13 +156,14 @@ export default {
   },
 
   beforeDestroy: function() {
-    // //保存personalPage信息
-    // console.log("destroyBegin:", this.$common.personalPage);
-    // this.$common.personalPage.warn_numbers = this.warn_numbers;
-    // this.$common.personalPage.nowBorrowBooks = this.nowBorrowBooks;
-    // this.$common.personalPage.histroyBooks = this.histroyBooks;
-    // this.$common.personalPage.collectBooks = this.collectBooks;
-    // this.$common.personalPage.beDestroyed = true;
+    const _this = this;
+    this.$common.personalPage.histroyBooks = this.histroyBooks;
+    this.$common.personalPage.nowBorrowBooks = this.nowBorrowBooks;
+    this.$common.personalPage.isPast = false;
+    console.log(this.$common.personalPage);
+    setTimeout(() => {
+      _this.$common.personalPage.isPast = true;
+    }, _this.$common.personalPage.pastTime);
   }
 };
 </script>
