@@ -1,5 +1,5 @@
 const axios = require('axios')
-const urlPrefix = "";
+const urlPrefix = "http://localhost";
 
 export default {
     install(Vue, options) {

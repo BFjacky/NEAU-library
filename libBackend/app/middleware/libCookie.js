@@ -44,6 +44,7 @@ const getPswdFromIdcardNo = function (IDCardNo) {
 
 module.exports = () => {
     return async function (ctx, next) {
+        console.log('进入了libcookie中间件', ctx.url)
         const cookie = ctx.cookies.get('libSessionId');
         let res = await findUserByCookie(ctx.cookies.get('libSessionId'));
         if (res.length !== 0 && res != null) {

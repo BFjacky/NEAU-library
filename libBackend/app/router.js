@@ -27,19 +27,19 @@ module.exports = app => {
   app.post('/api/update/tryRenew', app.controller.update.tryRenew);
 
   // 从数据库获得一个人的个人信息  需要在后面加参数   如?stuId=A19150346
-  app.get('/api/fetch/grxx', app.controller.fetch.fetchGrxx);
+  app.post('/api/fetch/grxx', app.controller.fetch.fetchGrxx);
 
   // 从数据库获得一个人的历史借阅  需要在后面加参数   如?stuId=A19150346
-  app.get('/api/fetch/hisBooks', app.controller.fetch.fetchHisBooks);
+  app.post('/api/fetch/hisBooks', app.controller.fetch.fetchHisBooks);
 
   // 从数据库获得一个人的当前借阅  需要在后面加参数   如?stuId=A19150346
-  app.get('/api/fetch/nowBorrow', app.controller.fetch.fetchNowBorrow);
+  app.post('/api/fetch/nowBorrow', app.controller.fetch.fetchNowBorrow);
 
   // 将数据库中所有同学的总借阅数量排名，并将排名结Place果保存到一个新table中（此操作耗时！）
   app.get('/api/analyse/rankTotalBooks', app.controller.analyse.rankTotalBooks);
 
   // 从数据库中获得一个人的总借书量排名 需要在后面加参数 如?stuId=A19150185
-  app.get('/api/analyse/getRank', app.controller.analyse.getRank);
+  app.post('/api/analyse/getRank', app.controller.analyse.getRank);
 
   // 从数据库中获得所有距离还书日期小于7天的书籍数据
   app.get('/api/analyse/getNeedBackBooks', app.controller.analyse.getNeedBackBooks);
@@ -48,7 +48,7 @@ module.exports = app => {
   app.post('/api/rebind', app.controller.user.rebind);
 
   // 检查当前用户是否拥有一个合法的信息
-  app.get('/api/checkUser', app.controller.user.checkUser);
+  app.post('/api/checkUser', app.controller.user.checkUser);
 
   /**
    * 获取一些书的封面地址

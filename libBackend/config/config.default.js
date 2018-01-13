@@ -50,9 +50,6 @@ module.exports = appInfo => {
     dynamic: true
   }
 
-  //config.port 
-  config.port = 7002;
-
   //跨域
   config.cors = {
     allowMethods: 'POST,GET',

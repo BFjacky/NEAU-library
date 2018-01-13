@@ -44,7 +44,8 @@ export default {
         url: this.$common.renewUrl,
         data: {
           stuId: this.$common.person.stuId
-        }
+        },
+        withCredentials: true
       });
       this.$vux.loading.hide();
 
@@ -88,7 +89,8 @@ export default {
       data: {
         stuId: this.$common.person.stuId,
         pswd: this.$common.person.pswd
-      }
+      },
+      withCredentials: true
     });
 
     //更新失败
@@ -104,18 +106,20 @@ export default {
      * 获取历史借阅
      */
     let nowBorrow_res = await axios({
-      method: "get",
+      method: "post",
       url: this.$common.nowBorrow,
-      params: {
+      data: {
         stuId: this.$common.person.stuId
-      }
+      },
+      withCredentials: true
     });
     let hisBorrow_res = await axios({
-      method: "get",
+      method: "post",
       url: this.$common.hisBorrow,
-      params: {
+      data: {
         stuId: this.$common.person.stuId
-      }
+      },
+      withCredentials: true
     });
     this.$vux.loading.hide();
 

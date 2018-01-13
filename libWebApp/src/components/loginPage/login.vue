@@ -36,7 +36,9 @@ export default {
     });
     let login_res = await axios({
       url: this.$common.checkUserUrl,
-      method: "get"
+      method: "post",
+      withCredentials: true,
+      data: {}
     });
     this.$vux.loading.hide();
     console.log("checkUser_result:" + login_res.data.userLogin);
@@ -71,7 +73,7 @@ export default {
           pswd: this.password,
           name: this.name
         },
-        withcredentials: true,
+        withCredentials: true,
         url: this.$common.rebindUrl
       });
       if (result.data.success) {

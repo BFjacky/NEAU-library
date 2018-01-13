@@ -69,6 +69,10 @@ export default {
   },
   watch: {
     books: async function() {
+      //如果书籍数目为0
+      if (this.books.length === 0) {
+        return;
+      }
       //判断是不是nowborrow栏目
       if (this.books[0].lawBackDate != undefined) {
         this.isNowBorrow = true;
