@@ -51,7 +51,7 @@ module.exports = appInfo => {
   }
 
   //config.port 
-  config.port = 7001;
+  config.port = 7002;
 
   //跨域
   config.cors = {
