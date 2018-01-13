@@ -132,6 +132,14 @@ module.exports = app => {
       let res = await ctx.service.update.getBookDetail(books);
       ctx.body = res;
     }
+
+    //收藏一本书
+    async collect(ctx) {
+      let bookId = ctx.request.body.bookId;
+      let stuId = ctx.request.body.stuId;
+      let res = await ctx.service.update.collect(bookId, stuId);
+      ctx.body = res;
+    }
   }
   return UpdateController;
 };

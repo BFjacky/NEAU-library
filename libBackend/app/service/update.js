@@ -11,6 +11,7 @@ const upsertHistoryBook = require('../mongo/upsertHistoryBook.js');
 const upsertNowBorrow = require('../mongo/upsertNowBorrow.js');
 const nowBorrow = require('../models/nowBorrow.js');
 const histroyBook = require('../models/historyBook.js');
+const collectBook = require('../models/collectBook.js');
 const book = require('../models/book.js');
 const axios = require('axios')
 module.exports = app => {
@@ -236,6 +237,63 @@ module.exports = app => {
         }
       }
       return res;
+    }
+
+    /**
+     * 根据图书id和stuId，处理收藏信息
+     */
+    async collect(bookId, stuId) {
+      const findByStuid = async function (stuId) {
+        return new Promise((resolve, reject) => {
+          collectBook.find({ stuId: stuId }, (err, res) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(res);
+            }
+          })
+        })
+      }
+
+      const update = async function (stuId, books) {
+        return new Promise((resolve, reject) => {
+          collectBook.update({ stuId, stuId }, { books: books }, { mutil: true, upsert: true }, (err, res) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(res);
+            }
+          })
+        })
+      }
+
+      if (bookId == "" || stuId == "") {
+        return { success: false, message: "stuId或bookId为空" }
+      }
+
+      let books;
+      //根据stuId获得该同学已经收藏过的书籍
+      let collectResult = await findByStuid(stuId);
+      if (collectResult.length !== 0) {
+        //检查该同学是否已经收藏过该书籍了，避免重复收藏
+        for (let i = 0; i < collectResult[0].books.length; i++) {
+          if (bookId === collectResult[0].books[i]) {
+            return { success: false, message: "很久以前你已经收藏过这本书了" }
+          }
+        }
+        //没有收藏过这本书
+        collectResult[0].books[collectResult[0].books.length] = bookId;
+
+      }
+      books = collectResult.length === 0 ? [bookId] : collectResult[0].books;
+
+      let updateResult = await update(stuId, books);
+      console.log(books);
+      if (updateResult.ok !== 1) {
+        return { success: false, message: "更新数据库失败" }
+      }
+      return { success: true, message: "收藏成功" }
+
     }
   }
   return updateService;

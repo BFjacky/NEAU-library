@@ -59,6 +59,7 @@ module.exports = () => {
             ctx.request.query.stuId = res[0].stuId;
         }
         await next();
+        console.log('走出了cookie中间件')
         return;
     }
 }

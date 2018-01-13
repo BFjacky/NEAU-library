@@ -26,6 +26,9 @@ module.exports = app => {
   // 根据学号一键续借 stuId=A01010101
   app.post('/api/update/tryRenew', app.controller.update.tryRenew);
 
+  //根据学号，bookid，收藏书籍
+  app.post('/api/update/collect', app.controller.update.collect);
+
   // 从数据库获得一个人的个人信息  需要在后面加参数   如?stuId=A19150346
   app.post('/api/fetch/grxx', app.controller.fetch.fetchGrxx);
 
@@ -34,6 +37,9 @@ module.exports = app => {
 
   // 从数据库获得一个人的当前借阅  需要在后面加参数   如?stuId=A19150346
   app.post('/api/fetch/nowBorrow', app.controller.fetch.fetchNowBorrow);
+
+  //从数据库中获得一个人的收藏书籍 
+  app.post('/api/fetch/')
 
   // 将数据库中所有同学的总借阅数量排名，并将排名结Place果保存到一个新table中（此操作耗时！）
   app.get('/api/analyse/rankTotalBooks', app.controller.analyse.rankTotalBooks);
@@ -49,6 +55,7 @@ module.exports = app => {
 
   // 检查当前用户是否拥有一个合法的信息
   app.post('/api/checkUser', app.controller.user.checkUser);
+
 
   /**
    * 获取一些书的封面地址

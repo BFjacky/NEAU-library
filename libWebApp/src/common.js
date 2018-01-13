@@ -33,6 +33,9 @@ export default {
             //续借请求的url
             renewUrl: urlPrefix + "/api/update/tryRenew",
 
+            //收藏请求
+            collectUrl: urlPrefix + "/api/update/collect",
+
             //图书馆主机名称（imgurl前缀）
             libHost: "http://opac.lib.neau.edu.cn",
 
