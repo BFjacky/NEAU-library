@@ -45,8 +45,8 @@ module.exports = appInfo => {
 
   //add static file server
   config.static = {
-    prefix: "/static/",
-    dir: path.join(appInfo.baseDir, 'app/public/static'),
+    prefix: "/",
+    dir: path.join(appInfo.baseDir, 'app/public'),
     dynamic: true
   }
 
