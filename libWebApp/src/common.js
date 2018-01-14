@@ -27,6 +27,9 @@ export default {
             //获取历史借阅的url
             hisBorrow: urlPrefix + "/api/fetch/hisBooks",
 
+            //获取收藏书籍的url
+            nowCollect: urlPrefix + "/api/fetch/nowCollect",
+
             //更新全部个人信息的url
             updateAll: urlPrefix + "/api/update/all",
 
@@ -195,6 +198,7 @@ export default {
             personalPage: {
                 historyBooks: [],
                 nowBorrowBooks: [],
+                collectBooks: [],
                 //是否过期
                 isPast: true,
                 //过期时间初定10秒

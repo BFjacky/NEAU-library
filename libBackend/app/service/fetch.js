@@ -1,6 +1,7 @@
 const grxx = require('../models/grxx.js');
 const historyBook = require('../models/historyBook');
 const nowBorrow = require('../models/nowBorrow.js');
+const nowCollect = require('../models/collectBook.js');
 module.exports = app => {
   class fetchService extends app.Service {
     // 从数据库取出个人信息
@@ -41,6 +42,19 @@ module.exports = app => {
           }
         });
       });
+    }
+
+    //从数据库中取出收藏的书籍
+    async fetchNowCollect(stuId) {
+      return new Promise((resolve, reject) => {
+        nowCollect.find({ stuId: stuId }, (err, res) => {
+          if (err) {
+            reject(err)
+          } else {
+            resolve(res);
+          }
+        })
+      })
     }
   }
   return fetchService;

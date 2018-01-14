@@ -8,7 +8,11 @@
                   <div class="cover_icon">+</div>
                 </div>
                 <img class="book_img" v-bind:src="book.imgUrl" v-show="!book.isMoreCover">
-                <div class="book_name"  v-show="!book.isMoreCover">{{book.bookName}}</div>
+                <div class="book_name"  v-show="!book.isMoreCover && !isCollect">{{book.bookName}}</div>
+                <div class="book_name"  v-show="isCollect&&!book.isMoreCover">{{book.title}}</div>
+                <div class="book_info"  v-show="isCollect&&!book.isMoreCover">作者:{{book.author===undefined?"":book.author[0]===undefined?"":book.author[0].authorName}}&nbsp&nbsp
+                  {{book.author===undefined?"":book.author[1]===undefined?"":book.author[1].authorName}}&nbsp&nbsp
+                  {{book.author===undefined?"":book.author[2]===undefined?"":book.author[2].authorName}}&nbsp&nbsp</div>
                 <div class="book_info" v-show="isNowBorrow" >{{book.borrowDate}}</div>
                 <div class="book_info" v-show="isNowBorrow" >{{book.lawBackDate}}</div>
                 <div class="book_info" v-show="isHisBorrow" >{{book.borrowDate}}</div>
@@ -44,7 +48,8 @@ export default {
     return {
       myBooks: [],
       isNowBorrow: false,
-      isHisBorrow: false
+      isHisBorrow: false,
+      isCollect: false
     };
   },
   methods: {
@@ -80,14 +85,16 @@ export default {
           this.books[i].lawBackDate = parseStr(this.books[i].lawBackDate);
           this.books[i].borrowDate = parseStr(this.books[i].borrowDate);
         }
-      }
-      //判断是不是hisBorrow栏目
-      if (this.books[0].returnDate != undefined) {
+      } else if (this.books[0].returnDate != undefined) {
+        //判断是不是hisBorrow栏目
         this.isHisBorrow = true;
         for (let i = 0; i < this.books.length; i++) {
           this.books[i].returnDate = parseStr(this.books[i].returnDate);
           this.books[i].borrowDate = parseStr(this.books[i].borrowDate);
         }
+      } else {
+        //判断是不是collect栏目
+        this.isCollect = true;
       }
       //只取前五本书
       let cover_books = [];
@@ -213,6 +220,7 @@ div {
   height: 32px;
   text-overflow: ellipsis;
 }
+
 .book_info {
   color: #555555;
   font-size: 11px;

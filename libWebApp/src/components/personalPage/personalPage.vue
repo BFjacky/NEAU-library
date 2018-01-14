@@ -10,8 +10,8 @@
          <h1 class="scroller_h1">曾经借阅的{{histroyBooks.length}}本书</h1>
          <books-scroller class="books_scroller" v-bind:books="histroyBooks"></books-scroller>
      </div>
-     <div class="one_scroller" v-show="false">
-         <h1 class="scroller_h1">已经收藏的5本书</h1>
+     <div class="one_scroller">
+         <h1 class="scroller_h1">已经收藏的{{collectBooks.length}}本书</h1>
          <books-scroller class="books_scroller" v-bind:books="collectBooks"></books-scroller>
      </div>
   </div>
@@ -67,13 +67,13 @@ export default {
           type: "warn"
         });
       }
-      console.log(res);
     }
   },
   mounted: async function() {
     if (!this.$common.personalPage.isPast) {
       this.histroyBooks = this.$common.personalPage.histroyBooks;
       this.nowBorrowBooks = this.$common.personalPage.nowBorrowBooks;
+      this.collectBooks = this.$common.personalPage.collectBooks;
       return;
     }
     //弹出加载框
@@ -113,21 +113,22 @@ export default {
     let nowBorrow_res = await axios({
       method: "post",
       url: this.$common.nowBorrow,
-      data: {
-        stuId: this.$common.person.stuId
-      },
+      data: {},
       withCredentials: true
     });
     let hisBorrow_res = await axios({
       method: "post",
       url: this.$common.hisBorrow,
-      data: {
-        stuId: this.$common.person.stuId
-      },
+      data: {},
+      withCredentials: true
+    });
+    let nowCollect_res = await axios({
+      method: "post",
+      url: this.$common.nowCollect,
+      data: {},
       withCredentials: true
     });
     this.$vux.loading.hide();
-
     //获得即将到期的图书数量
     for (let i = 0; i < nowBorrow_res.data.length; i++) {
       //将归还时间转换为毫秒数
@@ -147,20 +148,18 @@ export default {
       } else {
         nowBorrow_res.data[i].warn = false;
       }
-
-      //console.log(this.$common.warn_days);
     }
-
     this.nowBorrowBooks = nowBorrow_res.data;
     this.histroyBooks = hisBorrow_res.data;
+    this.collectBooks = nowCollect_res.data;
   },
 
   beforeDestroy: function() {
     const _this = this;
     this.$common.personalPage.histroyBooks = this.histroyBooks;
     this.$common.personalPage.nowBorrowBooks = this.nowBorrowBooks;
+    this.$common.personalPage.collectBooks = this.collectBooks;
     this.$common.personalPage.isPast = false;
-    console.log(this.$common.personalPage);
     setTimeout(() => {
       _this.$common.personalPage.isPast = true;
     }, _this.$common.personalPage.pastTime);

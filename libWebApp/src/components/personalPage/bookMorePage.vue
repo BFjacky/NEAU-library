@@ -5,7 +5,8 @@
     </div>
     <div class="books_item" v-for="book in books" v-bind:key="book.number" v-on:click="gotoBookDetail(book)">
         <div class="book_title">{{book.bookName}}</div>
-        <div class="book_detail">{{book.borrowDate}}&nbsp&nbsp&nbsp&nbsp{{book.returnDate}}{{book.lawBackDate}}</div>
+        <div class="book_detail" v-if="!isCollect">{{book.borrowDate}}&nbsp&nbsp&nbsp&nbsp{{book.returnDate}}{{book.lawBackDate}}</div>
+        <div class="book_detail" v-if="isCollect">{{book.author}}</div>
         <div class="book_detail">{{book.bookPlace}}</div>
         <div class="book_devide_line"></div>
     </div>
@@ -18,7 +19,9 @@ export default {
     return {
       books: [],
       number: 0,
-      title: ""
+      title: "",
+      //是否是我的书架
+      isCollect: false
     };
   },
   methods: {
@@ -37,15 +40,36 @@ export default {
       this.books = this.$common.bookMorePageInfo.books;
       this.title = this.$common.bookMorePageInfo.title;
       this.number = this.$common.bookMorePageInfo.number;
+      if (this.title === "我的书架") {
+        this.isCollect = true;
+      }
       return;
     }
-
     this.books = this.$route.params.books;
     this.number = this.books.length;
-    if (this.books[0].returnDate != "") {
+    if (this.books[0].returnDate != undefined) {
       this.title = "历史借阅信息";
-    } else {
+    } else if (this.books[0].lawBackDate != undefined) {
       this.title = "当前借阅信息";
+    } else {
+      this.title = "我的书架";
+      this.isCollect = true;
+    }
+    //我的书架的信息与其他格式不同，格式化一下字符信息
+    if (this.title === "我的书架") {
+      for (let i = 0; i < this.books.length; i++) {
+        this.books[i].bookName = this.books[i].title;
+        this.books[i].bookPlace = this.books[i].bookPlace[0].place;
+        let author = "";
+        for (let j = 0; j < this.books[i].author.length; j++) {
+          author += this.books[i].author[j].authorName;
+          if (j !== this.books[i].author.length - 1) {
+            author += " / ";
+          }
+        }
+        this.books[i].author = author;
+      }
+      this.books = this.books;
     }
   },
   mounted: function() {
@@ -70,7 +94,8 @@ div {
   width: 90%;
   height: 100%;
   overflow: auto;
-  position: relative;
+  position: fixed;
+  top: 0px;
 }
 .book_number {
   text-align: left;

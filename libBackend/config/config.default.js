@@ -56,6 +56,9 @@ module.exports = appInfo => {
     credentials: true,
   }
 
+  //后端代码监听端口
+  config.port = 80;
+
   return config;
 
 
