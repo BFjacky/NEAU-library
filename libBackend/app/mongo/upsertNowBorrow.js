@@ -22,7 +22,7 @@ module.exports = function upsertNowBorrow(stuId, NowBorrowBook) {
         err = new Error('upsertNowBorrow时出错！');
         reject(err);
       } else {
-        resolve(res);
+        resolve(res)
       }
     });
   });
