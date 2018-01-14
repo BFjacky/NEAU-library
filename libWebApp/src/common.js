@@ -1,5 +1,7 @@
 const axios = require('axios')
-const urlPrefix = "http://localhost";
+
+//本地开发域名前缀http://localhost,    build的时候去掉
+const urlPrefix = "";
 
 export default {
     install(Vue, options) {
