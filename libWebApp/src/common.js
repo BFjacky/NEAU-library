@@ -1,7 +1,7 @@
 const axios = require('axios')
 
 //本地开发域名前缀http://localhost,    build的时候去掉
-const urlPrefix = "http://localhost:7001";
+const urlPrefix = "";
 
 export default {
     install(Vue, options) {
@@ -47,6 +47,9 @@ export default {
             //图书馆书籍暂无封面url
             bookNoCoverUrl: "http://opac.lib.neau.edu.cn/m/mopac/inner/images/no-book.jpg",
 
+            //图书馆书籍暂无封面 图片url
+            myNoCoverUrl: "https://neau-lib.xiaonei.io/files/neau-lib/no-book.jpg",
+
             //图书馆书籍暂无封面path
             bookNoCoverPath: "/m/mopac/inner/images/no-book.jpg",
 
@@ -85,10 +88,10 @@ export default {
             //检查封面
             checkCover: async function (imgUrl) {
                 if (imgUrl === undefined) {
-                    return this.bookNoCoverUrl;
+                    return this.myNoCoverUrl;
                 }
                 if (imgUrl === this.bookNoCoverUrl) {
-                    return this.bookNoCoverUrl;
+                    return this.myNoCoverUrl;
                 }
 
                 //将imgurl由微信中的http请求的url转换为https的请求
@@ -110,7 +113,7 @@ export default {
                 catch (err) {
                     //无效
                     //  console.log('检查url无效:', imgUrl)
-                    return this.bookNoCoverUrl
+                    return this.myNoCoverUrl
                 }
 
             },
@@ -129,7 +132,7 @@ export default {
 
                 for (let i = 0; i < coverBooksDetail.length; i++) {
                     if (coverBooksDetail[i].imgurl === this.bookNoCoverPath) {
-                        coverBooksDetail[i].imgurl = this.libHost + coverBooksDetail[i].imgurl;
+                        coverBooksDetail[i].imgurl = this.myNoCoverUrl
                     }
                     coverBooksDetail[i].imgurl = await this.checkCover(coverBooksDetail[i].imgurl);
                 }
@@ -151,7 +154,7 @@ export default {
              * 前进路由返回false，
              */
             isBackUrl: function (myUrlName) {
-                
+
                 if (this.urlName.beforeUrl === '') {
                     this.urlName.beforeUrl = myUrlName;
                     return false;
