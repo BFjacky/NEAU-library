@@ -105,7 +105,7 @@ export default {
       return;
     }
 
-    /**@augments
+    /**@augment's
      * 更新成功：
      * 获取当前节约
      * 获取历史借阅
