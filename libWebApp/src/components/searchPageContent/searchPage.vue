@@ -7,7 +7,7 @@
         <search-box-only-show  class="search_box"  v-on:gotoinfo="tosearchInfo" ></search-box-only-show>
         <!--search-box class="search_box"  v-on:gotoinfo="tosearchInfo" ></search-box-->
         <div class="btn_myLib" v-on:click="gotoPersonalPage">我的图书 >></div>
-        <img class="books_img" src="../../assets/bookBackground.png">
+        <img class="books_img" src="https://neau-lib.dyycyf.top/neau-lib/imgs/bookBackground.png">
         <img class="jser_logo" src="../../assets/JSER.png">
       </div>
       <div class="search_mask"></div>

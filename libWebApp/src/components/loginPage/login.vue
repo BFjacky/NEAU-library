@@ -7,7 +7,7 @@
         <input type='password' class="login_input" placeholder="密码(默认为身份证后6位)" v-model="password">
         <input type='text' class="login_input" placeholder="姓名" v-model="name">
           <div class="search_title" v-on:click="confirm">确认绑定</div>
-        <img class="books_img" src="../../assets/bookBackground.png">
+        <img class="books_img" src="https://neau-lib.dyycyf.top/neau-lib/imgs/bookBackground.png">
         <img class="jser_logo" src="../../assets/JSER.png">
       </div>
       <div class="search_mask"></div>

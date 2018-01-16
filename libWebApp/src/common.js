@@ -62,6 +62,7 @@ export default {
             //获得bookDetail的Url
             getBookDetailUrl: urlPrefix + "/api/getBookDetail",
 
+
             //测试用个人信息
             person: {
                 stuId: '',
