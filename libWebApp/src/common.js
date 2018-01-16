@@ -1,7 +1,7 @@
 const axios = require('axios')
 
 //本地开发域名前缀http://localhost,    build的时候去掉
-const urlPrefix = "http://localhost:7001";
+const urlPrefix = "";
 
 export default {
     install(Vue, options) {
@@ -95,6 +95,10 @@ export default {
                 if (imgUrl === this.bookNoCoverUrl) {
                     return this.myNoCoverUrl;
                 }
+
+                //将http的imgurl转换为https
+                imgUrl = imgUrl.replace(/http/g, "https");
+                
                 //判断imgUrl是否有效
                 console.log(`正在检查imgurl::  ${imgUrl}`)
                 try {
