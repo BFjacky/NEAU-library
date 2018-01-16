@@ -97,8 +97,11 @@ export default {
                 }
 
                 //将http的imgurl转换为https
-                imgUrl = imgUrl.replace(/http/g, "https");
-                
+                let flag = imgUrl.indexOf("https");
+                //如果不是https请求，则替换为https
+                if (flag == -1) {
+                    imgUrl = imgUrl.replace(/http/g, "https");
+                }
                 //判断imgUrl是否有效
                 console.log(`正在检查imgurl::  ${imgUrl}`)
                 try {
