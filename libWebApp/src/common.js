@@ -48,7 +48,7 @@ export default {
             bookNoCoverUrl: "http://opac.lib.neau.edu.cn/m/mopac/inner/images/no-book.jpg",
 
             //图书馆书籍暂无封面 图片url
-            myNoCoverUrl: "https://neau-lib.xiaonei.io/files/neau-lib/no-book.jpg",
+            myNoCoverUrl: "https://neau-lib.dyycyf.top/neau-lib/imgs/no-book.jpg",
 
             //图书馆书籍暂无封面path
             bookNoCoverPath: "/m/mopac/inner/images/no-book.jpg",
