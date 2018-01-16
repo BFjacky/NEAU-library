@@ -7,6 +7,7 @@ const getTopLendFromHtml = require('../crawler/getTopLendFromHtml.js');
 const getTopLendDetailHtml = require('../crawler/getTopLendDetailHtml.js');
 const getTopLendDetailFromHtml = require('../crawler/getTopLendDetailFromHtml.js');
 const book = require('../models/book.js')
+const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
 module.exports = app => {
@@ -75,6 +76,41 @@ module.exports = app => {
       }
       const htmlData = await getBookDetailHtml(bookId);
       const res = getBookDetailFromHtml(htmlData);
+
+      //由于学校的图书馆图书封面不全,所以将此处的封面收集任务交给豆瓣的api做
+
+      //获得不同的ISBN
+      let ISBN1 = res[0].ISBN.match(/\d+-\d+-\d+-\d+/g);
+      let ISBN2 = res[0].ISBN.match(/\d+-\d+-\d+-\d+-\d+/g);
+      let ISBN = [];
+      let index = 0;
+      if (ISBN1 != null) {
+        for (let i = 0; i < ISBN1.length; i++) {
+          ISBN[index] = ISBN1[i];
+          index++;
+        }
+      }
+      if (ISBN2 != null) {
+        for (let i = 0; i < ISBN2.length; i++) {
+          ISBN[index] = ISBN2[i];
+          index++;
+        }
+      }
+      console.log(ISBN);
+
+      for (let i = 0; i < ISBN.length; i++) {
+        try {
+          let bookDetail_douban = await axios({
+            url: `https://api.douban.com/v2/book/isbn/${ISBN[i]}`,
+            method: "get",
+          })
+          res[0].imgurl = bookDetail_douban.data.images.large;
+          console.log(`找到了图书封面${res[0].imgurl}`)
+          break;
+        } catch (err) {
+          console.log(`豆瓣获得imgurl出错: ${res[0].ISBN}`)
+        }
+      }
       let update_result = await updateBook(bookId, res);
       return res;
     }

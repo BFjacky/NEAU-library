@@ -75,7 +75,6 @@ export default {
       text: "搬运数据中...",
       time: 10000000
     });
-    console.log(this.$route.params);
     let bookId = this.$route.params.book.bookId;
 
     //从字符串中提取出bookId
@@ -94,12 +93,13 @@ export default {
     book.author = res.data[0].author;
     book.info = res.data[0].info;
     book.ISBN = res.data[0].ISBN;
+    book.imgUrl = res.data[0].imgurl;
     book.guancang = [];
     for (let i = 0; i < res.data.length - 1; i++) {
       book.guancang[i] = res.data[i + 1];
     }
-    book.imgUrl = this.$route.params.book.imgUrl;
     //检查一下图片url的结果
+    console.log(book.imgUrl);
     book.imgUrl = await this.$common.checkCover(book.imgUrl);
 
     this.book = book;
@@ -120,6 +120,7 @@ div {
   flex-wrap: wrap;
   justify-content: center;
   position: fixed;
+  overflow: auto;
   top: 0px;
 }
 .book_title {

@@ -1,7 +1,7 @@
 const axios = require('axios')
 
 //本地开发域名前缀http://localhost,    build的时候去掉
-const urlPrefix = "";
+const urlPrefix = "http://localhost:7001";
 
 export default {
     install(Vue, options) {
@@ -88,17 +88,13 @@ export default {
 
             //检查封面
             checkCover: async function (imgUrl) {
+
                 if (imgUrl === undefined) {
                     return this.myNoCoverUrl;
                 }
                 if (imgUrl === this.bookNoCoverUrl) {
                     return this.myNoCoverUrl;
                 }
-
-                //将imgurl由微信中的http请求的url转换为https的请求
-                imgUrl = imgUrl.replace(/img\d/g, "img3");
-                imgUrl = imgUrl.replace(/spic/g, "lpic");
-                imgUrl = imgUrl.replace(/http/g, "https");
                 //判断imgUrl是否有效
                 console.log(`正在检查imgurl::  ${imgUrl}`)
                 try {
