@@ -292,8 +292,104 @@ module.exports = app => {
       if (updateResult.ok !== 1) {
         return { success: false, message: "更新数据库失败" }
       }
-      return { success: true, message: "收藏成功" }
+      return { success: true, message: "已收藏" }
 
+    }
+
+    //取消收藏一本书籍
+    async cancelCollect(bookId, stuId) {
+      const findByStuid = async function (stuId) {
+        return new Promise((resolve, reject) => {
+          collectBook.find({ stuId: stuId }, (err, res) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(res);
+            }
+          })
+        })
+      }
+
+      const update = async function (stuId, books) {
+        return new Promise((resolve, reject) => {
+          collectBook.update({ stuId, stuId }, { books: books }, { mutil: true, upsert: true }, (err, res) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(res);
+            }
+          })
+        })
+      }
+
+      if (bookId == "" || stuId == "") {
+        return { success: false, message: "stuId或bookId为空" }
+      }
+
+      let books;
+      //根据stuId获得该同学已经收藏过的书籍
+      let collectResult = await findByStuid(stuId);
+      console.log(collectResult);
+      //根据学号查询结果为空
+      if (collectResult.length === 0) {
+        return { success: false, message: "未找到此用户!" };
+      }
+
+      //找到该同学收集的这本书
+      for (let i = 0; i < collectResult[0].books.length; i++) {
+        if (bookId === collectResult[0].books[i]) {
+          //找到了这本书,在数组中删除这本书的信息
+          collectResult[0].books.splice(i, 1);
+          console.log(`new 数组: ${books}`);
+          let updateResult = await update(stuId, collectResult[0].books);
+          if (updateResult.ok !== 1) {
+            return { success: false, message: "更新数据库失败" }
+          }
+          return { success: true, message: "取消收藏" }
+        }
+      }
+
+      //没有收藏过这本书
+      return { success: false, message: "未找到此书籍" };
+    }
+
+    //查看是否收藏了这本书
+    async isCollect(bookId, stuId) {
+
+      const findByStuid = async function (stuId) {
+        return new Promise((resolve, reject) => {
+          collectBook.find({ stuId: stuId }, (err, res) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(res);
+            }
+          })
+        })
+      }
+      if (bookId == "" || stuId == "") {
+        return { success: false, message: "stuId或bookId为空" }
+      }
+
+      let books;
+      //根据stuId获得该同学已经收藏过的书籍
+      let collectResult = await findByStuid(stuId);
+      console.log(collectResult);
+      //根据学号查询结果为空
+      if (collectResult.length === 0) {
+        return { success: false, message: "未找到此用户!" };
+      }
+      //找到该同学收集的这本书
+      for (let i = 0; i < collectResult[0].books.length; i++) {
+        if (bookId === collectResult[0].books[i]) {
+          //找到了这本书
+          return { success: true, message: "已经收藏了这本书", isCollect: true };
+          break;
+        }
+      }
+
+      //没有收藏过这本书
+      return { success: true, message: "未收藏过此书籍", isCollect: false };
     }
   }
   return updateService;

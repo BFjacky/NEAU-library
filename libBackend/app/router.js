@@ -29,6 +29,12 @@ module.exports = app => {
   //根据学号，bookid，收藏书籍
   app.post('/api/update/collect', app.controller.update.collect);
 
+  //根据学号,bookid，取消收藏书籍
+  app.post('/api/update/cancelCollect', app.controller.update.cancelCollect);
+
+  //根据学号,bookid，查看是否收藏了该书籍
+  app.post('/api/update/isCollect',app.controller.update.isCollect);
+
   // 从数据库获得一个人的个人信息  需要在后面加参数   如?stuId=A19150346
   app.post('/api/fetch/grxx', app.controller.fetch.fetchGrxx);
 
@@ -39,7 +45,7 @@ module.exports = app => {
   app.post('/api/fetch/nowBorrow', app.controller.fetch.fetchNowBorrow);
 
   //从数据库中获得一个人的收藏书籍 
-  app.post('/api/fetch/nowCollect',app.controller.fetch.fetchNowCollect);
+  app.post('/api/fetch/nowCollect', app.controller.fetch.fetchNowCollect);
 
   // 将数据库中所有同学的总借阅数量排名，并将排名结Place果保存到一个新table中（此操作耗时！）
   app.get('/api/analyse/rankTotalBooks', app.controller.analyse.rankTotalBooks);

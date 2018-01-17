@@ -140,6 +140,22 @@ module.exports = app => {
       let res = await ctx.service.update.collect(bookId, stuId);
       ctx.body = res;
     }
+
+    //取消收藏一本书
+    async cancelCollect(ctx) {
+      let bookId = ctx.request.body.bookId;
+      let stuId = ctx.request.body.stuId;
+      let res = await ctx.service.update.cancelCollect(bookId, stuId);
+      ctx.body = res;
+    }
+
+    //查看是否收藏了这本书
+    async isCollect(ctx){
+      let bookId = ctx.request.body.bookId;
+      let stuId = ctx.request.body.stuId;
+      let res = await ctx.service.update.isCollect(bookId, stuId);
+      ctx.body = res;
+    }
   }
   return UpdateController;
 };
