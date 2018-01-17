@@ -61,6 +61,11 @@ module.exports = app => {
               ISBN: res[0].ISBN,
               imgurl: res[0].imgurl,
               bookPlace: bookPlace,
+              catalog: res[0].catalog,
+              summary: res[0].summary,
+              pages: res[0].pages,
+              price: res[0].price,
+              author_intro: res[0].author_intro
             },
             {
               mutil: true,
@@ -105,6 +110,11 @@ module.exports = app => {
             method: "get",
           })
           res[0].imgurl = bookDetail_douban.data.images.large;
+          res[0].catalog = bookDetail_douban.data.catalog;
+          res[0].summary = bookDetail_douban.data.summary;
+          res[0].pages = bookDetail_douban.data.pages;
+          res[0].price = bookDetail_douban.data.price;
+          res[0].author_intro = bookDetail_douban.data.author_intro;
           console.log(`找到了图书封面${res[0].imgurl}`)
           break;
         } catch (err) {

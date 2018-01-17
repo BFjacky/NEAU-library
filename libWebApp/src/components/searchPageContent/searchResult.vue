@@ -226,7 +226,9 @@ export default {
     },
     loadMore: async function() {
       this.busy = true;
-
+      this.$vux.loading.show({
+        text: "正在搬运数据..."
+      });
       if (this.nowUrl === this.$common.searchBookUrl) {
         //爬取其他页码的搜索信息
         for (let i = this.nowPage; i <= this.totalPages; i++) {
@@ -267,6 +269,9 @@ export default {
           }
         }
       }
+      this.$vux.loading.hide({
+        text: "正在搬运数据..."
+      });
       this.busy = false;
     }
   },
@@ -314,13 +319,16 @@ export default {
     }
     this.classes = classes;
   },
-  mounted:function(){
+  mounted: function() {
     //恢复滚动条位置
-      console.log("before:" + this.$common.searchResult.myScrollTop);
-      console.log($(".show_searchBooks"));
-      $(".show_searchBooks").scrollTop(this.$common.searchResult.myScrollTop);
+    console.log("before:" + this.$common.searchResult.myScrollTop);
+    console.log($(".show_searchBooks"));
+    $(".show_searchBooks").scrollTop(this.$common.searchResult.myScrollTop);
   },
   beforeDestroy: function() {
+    //程序退出时一定要将busy置为不忙
+    this.busy = false;
+
     //保存滚动条位置
     this.$common.searchResult.myScrollTop = $(".show_searchBooks").scrollTop();
     //保存分类信息
@@ -350,9 +358,7 @@ export default {
     //是否被销毁过
     this.$common.searchResult.beDestroyed = true;
   },
-  watch:{
- 
-  },
+  watch: {},
   components: {
     searchBox,
     searchRemind,

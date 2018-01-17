@@ -11,13 +11,44 @@
            <span class="info">{{book.ISBN}}</span>
         </div>
     </div>
+    <div class="holding_place" v-show="book.summary!=''">
+      <div class="holding_title">
+        <span class="info_title_h2">内容简介</span>
+      </div>
+      <div class="holding_info">
+        <hr class="devide_line">
+        <span class="info">{{book.summary}}</span><br>
+      </div>
+      <hr class="devide_line_last">
+    </div>
+    <div class="holding_place" v-show="book.catalog!=''">
+      <div class="holding_title">
+        <span class="info_title_h2">章节介绍</span>
+      </div>
+      <div class="holding_info">
+        <hr class="devide_line">
+        <span class="info">{{book.catalog}}</span><br>
+      </div>
+      <hr class="devide_line_last">
+    </div>
+    <div class="holding_place" v-show="book.pages!=''&&book.price!=''">
+      <div class="holding_title">
+        <span class="info_title_h2" >书本信息</span>
+      </div>
+      <div class="holding_info">
+        <hr class="devide_line">
+        <span class="info">页数:{{book.pages}}</span><br>
+        <span class="info">价格:{{book.price}}</span><br>
+      </div>
+      <hr class="devide_line_last">
+    </div>
     <div class="holding_place">
       <div class="holding_title">
         <span class="info_title_h2">馆藏信息</span>
       </div>
       <div class="holding_info" v-for="guancang in book.guancang" :key="guancang.key">
         <hr class="devide_line">
-        <span class="info_title">{{guancang.title}}</span><br>
+        <!-- <span class="info_title">{{guancang.title}}</span><br> -->
         <span class="info">{{guancang.place}}</span><br>
         <span class="info">{{guancang.ableBorrow}}</span>
       </div>
@@ -128,6 +159,12 @@ export default {
     book.info = res.data[0].info;
     book.ISBN = res.data[0].ISBN;
     book.imgUrl = res.data[0].imgurl;
+    book.catalog = res.data[0].catalog;
+    book.summary = res.data[0].summary;
+    book.pages = res.data[0].pages;
+    book.price = res.data[0].price;
+    console.log(book.catalog);
+    book.author_intro = res.data[0].author_intro;
     book.guancang = [];
     for (let i = 0; i < res.data.length - 1; i++) {
       book.guancang[i] = res.data[i + 1];
@@ -168,6 +205,7 @@ div {
 }
 .book_detail {
   width: 100%;
+  height: 100%;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -221,8 +259,7 @@ div {
 }
 .info_title {
   font-size: 18px;
-  font-weight: bold;
-  color: #000000;
+  color: #95989a;
   line-height: 24px;
 }
 .info {
@@ -241,12 +278,17 @@ div {
 }
 .info_title_h2 {
   font-size: 18px;
-  color: #95989a;
+  font-weight: bold;
+  color: #000000;
+  line-height: 24px;
+  /* font-size: 18px;
+  color: #95989a; */
 }
 .button_1 {
   font-size: 16px;
   margin-left: 16px;
   margin-right: 16px;
   margin-top: 16px;
+  margin-bottom: 32px;
 }
 </style>
