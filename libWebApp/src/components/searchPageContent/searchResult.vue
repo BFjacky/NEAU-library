@@ -51,6 +51,7 @@ import searchBox from "./searchBox";
 import searchRemind from "./searchRemind";
 import booksResult from "./booksResult";
 import axios from "axios";
+import { Indicator } from "mint-ui";
 import $ from "jquery";
 //当前搜索的关键词
 let search_keyWord;
@@ -100,9 +101,8 @@ export default {
 
       if (!this.loading) {
         this.loading = true;
-        this.$vux.loading.show({
-          text: "搬运数据中...",
-          time: 10000000
+        Indicator.open({
+          text: "搬运数据中"
         });
       }
 
@@ -157,7 +157,7 @@ export default {
       this.nowPage++;
       if (this.loading) {
         this.loading = false;
-        this.$vux.loading.hide();
+        Indicator.close();
       }
 
       console.log("已获得第1页内容!");
@@ -171,9 +171,8 @@ export default {
 
       if (!this.loading) {
         this.loading = true;
-        this.$vux.loading.show({
-          text: "搬运数据中...",
-          time: 10000000
+        Indicator.open({
+          text: "搬运数据中"
         });
       }
 
@@ -219,16 +218,15 @@ export default {
       this.nowPage++;
       if (this.loading) {
         this.loading = false;
-        this.$vux.loading.hide();
       }
 
+      Indicator.close();
       console.log("已获得第1页内容!");
     },
     loadMore: async function() {
       this.busy = true;
-      this.$vux.loading.show({
-        text: "正在搬运数据..."
-      });
+      console.log("显示了加载中...");
+
       if (this.nowUrl === this.$common.searchBookUrl) {
         //爬取其他页码的搜索信息
         for (let i = this.nowPage; i <= this.totalPages; i++) {
@@ -269,9 +267,6 @@ export default {
           }
         }
       }
-      this.$vux.loading.hide({
-        text: "正在搬运数据..."
-      });
       this.busy = false;
     }
   },

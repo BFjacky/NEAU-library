@@ -8,6 +8,7 @@
 
 <script>
 import $ from "jquery";
+import { Indicator } from "mint-ui";
 export default {
   name: "app",
   data: function() {
@@ -30,6 +31,7 @@ export default {
       }
       //每当路由变化时都要隐藏掉loading 组件
       this.$vux.loading.hide();
+      Indicator.close();
     }
   }
 };
