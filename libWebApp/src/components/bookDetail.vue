@@ -23,7 +23,8 @@
       </div>
         <hr class="devide_line_last">
     </div>
-    <x-button  type="primary" @click.native="collectAction" class="button_1">收&nbsp藏</x-button>
+    <x-button  type="primary" @click.native="collectAction" class="button_1" v-show="!hasCollected">收&nbsp藏</x-button>
+    <x-button  type="warn" @click.native="cancelCollectAction" class="button_1" v-show="hasCollected">取消收藏</x-button>
   </div>
 </template>
 <script>
@@ -32,7 +33,8 @@ import { XButton } from "vux";
 export default {
   data: function() {
     return {
-      book: {}
+      book: {},
+      hasCollected: false
     };
   },
   components: {
@@ -62,7 +64,39 @@ export default {
         });
         return;
       }
+      this.hasCollected = true;
+      this.$vux.toast.hide();
+      this.$vux.toast.show({
+        text: collectResult.data.message,
+        time: 1000
+      });
+    },
+    cancelCollectAction: async function() {
+      const _this = this;
+      this.$vux.loading.show({
+        text: "客官稍等...",
+        time: 10000000
+      });
+      let collectResult = await axios({
+        url: _this.$common.cancelCollectUrl,
+        method: "POST",
+        withCredentials: true,
+        data: {
+          bookId: _this.book.bookId
+        }
+      });
+      this.$vux.loading.hide();
+      if (!collectResult.data.success) {
+        this.$vux.toast.show({
+          text: collectResult.data.message,
+          type: "warn",
+          time: 1000
+        });
+        return;
+      }
 
+      this.hasCollected = false;
+      this.$vux.toast.hide();
       this.$vux.toast.show({
         text: collectResult.data.message,
         time: 1000
@@ -102,6 +136,24 @@ export default {
     console.log(book.imgUrl);
     book.imgUrl = await this.$common.checkCover(book.imgUrl);
 
+    //检查该用户是否已经收藏了该书籍
+    let isCollectRes = await axios({
+      method: "post",
+      url: this.$common.isCollectUrl,
+      withCredentials: true,
+      data: {
+        bookId: bookId
+      }
+    });
+
+    if (isCollectRes.data.success) {
+      //请求成功
+      if (isCollectRes.data.isCollect) {
+        this.hasCollected = true;
+      } else {
+        this.hasCollected = false;
+      }
+    }
     this.book = book;
     this.book.bookId = bookId;
     //停止加载中提示

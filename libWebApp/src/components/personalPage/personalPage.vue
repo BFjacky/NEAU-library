@@ -70,12 +70,13 @@ export default {
     }
   },
   mounted: async function() {
-    if (!this.$common.personalPage.isPast) {
-      this.histroyBooks = this.$common.personalPage.histroyBooks;
-      this.nowBorrowBooks = this.$common.personalPage.nowBorrowBooks;
-      this.collectBooks = this.$common.personalPage.collectBooks;
-      return;
-    }
+    //每次返回到personalPage页面都去获取最新数据!
+    // if (!this.$common.personalPage.isPast) {
+    //   this.histroyBooks = this.$common.personalPage.histroyBooks;
+    //   this.nowBorrowBooks = this.$common.personalPage.nowBorrowBooks;
+    //   this.collectBooks = this.$common.personalPage.collectBooks;
+    //   return;
+    // }
     //弹出加载框
     this.$vux.loading.show({
       text: "搬运数据中...",

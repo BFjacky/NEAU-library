@@ -41,6 +41,12 @@ export default {
             //收藏请求
             collectUrl: urlPrefix + "/api/update/collect",
 
+            //取消收藏的请求
+            cancelCollectUrl: urlPrefix + "/api/update/cancelCollect",
+
+            //检查是否收藏的请求
+            isCollectUrl: urlPrefix + "/api/update/isCollect",
+
             //图书馆主机名称（imgurl前缀）
             libHost: "http://opac.lib.neau.edu.cn",
 
