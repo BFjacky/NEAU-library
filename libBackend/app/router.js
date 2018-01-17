@@ -72,4 +72,7 @@ module.exports = app => {
 
   //程序入口 携带参数aid
   app.get('/', app.controller.application.index)
+
+  //jser 管理员查看程序运行信息
+  app.post('/jserAdmin',app.controller.application.jserAdmin)
 };

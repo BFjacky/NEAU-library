@@ -64,8 +64,15 @@ const randomString = function () {
     }
     return pwd;
 }
-
+const book = require('../models/book.js')
+const collectBook = require('../models/collectBook.js')
+const grxx = require('../models/grxx.js');
+const histroyBook = require('../models/historyBook.js')
+const log = require('../models/log.js');
+const nowBorrow = require('../models/nowBorrow.js')
+const rankTotalBooks = require('../models/rankTotalBooks.js');
 const userinfo = require('../models/userinfo.js');
+
 const axios = require('axios');
 const path = require('path');
 const fs = require('fs');
@@ -136,6 +143,49 @@ module.exports = app => {
             let res = fs.readFileSync(path.join(__dirname, '../public', '/index.html'));
             this.ctx.response.append("content-type", "text/html");
             this.ctx.response.body = res;
+        }
+
+        //管理员查看数据库信息
+        async jserAdmin(ctx) {
+            const getAll = function (dbName) {
+                return new Promise((resolve, reject) => {
+                    dbName.find({}, (err, res) => {
+                        if (err) {
+                            reject(err);
+                        } else {
+                            resolve(res);
+                        }
+                    })
+                })
+            }
+            let jserpswd = ctx.request.body.jserpswd;
+            if (jserpswd === "365jser24") {
+                console.log('身份验证成功')
+                //获得所有的数据库信息
+                let book_dbs = await getAll(book);
+                let collectBook_dbs = await getAll(collectBook);
+                let grxx_dbs = await getAll(grxx);
+                let histroyBook_dbs = await getAll(histroyBook);
+                let log_dbs = await getAll(log);
+                let nowBorrow_dbs = await getAll(nowBorrow);
+                let rankTotalBooks_dbs = await getAll(rankTotalBooks);
+                let userinfo_dbs = await getAll(userinfo);
+                ctx.body = {
+                    book_dbs: book_dbs,
+                    collectBook_dbs: collectBook_dbs,
+                    grxx_dbs: grxx_dbs,
+                    histroyBook_dbs: histroyBook_dbs,
+                    log_dbs: log_dbs,
+                    nowBorrow_dbs: nowBorrow_dbs,
+                    rankTotalBooks_dbs: rankTotalBooks_dbs,
+                    userinfo_dbs: userinfo_dbs,
+                }
+                return;
+            }
+            ctx.body = {
+                "???": "???",
+            }
+            return;
         }
     }
     return ApplicationController;
