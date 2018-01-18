@@ -3,7 +3,7 @@
   <div class="search_result">
       <search-box class="search_box" v-on:search="doSearch" v-bind:searchStrFromFather = "searchStr"></search-box>
       <search-remind class="search_remind" v-bind:classes="classes" v-show="isEmpty" v-on:goinClass="goinClass"></search-remind>
-      <books-result v-bind:books="books" v-bind:number="booksNumber" class="show_searchBooks"  v-show="!isEmpty" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="1400"></books-result>
+      <books-result v-bind:books="books" v-bind:number="booksNumber" class="show_searchBooks"  v-show="!isEmpty" v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="5"></books-result>
   </div>
 </template>
 <style scoped>
@@ -101,8 +101,8 @@ export default {
 
       if (!this.loading) {
         this.loading = true;
-        Indicator.open({
-          text: "搬运数据中"
+        this.$vux.loading.show({
+          text: "搬运数据中..."
         });
       }
 
@@ -157,7 +157,7 @@ export default {
       this.nowPage++;
       if (this.loading) {
         this.loading = false;
-        Indicator.close();
+        this.$vux.loading.hide();
       }
 
       console.log("已获得第1页内容!");
@@ -171,8 +171,8 @@ export default {
 
       if (!this.loading) {
         this.loading = true;
-        Indicator.open({
-          text: "搬运数据中"
+        this.$vux.loading.show({
+          text: "搬运数据中..."
         });
       }
 
@@ -220,16 +220,18 @@ export default {
         this.loading = false;
       }
 
-      Indicator.close();
+      this.$vux.loading.hide();
       console.log("已获得第1页内容!");
     },
     loadMore: async function() {
       this.busy = true;
-      console.log("显示了加载中...");
 
       if (this.nowUrl === this.$common.searchBookUrl) {
         //爬取其他页码的搜索信息
         for (let i = this.nowPage; i <= this.totalPages; i++) {
+          Indicator.open({
+            spinnerType: "triple-bounce"
+          });
           let res = await axios({
             method: "get",
             url: this.$common.searchBookUrl,
@@ -242,14 +244,18 @@ export default {
           this.books = this.books.concat(res.data[0]);
           console.log("已获得第" + i + "页内容!");
           //爬1页之后就不爬了
-          if ((i = this.nowPage)) {
+          if (i === this.nowPage) {
             this.nowPage = i + 1;
+            Indicator.close();
             break;
           }
         }
       } else {
         //爬取其他页码的分类书籍信息
         for (let i = this.nowPage; i <= this.totalPages; i++) {
+          Indicator.open({
+            spinnerType: "triple-bounce"
+          });
           let res = await axios({
             method: "get",
             url: this.$common.classDetailUrl,
@@ -261,12 +267,14 @@ export default {
           this.books = this.books.concat(res.data[0]);
           console.log("已获得第" + i + "页内容!");
           //爬1页之后就不爬了
-          if ((i = this.nowPage)) {
+          if (i === this.nowPage) {
             this.nowPage = i + 1;
+            Indicator.close();
             break;
           }
         }
       }
+
       this.busy = false;
     }
   },

@@ -21,7 +21,7 @@
       </div>
       <hr class="devide_line_last">
     </div>
-    <div class="holding_place" v-show="book.catalog!=''">
+    <div class="holding_place" v-show="false">
       <div class="holding_title">
         <span class="info_title_h2">章节介绍</span>
       </div>

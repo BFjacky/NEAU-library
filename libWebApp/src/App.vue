@@ -110,4 +110,11 @@ html {
 .router_view {
   position: absolute;
 }
+.mint-indicator-wrapper {
+  background: rgba(0, 0, 0, 0);
+}
+.mint-indicator-wrapper {
+  top: 100%;
+  transform: translate(-50%, -100%);
+}
 </style>
