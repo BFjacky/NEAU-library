@@ -306,7 +306,7 @@ export default {
       //总页码数
       this.totalPages = this.$common.searchResult.totalPages;
       //分类选择
-      this.claNo = this.$common.searchResult.claNo;
+      this.clsNo = this.$common.searchResult.clsNo;
 
       return;
     }
@@ -357,7 +357,7 @@ export default {
     //总页码数
     this.$common.searchResult.totalPages = this.totalPages;
     //分类选择
-    this.$common.searchResult.claNo = this.claNo;
+    this.$common.searchResult.clsNo = this.clsNo;
     //是否被销毁过
     this.$common.searchResult.beDestroyed = true;
   },
