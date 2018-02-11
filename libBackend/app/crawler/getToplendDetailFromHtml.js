@@ -3,7 +3,7 @@
 */
 const cheerio = require('cheerio');
 
-module.exports = function getToplendDetailFromHtml(htmlData) {
+module.exports = function getTopLendDetailFromHtml(htmlData) {
   // 获取热门借阅结果页面中的书籍信息
   const result = [];
   const res = [];
