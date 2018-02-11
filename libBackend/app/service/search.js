@@ -1,3 +1,4 @@
+'use strict';
 const getSerchResFromHtml = require('../crawler/getSerchResFromHtml.js');
 const getSerchResHtml = require('../crawler/getSerchResHtml.js');
 const getBookDetailFromHtml = require('../crawler/getBookDetailFromHtml.js');
@@ -6,6 +7,7 @@ const getTopLendHtml = require('../crawler/getTopLendHtml.js');
 const getTopLendFromHtml = require('../crawler/getTopLendFromHtml.js');
 const getTopLendDetailHtml = require('../crawler/getTopLendDetailHtml.js');
 const getTopLendDetailFromHtml = require('../crawler/getTopLendDetailFromHtml.js');
+// 加行注释
 const book = require('../models/book.js');
 const axios = require('axios');
 const fs = require('fs');
