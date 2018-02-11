@@ -6,7 +6,7 @@ const getTopLendHtml = require('../crawler/getTopLendHtml.js');
 const getTopLendFromHtml = require('../crawler/getTopLendFromHtml.js');
 const getTopLendDetailHtml = require('../crawler/getTopLendDetailHtml.js');
 const getTopLendDetailFromHtml = require('../crawler/getTopLendDetailFromHtml.js');
-const book = require('../models/book.js')
+const book = require('../models/book.js');
 const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
@@ -46,26 +46,26 @@ module.exports = app => {
        * 传入bookId来查询书籍的详细信息，此信息是getSerchRes.js中得到的结果的对象属性，
        * 将此书籍信息更新至数据库中,
        */
-      const updateBook = function (bookId, res) {
+      const updateBook = function(bookId, res) {
         return new Promise((resolve, reject) => {
-          let bookPlace = [];
+          const bookPlace = [];
           for (let i = 1; i < res.length; i++) {
             bookPlace[i - 1] = res[i];
           }
           book.update(
-            { bookId: bookId },
+            { bookId },
             {
               title: res[0].title,
               author: res[0].author,
               info: res[0].info,
               ISBN: res[0].ISBN,
               imgurl: res[0].imgurl,
-              bookPlace: bookPlace,
+              bookPlace,
               catalog: res[0].catalog,
               summary: res[0].summary,
               pages: res[0].pages,
               price: res[0].price,
-              author_intro: res[0].author_intro
+              author_intro: res[0].author_intro,
             },
             {
               mutil: true,
@@ -76,18 +76,18 @@ module.exports = app => {
               } else {
                 resolve(res);
               }
-            })
-        })
-      }
+            });
+        });
+      };
       const htmlData = await getBookDetailHtml(bookId);
       const res = getBookDetailFromHtml(htmlData);
 
-      //由于学校的图书馆图书封面不全,所以将此处的封面收集任务交给豆瓣的api做
+      // 由于学校的图书馆图书封面不全,所以将此处的封面收集任务交给豆瓣的api做
 
-      //获得不同的ISBN
-      let ISBN1 = res[0].ISBN.match(/\d+-\d+-\d+-\d+/g);
-      let ISBN2 = res[0].ISBN.match(/\d+-\d+-\d+-\d+-\d+/g);
-      let ISBN = [];
+      // 获得不同的ISBN
+      const ISBN1 = res[0].ISBN.match(/\d+-\d+-\d+-\d+/g);
+      const ISBN2 = res[0].ISBN.match(/\d+-\d+-\d+-\d+-\d+/g);
+      const ISBN = [];
       let index = 0;
       if (ISBN1 != null) {
         for (let i = 0; i < ISBN1.length; i++) {
@@ -105,23 +105,23 @@ module.exports = app => {
 
       for (let i = 0; i < ISBN.length; i++) {
         try {
-          let bookDetail_douban = await axios({
+          const bookDetail_douban = await axios({
             url: `https://api.douban.com/v2/book/isbn/${ISBN[i]}`,
-            method: "get",
-          })
+            method: 'get',
+          });
           res[0].imgurl = bookDetail_douban.data.images.large;
           res[0].catalog = bookDetail_douban.data.catalog;
           res[0].summary = bookDetail_douban.data.summary;
           res[0].pages = bookDetail_douban.data.pages;
           res[0].price = bookDetail_douban.data.price;
           res[0].author_intro = bookDetail_douban.data.author_intro;
-          console.log(`找到了图书封面${res[0].imgurl}`)
+          console.log(`找到了图书封面${res[0].imgurl}`);
           break;
         } catch (err) {
-          console.log(`豆瓣获得imgurl出错: ${res[0].ISBN}`)
+          console.log(`豆瓣获得imgurl出错: ${res[0].ISBN}`);
         }
       }
-      let update_result = await updateBook(bookId, res);
+      const update_result = await updateBook(bookId, res);
       return res;
     }
 
