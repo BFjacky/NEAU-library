@@ -159,7 +159,7 @@ module.exports = app => {
                 })
             }
             let jserpswd = ctx.request.body.jserpswd;
-            if (jserpswd === "365jser24") {
+            if (jserpswd === "afm3129ufdk") {
                 console.log('身份验证成功')
                 //获得所有的数据库信息
                 let book_dbs = await getAll(book);
