@@ -80,7 +80,10 @@ const fs = require('fs');
 module.exports = app => {
   class ApplicationController extends app.Controller {
     async index(ctx) {
-      this.ctx.body = '因学校图书馆系统异常，暂停服务!';
+      // console.log('返回404页面')
+      const wrongHtml = fs.readFileSync(path.join(__dirname, '../public', '/404.html'));
+      this.ctx.response.append('content-type', 'text/html');
+      this.ctx.response.body = wrongHtml;
       return;
       // console.log('进入到了程序入口')
       /**
