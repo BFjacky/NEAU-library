@@ -80,6 +80,8 @@ const fs = require('fs');
 module.exports = app => {
   class ApplicationController extends app.Controller {
     async index(ctx) {
+      this.ctx.body = '因学校图书馆系统异常，暂停服务!';
+      return;
       // console.log('进入到了程序入口')
       /**
              * 程序入口:
