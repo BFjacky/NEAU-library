@@ -29,3 +29,7 @@
   ├── libWebApp      # 前端项目
   └── README.md   # 本说明文件
 ```
+
+
+> &#x26A0; Tips：更多详细项目介绍/开发信息请移步  
+  　　　　[前端项目](https://github.com/BFjacky/NEAU-library/tree/master/libWebApp) | [后端项目](https://github.com/BFjacky/NEAU-library/tree/master/libBackend)
