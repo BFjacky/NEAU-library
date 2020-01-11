@@ -11,7 +11,7 @@
     "egg-cors": "^2.0.0",
     "egg-scripts": "^2.1.0",
     "egg-validate": "^1.0.0",
-    "mongoose": "^4.13.0"
+    "mongoose": "^5.8.7"
   },
   "devDependencies": {
     "autod": "^2.10.0",
