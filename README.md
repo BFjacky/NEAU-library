@@ -1,9 +1,5 @@
 # 东北农业大学图书馆管理平台
 
-**项目预览地址：&#x1F449;**  [东北农业大学(以下简称为NEAU)官方图书馆管理平台](https://neau-lib.xiaonei.io)(https://neau-lib.xiaonei.io) 或 扫描二维码
-
-![二维码](assets/yvlan.png)
-
 &#x1F625;因为NEAU图书馆管理系统操作十分不便，功能不人性化。  
 &#x1F4A1;为了同学们方便的查阅馆藏，管理借书还书日期 
 &#x1F4AA;我基于Egg.js、cheerio、MongoDB编写了图书馆信息的爬虫、数据后台及API接口，基于Vue.js、Vue Router 、Mint-UI对前端界面进行了设计编写
